@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1 Introduction | Let’s program in R</title>
+  <meta name="description" content="R Coursebook" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1 Introduction | Let’s program in R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="R Coursebook" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1 Introduction | Let’s program in R" />
+  
+  <meta name="twitter:description" content="R Coursebook" />
+  
+
+<meta name="author" content="Damir Pintar" />
+
+
+<meta name="date" content="2024-09-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<style type="text/css">
+.showopt {
+  background-color: #004c93;
+  color: #FFFFFF; 
+  width: 140px;
+  height: 4	0px;
+  text-align: center;
+  vertical-align: middle !important;
+  float: right;
+  font-family: sans-serif;
+  font-size:10 pt;
+  border-radius: 8px;
+}
+
+.showopt:hover {
+    background-color: #dfe4f2;
+    color: #004c93;
+}
+
+pre.plot {
+  background-color: white !important;
+}
+</style>
+
+<script>
+ $(document).ready(function() {
+
+  $chunks = $('.fold');
+
+  $chunks.each(function () {
+
+    // add button to source code chunks
+    if ( $(this).hasClass('s') ) {
+      $('pre.r', this).prepend("<div class=\"showopt\">Show solution</div><br style=\"line-height:22px;\"/>");
+      $('pre.r', this).children('code').attr('class', 'folded');
+    }
+
+    // add button to output chunks
+    if ( $(this).hasClass('o') ) {
+      $('pre:not(.r)', this).has('code').prepend("<div class=\"showopt\">Show results</div><br style=\"line-height:22px;\"/>");
+      $('pre:not(.r)', this).children('code:not(r)').addClass('folded');
+
+      // add button to plots
+      $(this).find('img').wrap('<pre class=\"plot\"></pre>');
+      $('pre.plot', this).prepend("<div class=\"showopt\">Show figure</div><br style=\"line-height:22px;\"/>");
+      $('pre.plot', this).children('img').addClass('folded');
+
+    }
+  });
+
+  // hide all chunks when document is loaded
+  $('.folded').css('display', 'none')
+
+  // function to toggle the visibility
+  $('.showopt').click(function() {
+    var label = $(this).html();
+    if (label.indexOf("Show") >= 0) {
+      $(this).html(label.replace("Show", "Hide"));
+    } else {
+      $(this).html(label.replace("Hide", "Show"));
+    }
+    $(this).siblings('code, img').slideToggle('fast', 'swing');
+  });
+});
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>(“Statistical Programming Fundamentals” course book)</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#foreword"><i class="fa fa-check"></i>Foreword</a></li>
+</ul></li>
+<li class="part"><span><b>I Basic elements of R</b></span></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction.html"><a href="introduction.html#general-facts-about-r"><i class="fa fa-check"></i><b>1.1.1</b> General facts about R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction.html"><a href="introduction.html#r-alternatives"><i class="fa fa-check"></i><b>1.1.2</b> R alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#installing-software-support"><i class="fa fa-check"></i><b>1.2</b> Installing Software Support</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#overview-of-the-development-interface-rstudio"><i class="fa fa-check"></i><b>1.3</b> Overview of the development interface <em>RStudio</em></a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="introduction.html"><a href="introduction.html#interactive-console"><i class="fa fa-check"></i><b>1.3.1</b> Interactive console</a></li>
+<li class="chapter" data-level="1.3.2" data-path="introduction.html"><a href="introduction.html#writing-r-scripts"><i class="fa fa-check"></i><b>1.3.2</b> Writing R scripts</a></li>
+<li class="chapter" data-level="1.3.3" data-path="introduction.html"><a href="introduction.html#r-markdown"><i class="fa fa-check"></i><b>1.3.3</b> <em>R Markdown</em></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#how-to-use-this-coursebook"><i class="fa fa-check"></i><b>1.4</b> How to use this coursebook?</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Let’s program in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">1</span> Introduction<a href="introduction.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<hr />
+<div id="what-is-r" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> What is R?<a href="introduction.html#what-is-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="general-facts-about-r" class="section level3 hasAnchor" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> General facts about R<a href="introduction.html#general-facts-about-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Programming language R came from <strong>the programming language S</strong>, developed for the needs of <em>Bell Telephone</em> Laboratory owned by <em>AT &amp; T</em> corporation. It was designed as an internal <strong>statistical analysis tool</strong>. The basic philosophy of the S language (inherited by the programming language R) was <strong>domain orientation</strong> - ie facilitating work with data analysts without the need to adapt conventions to traditional programming languages. Language S gained significant popularity in business analysts and statisticians within the 80s and 90s, but is now only available through <strong>a commercial variant called S-PLUS</strong>.</p>
+<p><strong>The programming language R</strong> was created at the University of Auckland (NZ) and is released under the <strong>GNU Open Code Code</strong>.</p>
+<p>The standard distribution of the R programming language consists of:</p>
+<ul>
+<li>“core” R, with basic functions and so called “core” base package that provides basic functionality</li>
+<li>a collection of additional packages (“base” - <em>base</em> and “recommended” - <em>recommended</em>) for data management, visualization and statistical analysis</li>
+</ul>
+<p>We must not ignore the excellent integration of R with a rich repository called <strong>CRAN</strong> (<em>Comprehensive R Archive Network</em>) that enables fast and easy installation of any packet from that repository, after which it becomes part of the local R installation. Since the R community is extremely productive when it comes to the development of new packages, often after the introduction of new experimental methods and algorithms, CRAN quickly offers packages that implement them. Also, strong and continuous enthusiasm of the R community for the enhancement of existing R elements alleviates or eliminates a large number of various deficiencies of the base language. R as a language can often be seen as a DIY project of sorts where, after getting acquainted with the supplied “factory” components (in this case basic functions and packages), the user begins to adapt his development environment by choosing a package that exactly matches their needs and preferences. Creativity and flexibility in using R is considered to be of great advantage, even though it may result in a certain informality and liberal approach to programming. This is occasionally not favoured by users from a more strict and formal programming background, used to having a clear set of guidelines and rules to be followed.</p>
+<p>Despite the exceptionally high acceptance of the R language for data analysis and the variety of options offered to the user, it is necessary to be aware of some of its limitations:</p>
+<ul>
+<li><p><strong>R intensely uses RAM</strong> which has been considered a serious restriction for a long time. With the increase of the memory capacity in modern hardware systems, as well as the rise of processing engines which can integrate with R and relieve it of the intense memory requirements when it comes to large datasets, this limitation is much less important today. Still, the fact remains that R can quickly hog the available RAM of your machine, though it is often the result of the neglect or ignorance of a developer who has not adopted the “R” approach when it comes to programming, opting to leverage patterns borrowed from other programming languages which result in suboptimal R code.</p></li>
+<li><p><strong>R is quite unconventional</strong> so the learning curve is initially steeper, especially for programmers accustomed to standard conventions of other programming languages. On the other hand, if viewed long-term, programming in R eventually becomes very quite simple and user-friendly since most of the complex tasks are abstracted into high-level functions that transparently perform low-level operative tasks. It is often said that R is more focused towards the goal we want to achieve and cares less about the exact way to reach it.</p></li>
+<li><p><strong>R is not a “fast” language</strong>; although it is a language that is expected to work over large data sets, R is not optimized for performance speed or even for parallelism; although there is a great deal of effort to implement virtually all key routines in C which prevents significant slowdowns, and there are a number of packages that offer support for multithreading, the fact remains that R is not designed to have its scripts get executed as quickly as possible; If speed is a priority, it is often necessary to look for alternative solutions - which is why it is often said that R is primarily a research language, not a production language.</p></li>
+</ul>
+<p>R is primarily intended for <strong>interactive work</strong>, i.e. performing a series of machine instructions that are dynamically executed with the help of a program console. This is tailored to the standard process of data analysis where the analyst can download data, clean it, transform, develop models, test, etc. while getting <strong>continuous feedback</strong> from a computer, providing the opportunity to dynamically adapt the analysis process.</p>
+<p>This does not mean that programming language can not be programmed in a classical “procedural” way by developing algorithms encapsulated in functions that automatically perform their tasks after being called, however where R truly shines is while performing interactive tasks. This principle is also reflected when it comes to learning R; it’s a programming language which is much easier to learn through the interactive approach of performing specific, goal-oriented tasks, experimenting with data sets, trying out data exploration methods, and so on, rather than using a “classic” approach by designing scripts that implement some low-level programming jobs.</p>
+</div>
+<div id="r-alternatives" class="section level3 hasAnchor" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> R alternatives<a href="introduction.html#r-alternatives" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Programming Language R is a popular but not the only solution for interactive data analysis and statistical programming. Below we will give a brief overview of some of the more popular technologies and solutions used today for this purpose, with a brief comparison and a review of the advantages and disadvantages compared to language R.</p>
+<p><strong>SAS</strong> and <strong>SPSS</strong> - SAS (<em>Statistical Analysis System</em>, developed by <em>SAS Institute</em>) and SPSS (<em>Software Package for Statistical Analysis</em>, developed by <em>IBM</em>) are two different software packages that we put under the same paragraph primarily because they are commercial tools, ie tools that require full payment for their full functionality. Similarly, SAS and SPSS are relatively easy to learn and their functionality is largely based on carefully designed user interfaces. These tools emphasize efficiency and are an excellent option for large companies looking for a consistent, robust solution for their analytics, not bothered by the commercial nature of such solutions.</p>
+<p><strong>Weka</strong> and <strong>Orange</strong> - Weka (<em>Waikato Environment for Knowledge Analysis, developed by Waikato University in New Zealand) and </em>Orange* (deep data analysis software developed at the University of Ljubljana) are free software for exploratory data analysis and data mining that base their functionality on relatively simple graphing interfaces and visual programming approach. These solutions are very good for users who are not too demanding in terms of the flexibility and complexity of their analysis because they allow the implementation of defined steps in the analysis process in a very accessible and clear way. This does not mean that these tools can not do more complex analysis, but they are still more suited to analyses through the predefined functionality of the provided graphical interface.</p>
+<p><strong>Python (Numpy / Pandas / Scikit)</strong> - in the last couple of years, Python is the most serious competitor of language R, primarily because Python is a very popular programming language with a very similar process approach to data analysis compared to one used by language R. The discussion of which language to choose is very common in the field of data science, usually without a clear final conclusion. The actual differences are not as big as those discussions may make it seem - while R is strongly domain-oriented and emphasis is placed on ease of use with a wide range of available overlapping packages to enable the user to choose the one that best suits him, Python emphasizes the rigid formal structure and principle “for one job one way of doing”. Therefore, it could be said that R is somewhat more suitable for “data research” while Python’s advantage is easier development and integration of analytical modules in a production environment, especially if said environment is already implemented in Python. But with the strong development of both languages and the mutual overlapping of functionality, this distinction becomes less relevant - it is no longer a problem to integrate R scripts into existing systems regardless of the platform they are running on, and the Python community is developing its versions of popular packages from R that faithfully emulate their functionality. Ultimately, it can be said that the initial choice between these two alternatives is not so important - the approach they use is so similar and the functionality sharing is so pronounced that learned concepts are easily transferable between both languages. It also must be said that the <em>RStudio</em> environment allows for mixing Python and R code in a single report, further closing the divide between these languages.</p>
+<p><strong>Rapidminer</strong> - this is a cloud-based data science software platform that provides an integrated environment for data preparation, machine learning, deep learning, text mining, and predictive analytics. It is used for business and commercial applications as well as for research, education, training, rapid prototyping, and application development and supports all steps of the machine learning process including data preparation, results visualization, model validation and optimization. <em>Rapidminer</em> is primarily template-based, however it is possible to write extensions for it using <em>R</em> or <em>Python</em>.</p>
+<hr />
+</div>
+</div>
+<div id="installing-software-support" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Installing Software Support<a href="introduction.html#installing-software-support" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Installing the R language support software is pretty simple, especially if the recommended development interface <strong>RStudio</strong> is used as a platform. This is not the only option - one of the popular alternatives is the multilingual platform <strong>Jupyter Notebook</strong> which offers its own R support. Readers are encouraged to explore all available options and choose the final selection of the interface that personally matches their needs best; however this coursebook strongly recommends choosing <strong>RStudio</strong> mainly because of a clear, user-friendly and functionality-rich interface, easy installation and a very rich support for a variety of functionalities - from installing new packages, easy retrieval of documentation, creating visualizations and publishing reports, to integrating with other data science-related software. Therefore the rest of the coursebook will assume that readers are using the <strong>RStudio</strong> IDE.</p>
+<p>To successfully set up R software, you need to install the following:</p>
+<ul>
+<li><strong>R</strong> language distribution</li>
+<li><strong>RStudio</strong> integrated development environment</li>
+</ul>
+<p>It is recommended to use the latest available versions. At the time of writing this book, they are <strong>R 4.0</strong> and <strong>RStudio 1.3</strong>. If these versions differ from those on your computer, there will probably be no problem if the version numbers are higher than the above; otherwise, their upgrade is recommended.</p>
+<p>The procedure for installing this software on the operating system <em>Microsoft Windows</em> will be described below. If you are working on some other operating system, such as a <em>Linux</em> distribution or <em>Mac OS</em>, the procedure is somewhat different, but still not too complex - it’s enough to do a web search focused on installing R and RStudio on a particular OS and follow further instructions.</p>
+<hr />
+<p>To find the software mentioned in the search engine, type the following terms:</p>
+<ul>
+<li><em>download R</em></li>
+<li><em>download RStudio</em></li>
+</ul>
+<p>In both cases, you will get links to the executable files that you have to run to install the software on your computer. In the case of R, this can be a file <code>R-4.2.2-win.exe</code> (exact numbers may differ). In the interface <em>RStudio</em> you can see more options - choose a free “<em>desktop</em>” version. Commercial versions have some additional functionalities that are mostly oriented to use in professional multi-user environments and are not essential to normal work.</p>
+<p>You can run the executable files and let the wizard install all the necessary components on your computer. It is recommended to accept all of the default installation options except for the choice of the installation folder - instead of the subfolder <em>Program Files</em> “it is better to install R directly in the root folder (eg”<em>C:\R\R-4.2.2</em>”), if possible. This way, it will be easier to check the currently installed version and potentially update it later. For the same reason, it is recommended that <em>RStudio</em> be installed in the folder “<em>C:\R\RStudio</em>”. If you do not have the option or you do not want to choose these folders, you can use others or leave the default options - this choice should not ultimately affect the further work.</p>
+<p>After installing <em>RStudio</em> it is <strong>highly recommended</strong> you create a separate subfolder where you will be doing most of your R related work (for example, folder “<em>C:\R\projects</em>”).</p>
+<p>After launching <em>RStudio</em>, the application should look similar to the following image:</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-3"></span>
+<img src="figures/RStudio1.png" alt=" RStudio interface layout " width="583" />
+<p class="caption">
+Figure 1.1:  RStudio interface layout
+</p>
+</div>
+<p>If there are any problems, make sure that you have completed all of the installation steps listed above. Below we will deal with the details of the interface shown.</p>
+<p>Before continuing, you might consider creating a new “project” (<code>File -&gt; New Project -&gt; New Directory</code>) and create a project called “IntroToR” in the <em>projects</em> folder mentioned above. You can then later put all the resources related to this course in this project folder. When you want to open <em>RStudio</em> and continue working on tasks from this course, it will be enough to double-click the <code>IntroToR.Rproj</code> file in the above subfolder, or choose the <em>“IntroToR”</em> project in the upper right corner of the screen.</p>
+<hr />
+</div>
+<div id="overview-of-the-development-interface-rstudio" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Overview of the development interface <em>RStudio</em><a href="introduction.html#overview-of-the-development-interface-rstudio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s look at the interface <em>RStudio</em>. We see it is being divided into three windows - the left part is the “work area” with the programming console, waiting for us to enter instructions. On the right, there are auxiliary windows that show different things, depending on the selected tab; In the upper right hand corner, we can see, among other things, variables in our current working environment (which is initially empty). We can also choose to see command history, control connections to other data storage and analysis software etc.. The bottom part serves to display documentation, file structures, installed packages, visualizations, etc.</p>
+<hr />
+<div id="interactive-console" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Interactive console<a href="introduction.html#interactive-console" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s go back to the left part of the interface, the “interactive console”. R, by its nature, is an “interpreter language” in the sense that the programming console expects from the user to enter commands which are then immediately interpreted and executed. Though it is possible to create larger scripts that are then executed “all at once”, working with the R language often boils down to using command-by-command principle. This is precisely why we are talking about “data analysis via interactive programming” - the analyst is “programming” by entering commands and can at any time study the obtained results, deciding on further steps.</p>
+<hr />
+<p>Let’s see how the interactive console works. With the help of a keyboard, you can type a simple math expression - eg <code>3 + 2</code> - and press the <em>ENTER</em> key. We will see that R will immediately deliver the result - if we want, we can easily use it as a calculator!</p>
+<p>For mathematical expressions that do not have predefined operator symbols we need to use functions. For example, a square root can be calculated using the <code>sqrt ()</code> function. Let’s try typing <code>sqrt(10)</code> in the console and pressing <em>ENTER</em>. R again shows the result immediately. At this point, the screen should look like the next picture.</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-4"></span>
+<img src="figures/RStudio2.png" alt="R as a calculator" width="587" />
+<p class="caption">
+Figure 1.2: R as a calculator
+</p>
+</div>
+<p>One of the problems of using R this way is the messy mixing of commands and results, not allowing us an easy high-level overview of the sequence of commands we were performing. Furthermore, if for some reason the command that we execute results in an error (and we then keep trying to correct it by entering the proper command), the console soon becomes cluttered with error reports. This is why analysts often prefer using “R scripts” that allows for entering commands in a separate place before sending them to the console, visually distinguishing the procedure we want to execute with the obtained results gained after the planned instructions are executed.</p>
+<hr />
+</div>
+<div id="writing-r-scripts" class="section level3 hasAnchor" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Writing R scripts<a href="introduction.html#writing-r-scripts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the toolbar, select <code>File -&gt; New File -&gt; R Script</code> (or press the <code>CTRL + SHIFT + N</code> key combination).</p>
+<p>We see that the “working area” on the left becomes divided into two parts. The upper part represents the space for our “script” - actually the series of commands we want to execute - while the interactive console now occupies the lower part of the work surface. If we want, we can tweak the size of these (and other windows) by moving the bordering bars between them. Also, there’s an easy way of switching the focus between the two, through the usage of <code>CTRL + 1</code> and <code>CTRL + 2</code> key combinations.</p>
+<p>Try to write two simple commands in the scripting window - the first one should be <code>print("hello!")</code> And underneath it a simple mathematical expression <code>3 + 4</code>. Return the cursor to the first line and press the <code>CTRL + ENTER</code> key combination. If we have correctly followed these steps, the command at the cursor site will automatically be copied to the interactive console and executed. The cursor will now be the next command that you can do with <code>CTRL + ENTER</code>. The screen should now look similar to the next image.</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-5"></span>
+<img src="figures/RStudio3.png" alt=" R script " width="582" />
+<p class="caption">
+Figure 1.3:  R script
+</p>
+</div>
+<p>This is one of the common ways of working in RStudio- first we create some programming instructions in the script space, after which we send them to the console. If something is wrong with the command, we can easily modify it and perform it again. If you want to execute a block of commands, you can select them by clicking and dragging and then pressing the <code>CTRL + ENTER</code> key. Scripts can also contain comments (starting with the <code>#</code> character that R interprets as “ignore this line”). Finally, we can store our scripts in a file - by convention, R scripts have a simple extension R, for example <code>myScript.R</code>.</p>
+<p>However, we can go one step further. Despite the fact that the R scripts are quite adequate for comfortable work in the R language, there is an additional technology that gives us even more flexibility in working with the R - <em>R Markdown</em>.</p>
+<hr />
+</div>
+<div id="r-markdown" class="section level3 hasAnchor" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> <em>R Markdown</em><a href="introduction.html#r-markdown" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Writing R scripts is very similar to the classic concept of “programming” - we write commands that are (usually) executed sequentially, and optionally we add comments for the purpose of the documentation. However, data analysis process commonly involves dissemination of results via data science reports, either for the analysts themselves or to the intended audience. RStudio interface supports a technology that provides an effective combination of programming and structured documentation using the principle of <strong>“interactive notebooks”</strong>.</p>
+<p>Interactive notebooks allow the user to combine formatted text (optionally with formulas and figures) with executable code, and text formatting, and then insert executable code, ending up with a format resembling a notebook. For this <em>RStudio</em> uses the <em>R Markdown</em> technology, as well as its slightly updated cousin, <em>R Notebook</em>. Since the differences between these two are relatively superficial, we will focus on the slightly simpler one <em>R Markdown</em>.</p>
+<p>This technology is easiest to demonstrate via example - in the toolbar, select <code>File -&gt; New File -&gt; R Markdown ...</code> and in the next window choose an arbitrary title (eg <code>"Testing"</code>). You can optionally edit the metadata, such as add the author’s name, and finally choose one of the options for final form of report (HTML is recommended due to its lowest dependency on additional software).</p>
+<hr />
+<p>Unlike the R script, which will initially appear empty, when creating an <em>RMD document</em> RStudio will create a new pre-filled document. This is done in this way for the simple reason that the user gets an easily modifiable template with all the basic elements included as a reminder. We will delete most of this template for our needs - so feel free to remove everything after the initial header, i.e. below the second <code>---</code>.</p>
+<p>Then, we can write any text below. We can also experiment with headers which start with <code>#</code>, <code>##</code>, <code>###</code> characters - these are NOT “R comments”, since we are now not programming, we are writing formatted text. By using <code>*</code> and <code>**</code> characters in front and back of the words we can make letters become bold and italicized, respectively. Everything mentioned so far in this paragraph is pure “<em>markdown</em>”, which basically means “plain text with added formatting information that can be converted into formatted text with the help of additional tools, if desired”.</p>
+<p>When we want to incorporate executable code into our “report”, we need to create so-called “code chunks”. This can be done by selecting <code>Insert -&gt; R</code> on the toolbar or using the <code>CTRL + ALT + I</code> combination of keys.</p>
+<p>Notice that the chunk begins and ends with a specially selected string of characters - three so called “backticks” (they look like simple apostrophes, but are angled towards the left). Likewise, the beginning of the chunk contains description of certain parameters in the opening brackets, which can affect the way RStudio is processing this “code chunk”, most notably by having us state which programming language we will use. In this coursebook, we will almost exclusively use the language R, although other options are available if they had been previously installed on the platform running <em>RStudio</em>.</p>
+<p>The code chunk behaves the same as the standard R script - we can enter commands and execute them. The difference is just that the results can be seen immediately in the <em>R Markdown</em> document itself (in addition to them showing up in the console). If this is not something that we want, we can turn this functionality off (click on the gear in the toolbar and select <code>Chunk output in console</code>), however we usually prefer to have the results right below the code that created them, notebook-style.</p>
+<p>If we follow the instructions, the screen may look similar to the following image:</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-6"></span>
+<img src="figures/RStudio4.png" alt=" R Markdown document " width="584" />
+<p class="caption">
+Figure 1.4:  R Markdown document
+</p>
+</div>
+<p>We can now try to create a “report” from the current document. First, we must save it under a particular name (eg <code>Testing.rmd</code>), and then we can click on the <code>Knit</code> button to convert the document from pure text to an HTML file.</p>
+<p>(Note - if our platform is missing some packages, we will see that in the warning toolbar which will show up - we just need to pick the option “Install” and wait until RStudio downloads the required packages from the CRAN repository)</p>
+<p><em>R Markdown</em> documents are much more powerful than it may seem judging by the elements that have been presented so far. Chunks can have plenty of different parameters which influence their behaviour. The output format can be PDF, DOCX as well as other forms such as presentation slides, books intended for mobile devices, interactive web applications etc. The coursebook you are reading is actually nothing more than a series of RMD files converted into the appropriate form you are currently using. As we will explain in the next chapter, RMD files are also the main way for you to use this coursebook effectively and try out the examples and tasks that follow. The universality and flexibility of technology <em>R Markdown</em> is exceptionally great, and is very well accepted by the R community.</p>
+<hr />
+</div>
+</div>
+<div id="how-to-use-this-coursebook" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> How to use this coursebook?<a href="introduction.html#how-to-use-this-coursebook" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The basic idea of this coursebook is “learning through application”. Therefore, the lessons below will not focus on merely showing and talking about new concepts, but rather encouraging the reader to learn out each new concept by solving a series of easy or intermediate tasks.</p>
+<p>Each chapter that follows has an accompanying “workbook”. Simply put, it is an RMD file that contains all the examples from the lecture, accompanied by a concise text for easier reference to the concepts being dealt with. The basic idea is that the reader reads the coursebook and solves the workbook in parallel, looking at the task solution only after it is solved within the programming interface.</p>
+<p>Some exercises will be trivial, require simply removing the <code>#</code> sign (meaning “comment”) from the start of the command and executing it. In spite of the trivial approach, in this way, however, the reader is encouraged to independently test the command rather than just look at its result. Other exercises will be a bit more involved.</p>
+<p>Each exercise will also have a solution underneath (which will be hidden if using the interactive version of the coursebook). Readers are encouraged to only look at the solution after first solving the exercise themselves.</p>
+<p>Finally, each chapter will end with a set of additional exercises which will not have accompanying. It is recommended to successfully solve all these exercises, since the lessons that follow presume the well-accepted knowledge of all the topics that are discussed previously (and some exercises will sneakily introduce some helpful functions or tricks which may become very useful later on).</p>
+<hr />
+<p>Let’s get to know the concept of workbooks more closely. First, you need to download and open a workbook that matches the lesson you are reading. It is easy to recognize it by looking at the chapter number - the notebook for this chapter should be named <code>01_Introduction_WB.Rmd</code>. It is recommended that all workbooks that you plan to use are copied somewhere to the local computer together with all the accompanying files, and then perhaps create a backup copy of the original workbook (since solving a workbook will change its contents).</p>
+<p>As stated previously, the workbook will typically contain all the program code in the chapter to which it refers, but usually only the minimal amount of text sufficient for easier understanding and solving the exercises.</p>
+<p>Workbooks will leverage two types of tasks: <strong>Examples</strong> and <strong>Exercises</strong>. Examples will be pieces of code that will just need to be executed, without any modification. Exercises on the other hand expect at least some changes, and often require entering completely new segments of program code.</p>
+<p>An <em>Example</em> might look like this:</p>
+<p><strong>Example 1.1 - a few simple mathematical expressions</strong></p>
+<div class="fold o">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="introduction.html#cb1-1" tabindex="-1"></a><span class="dv">3</span> <span class="sc">+</span> <span class="dv">2</span> <span class="co"># adding</span></span>
+<span id="cb1-2"><a href="introduction.html#cb1-2" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">10</span>) <span class="co"># natural logarithm!</span></span>
+<span id="cb1-3"><a href="introduction.html#cb1-3" tabindex="-1"></a><span class="fu">log10</span>(<span class="dv">10</span>) <span class="co"># this is a base-10 logarithm! By the way, we comment with the &quot;#&quot;</span></span>
+<span id="cb1-4"><a href="introduction.html#cb1-4" tabindex="-1"></a><span class="fu">sin</span>(<span class="fl">0.5</span> <span class="sc">*</span> pi) <span class="co"># pi is one of the built-in constants</span></span></code></pre></div>
+<pre><code>## [1] 5
+## [1] 2.302585
+## [1] 1
+## [1] 1</code></pre>
+</div>
+<p>You can execute the commands from the examples individually, or the entire chunk at once with the <code>CTRL + SHIFT + ENTER</code> key combination. No modification of the code is necessary (although you should always feel free to experiment further with the given commands, either in the chunk itself or in the console!).</p>
+<p>As stated, <em>Exercises</em> on the other hand always require a certain - even minimal - intervention.</p>
+<hr />
+<p><strong>Exercise 1.1 - Commands for checking/changing the working directory</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="introduction.html#cb3-1" tabindex="-1"></a><span class="co"># Make the following commands by removing the comment character</span></span>
+<span id="cb3-2"><a href="introduction.html#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="introduction.html#cb3-3" tabindex="-1"></a><span class="co">#getwd() # current working directory</span></span>
+<span id="cb3-4"><a href="introduction.html#cb3-4" tabindex="-1"></a><span class="co">#setwd(&quot;.&quot;) # here we can specify a new working folder if desired </span></span>
+<span id="cb3-5"><a href="introduction.html#cb3-5" tabindex="-1"></a>            <span class="co"># usually not a good idea when working with RMD files</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="introduction.html#cb4-1" tabindex="-1"></a><span class="fu">getwd</span>() <span class="co"># directory in which we are currently working</span></span>
+<span id="cb4-2"><a href="introduction.html#cb4-2" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;.&quot;</span>) <span class="co"># here we can specify a new working folder if desired </span></span>
+<span id="cb4-3"><a href="introduction.html#cb4-3" tabindex="-1"></a>           <span class="co"># usually not a good idea when working with RMD files </span></span></code></pre></div>
+</div>
+<hr />
+<p>The exercise will often be related to the most recently introduced concept. For example, we might be learning the assignment operator, and explaining that although language R supports the usage of <code>=</code> operator for assigning a value to a variable, it is recommended to use the <code>&lt;-</code> operator for that purpose, for various reasons to be explained later (use <code>ALT + -</code> to quickly write <code>&lt;-</code>). Also, note that R supports the so-called <em>autoprint</em> functionality, when a command or a set of commands is executed, the value of the last expression will be shown on screen. This means that if we create a new variable <code>x</code> and want to print it on the screen, we do not have to put <code>print(x)</code>as the last command, but rather just <code>x</code>. Also, using an assignment operator does not return a value in itself, which is why we do not see anything printed out on screen after assigning a value to a variable.</p>
+<p>Let’s try to experiment with these concepts in the following exercise.</p>
+<hr />
+<p><strong>Exercise 1.2 - Assignment operator</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="introduction.html#cb5-1" tabindex="-1"></a><span class="co"># store `5` in a variable called `x`</span></span>
+<span id="cb5-2"><a href="introduction.html#cb5-2" tabindex="-1"></a><span class="co"># then print the variable `x` on the screen</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="introduction.html#cb6-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb6-2"><a href="introduction.html#cb6-2" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+</div>
+<hr />
+<p>Now that we have some basic knowledge about language R and the programming interface we will be using, we can begin by learning the basic elements of the R programming language.</p>
+<hr />
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Programirajmo u R-u</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.fer.unizg.hr/en/damir.pintar" property="cc:attributionName" rel="cc:attributionURL">Damir Pintar</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://ratnip.github.io/FER_OPJR/" rel="dct:source">https://ratnip.github.io/FER_OPJR/</a></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed",
+"edit": null,
+"download": null,
+"search": true
+}
+});
+});
+</script>
+
+</body>
+
+</html>

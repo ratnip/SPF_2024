@@ -1,0 +1,14 @@
+fig:unnamed-chunk-3
+fig:unnamed-chunk-4
+fig:unnamed-chunk-5
+fig:unnamed-chunk-6
+introduction
+what-is-r
+general-facts-about-r
+r-alternatives
+installing-software-support
+overview-of-the-development-interface-rstudio
+interactive-console
+writing-r-scripts
+r-markdown
+how-to-use-this-coursebook
