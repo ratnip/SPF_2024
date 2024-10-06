@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Basic data types and operators | Let’s program in R</title>
+  <meta name="description" content="R Coursebook" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Basic data types and operators | Let’s program in R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="R Coursebook" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Basic data types and operators | Let’s program in R" />
+  
+  <meta name="twitter:description" content="R Coursebook" />
+  
+
+<meta name="author" content="Damir Pintar" />
+
+
+<meta name="date" content="2024-10-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="vektori.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<style type="text/css">
+.showopt {
+  background-color: #004c93;
+  color: #FFFFFF; 
+  width: 140px;
+  height: 4	0px;
+  text-align: center;
+  vertical-align: middle !important;
+  float: right;
+  font-family: sans-serif;
+  font-size:10 pt;
+  border-radius: 8px;
+}
+
+.showopt:hover {
+    background-color: #dfe4f2;
+    color: #004c93;
+}
+
+pre.plot {
+  background-color: white !important;
+}
+</style>
+
+<script>
+ $(document).ready(function() {
+
+  $chunks = $('.fold');
+
+  $chunks.each(function () {
+
+    // add button to source code chunks
+    if ( $(this).hasClass('s') ) {
+      $('pre.r', this).prepend("<div class=\"showopt\">Show solution</div><br style=\"line-height:22px;\"/>");
+      $('pre.r', this).children('code').attr('class', 'folded');
+    }
+
+    // add button to output chunks
+    if ( $(this).hasClass('o') ) {
+      $('pre:not(.r)', this).has('code').prepend("<div class=\"showopt\">Show results</div><br style=\"line-height:22px;\"/>");
+      $('pre:not(.r)', this).children('code:not(r)').addClass('folded');
+
+      // add button to plots
+      $(this).find('img').wrap('<pre class=\"plot\"></pre>');
+      $('pre.plot', this).prepend("<div class=\"showopt\">Show figure</div><br style=\"line-height:22px;\"/>");
+      $('pre.plot', this).children('img').addClass('folded');
+
+    }
+  });
+
+  // hide all chunks when document is loaded
+  $('.folded').css('display', 'none')
+
+  // function to toggle the visibility
+  $('.showopt').click(function() {
+    var label = $(this).html();
+    if (label.indexOf("Show") >= 0) {
+      $(this).html(label.replace("Show", "Hide"));
+    } else {
+      $(this).html(label.replace("Hide", "Show"));
+    }
+    $(this).siblings('code, img').slideToggle('fast', 'swing');
+  });
+});
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>(“Statistical Programming Fundamentals” course book)</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#foreword"><i class="fa fa-check"></i>Foreword</a></li>
+</ul></li>
+<li class="part"><span><b>I Basic elements of R</b></span></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction.html"><a href="introduction.html#general-facts-about-r"><i class="fa fa-check"></i><b>1.1.1</b> General facts about R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction.html"><a href="introduction.html#r-alternatives"><i class="fa fa-check"></i><b>1.1.2</b> R alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#installing-software-support"><i class="fa fa-check"></i><b>1.2</b> Installing Software Support</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#overview-of-the-development-interface-rstudio"><i class="fa fa-check"></i><b>1.3</b> Overview of the development interface <em>RStudio</em></a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="introduction.html"><a href="introduction.html#interactive-console"><i class="fa fa-check"></i><b>1.3.1</b> Interactive console</a></li>
+<li class="chapter" data-level="1.3.2" data-path="introduction.html"><a href="introduction.html#writing-r-scripts"><i class="fa fa-check"></i><b>1.3.2</b> Writing R scripts</a></li>
+<li class="chapter" data-level="1.3.3" data-path="introduction.html"><a href="introduction.html#r-markdown"><i class="fa fa-check"></i><b>1.3.3</b> <em>R Markdown</em></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#how-to-use-this-coursebook"><i class="fa fa-check"></i><b>1.4</b> How to use this coursebook?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tipovi.html"><a href="tipovi.html"><i class="fa fa-check"></i><b>2</b> Basic data types and operators</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tipovi.html"><a href="tipovi.html#basic-data-types"><i class="fa fa-check"></i><b>2.1</b> Basic data types</a></li>
+<li class="chapter" data-level="2.2" data-path="tipovi.html"><a href="tipovi.html#operators"><i class="fa fa-check"></i><b>2.2</b> Operators</a></li>
+<li class="chapter" data-level="2.3" data-path="tipovi.html"><a href="tipovi.html#missing-unknown-and-non-existent-values"><i class="fa fa-check"></i><b>2.3</b> Missing, unknown, and non-existent values</a></li>
+<li class="chapter" data-level="" data-path="tipovi.html"><a href="tipovi.html#homework-exercises"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="vektori.html"><a href="vektori.html"><i class="fa fa-check"></i><b>3</b> Vectors, matrices and lists</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="vektori.html"><a href="vektori.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="vektori.html"><a href="vektori.html#creating-a-vector"><i class="fa fa-check"></i><b>3.1.1</b> Creating a vector</a></li>
+<li class="chapter" data-level="3.1.2" data-path="vektori.html"><a href="vektori.html#vector-concatenation"><i class="fa fa-check"></i><b>3.1.2</b> Vector concatenation</a></li>
+<li class="chapter" data-level="3.1.3" data-path="vektori.html"><a href="vektori.html#operator"><i class="fa fa-check"></i><b>3.1.3</b> Operator <code>[</code></a></li>
+<li class="chapter" data-level="3.1.4" data-path="vektori.html"><a href="vektori.html#principles-of-vectorization-and-recycling"><i class="fa fa-check"></i><b>3.1.4</b> Principles of vectorization and recycling</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="vektori.html"><a href="vektori.html#index-vectors"><i class="fa fa-check"></i><b>3.2</b> Index vectors</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="vektori.html"><a href="vektori.html#positional-indexing"><i class="fa fa-check"></i><b>3.2.1</b> Positional Indexing</a></li>
+<li class="chapter" data-level="3.2.2" data-path="vektori.html"><a href="vektori.html#conditional-indexing"><i class="fa fa-check"></i><b>3.2.2</b> Conditional indexing</a></li>
+<li class="chapter" data-level="3.2.3" data-path="vektori.html"><a href="vektori.html#label-based-indexing"><i class="fa fa-check"></i><b>3.2.3</b> Label-based indexing</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="vektori.html"><a href="vektori.html#matrices-and-arrays"><i class="fa fa-check"></i><b>3.3</b> Matrices and arrays</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="vektori.html"><a href="vektori.html#matrix-slicing"><i class="fa fa-check"></i><b>3.3.1</b> Matrix slicing</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="vektori.html"><a href="vektori.html#lists"><i class="fa fa-check"></i><b>3.4</b> Lists</a></li>
+<li class="chapter" data-level="" data-path="vektori.html"><a href="vektori.html#homework-exercises-1"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Let’s program in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tipovi" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Basic data types and operators<a href="tipovi.html#tipovi" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<hr />
+<p>“Basic” or “primitive” types of data are the underlying building blocks of programming languages. They are basically embedded mechanisms that allow storing basic information - most commonly of logical, numeric, or character nature. Most programming languages use very similar methods of storing such information, which means that we can expect to see similar basic data types in almost every programming language - the difference is often in certain implementation specifics such as the name of the basic type, the default number of bytes is uses etc. In any case, the most common first step in learning a new programming language is getting to know the basic types of data that it supports.</p>
+<p>The next thing that may interest us is the language syntax, that is, the specific way programming instructions are written so the programming language can adequately interpret them and execute. The R language syntax follows similar conventions seen in languages such as <em>Python</em>, <em>Ruby</em>, or <em>Java</em>, but with its own specifics. Some basic syntax rules are:</p>
+<ul>
+<li>each command must, as a rule, go to its own line, but the indentation and semicolons at the end are optional;</li>
+<li>programming blocks are delinated with brackets;</li>
+<li>variables types need not be declared in advance, their type is inferred based on the assigned value;</li>
+<li>comments start with <code>#</code>;</li>
+<li>etc.</li>
+</ul>
+<p>The rest of the syntax will be best learned through examples. We will start with basic operators and functions and work from there.</p>
+<hr />
+<div id="basic-data-types" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Basic data types<a href="tipovi.html#basic-data-types" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>R offers six basic data types:</p>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="83%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>type</th>
+<th>examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>logical</em></td>
+<td><code>TRUE</code>, <code>FALSE</code> ili <code>T</code>, <code>F</code></td>
+</tr>
+<tr class="even">
+<td><em>integer</em></td>
+<td><code>2L</code>, <code>5L</code>, <code>123456789L</code></td>
+</tr>
+<tr class="odd">
+<td><em>double</em></td>
+<td><code>4</code>, <code>6</code>, <code>3.14</code>, <code>2e5</code></td>
+</tr>
+<tr class="even">
+<td><em>complex</em></td>
+<td><code>5 + 2i</code>, <code>7 + 1i</code></td>
+</tr>
+<tr class="odd">
+<td><em>character</em></td>
+<td><code>"A"</code>, <code>"B"</code>, <code>"Pero"</code>, <code>"ABCDEFGHijklmnoPQRSTUVwyz"</code></td>
+</tr>
+<tr class="even">
+<td><em>raw</em></td>
+<td><code>as.raw(2)</code>, <code>charToRaw("1")</code></td>
+</tr>
+</tbody>
+</table>
+<p>Some remarks:</p>
+<ul>
+<li>integer and real types are often treated together as a <code>numeric</code> type (although this is not entirely consistent!)</li>
+<li>complex type must have a declared imaginary constant even if it is 1 (<code>2 + i</code> is not a good record!)</li>
+<li>The type of “raw” bytes is relatively rarely used</li>
+</ul>
+<p>Checking whether a variable is of a certain type can be done with the help of <code>is.&lt;type_name&gt;</code> functions.</p>
+<p>Before we get to test this function in the upcoming exercise, we will introduce one small trick: in exercises where we print more things on the screen, it is useful to visually separate the different result segments so that we can easily understand which part of the code is referenced. For this purpose, we will use the <code>cat("-----------\n")</code> command that simply prints a dashed line followed with the newline character. We opted for this solution instead of simply using the “empty” <code>print("")</code> function because that function always prints out the index of the result as well as the string quotation marks, while the <code>cat</code> command is just a “raw” print, which is in this case more appropriate.</p>
+<hr />
+<p><strong>Exercise 2.1 - checking data types</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="tipovi.html#cb8-1" tabindex="-1"></a><span class="co"># try the following commands:</span></span>
+<span id="cb8-2"><a href="tipovi.html#cb8-2" tabindex="-1"></a><span class="co">#is.logical(FALSE)</span></span>
+<span id="cb8-3"><a href="tipovi.html#cb8-3" tabindex="-1"></a><span class="co">#is.integer(2L)</span></span>
+<span id="cb8-4"><a href="tipovi.html#cb8-4" tabindex="-1"></a><span class="co">#is.double(1.11)</span></span>
+<span id="cb8-5"><a href="tipovi.html#cb8-5" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="tipovi.html#cb8-6" tabindex="-1"></a><span class="co"># perform the following checks:</span></span>
+<span id="cb8-7"><a href="tipovi.html#cb8-7" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="tipovi.html#cb8-8" tabindex="-1"></a><span class="co"># is 5L numeric?</span></span>
+<span id="cb8-9"><a href="tipovi.html#cb8-9" tabindex="-1"></a><span class="co"># is 3.14 numeric?</span></span>
+<span id="cb8-10"><a href="tipovi.html#cb8-10" tabindex="-1"></a><span class="co"># is &quot;ABC&quot; character?</span></span>
+<span id="cb8-11"><a href="tipovi.html#cb8-11" tabindex="-1"></a><span class="co"># is 4 + 2i complex?</span></span>
+<span id="cb8-12"><a href="tipovi.html#cb8-12" tabindex="-1"></a><span class="co"># is 5 integer?</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="tipovi.html#cb9-1" tabindex="-1"></a><span class="co"># try the following commands:</span></span>
+<span id="cb9-2"><a href="tipovi.html#cb9-2" tabindex="-1"></a><span class="fu">is.logical</span>(<span class="cn">FALSE</span>)</span>
+<span id="cb9-3"><a href="tipovi.html#cb9-3" tabindex="-1"></a><span class="fu">is.integer</span>(<span class="dv">2</span><span class="dt">L</span>)</span>
+<span id="cb9-4"><a href="tipovi.html#cb9-4" tabindex="-1"></a><span class="fu">is.double</span>(<span class="fl">1.11</span>)</span>
+<span id="cb9-5"><a href="tipovi.html#cb9-5" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="tipovi.html#cb9-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;-----------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb9-7"><a href="tipovi.html#cb9-7" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="tipovi.html#cb9-8" tabindex="-1"></a><span class="co"># perform the following checks:</span></span>
+<span id="cb9-9"><a href="tipovi.html#cb9-9" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="tipovi.html#cb9-10" tabindex="-1"></a><span class="co"># is 5L numeric?</span></span>
+<span id="cb9-11"><a href="tipovi.html#cb9-11" tabindex="-1"></a><span class="fu">is.numeric</span>(<span class="dv">5</span><span class="dt">L</span>)</span>
+<span id="cb9-12"><a href="tipovi.html#cb9-12" tabindex="-1"></a><span class="co"># is 3.14 numeric?</span></span>
+<span id="cb9-13"><a href="tipovi.html#cb9-13" tabindex="-1"></a><span class="fu">is.numeric</span>(<span class="fl">3.14</span>)</span>
+<span id="cb9-14"><a href="tipovi.html#cb9-14" tabindex="-1"></a><span class="co"># is &quot;ABC&quot; character?</span></span>
+<span id="cb9-15"><a href="tipovi.html#cb9-15" tabindex="-1"></a><span class="fu">is.character</span>(<span class="st">&quot;ABC&quot;</span>)</span>
+<span id="cb9-16"><a href="tipovi.html#cb9-16" tabindex="-1"></a><span class="co"># is 4 + 2i complex?</span></span>
+<span id="cb9-17"><a href="tipovi.html#cb9-17" tabindex="-1"></a><span class="fu">is.complex</span>(<span class="dv">4</span> <span class="sc">+</span> <span class="dv">2</span><span class="dt">i</span>)</span>
+<span id="cb9-18"><a href="tipovi.html#cb9-18" tabindex="-1"></a><span class="co"># is 5 integer?</span></span>
+<span id="cb9-19"><a href="tipovi.html#cb9-19" tabindex="-1"></a><span class="fu">is.integer</span>(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## [1] TRUE
+## [1] TRUE
+## [1] TRUE
+## -----------
+## [1] TRUE
+## [1] TRUE
+## [1] TRUE
+## [1] TRUE
+## [1] FALSE</code></pre>
+</div>
+<hr />
+<p>Types of some variables or constants can be retrieved with the help of <code>typeof</code> or<code>class</code> functions.</p>
+<p>The difference between these functions is the following:</p>
+<ul>
+<li><code>typeof</code> answers to the question “in which underlying format is this variable stored?”; hence, it will return the “primitive” or “basic” type ( <code>integer</code>, <code>double</code>)</li>
+<li><code>class</code> answers to the question “what IS this variable?”; it will return the “object type”, which is actually the value stored in the <code>class</code> attribute of this variable</li>
+</ul>
+<hr />
+<p><strong>Exercise 2.2 - data type retrieval</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="tipovi.html#cb11-1" tabindex="-1"></a><span class="co"># print the types of the following constants: TRUE, 2L, F, 3.14, &quot;ABC&quot;</span></span>
+<span id="cb11-2"><a href="tipovi.html#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="tipovi.html#cb11-3" tabindex="-1"></a><span class="co"># print the classes of the same constants. Do you see any differences?</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="tipovi.html#cb12-1" tabindex="-1"></a><span class="co"># print the types of the following constants: TRUE, 2L, F, 3.14, &quot;ABC&quot;</span></span>
+<span id="cb12-2"><a href="tipovi.html#cb12-2" tabindex="-1"></a><span class="fu">typeof</span>(<span class="cn">TRUE</span>)</span>
+<span id="cb12-3"><a href="tipovi.html#cb12-3" tabindex="-1"></a><span class="fu">typeof</span>(<span class="dv">2</span><span class="dt">L</span>)</span>
+<span id="cb12-4"><a href="tipovi.html#cb12-4" tabindex="-1"></a><span class="fu">typeof</span>(F)</span>
+<span id="cb12-5"><a href="tipovi.html#cb12-5" tabindex="-1"></a><span class="fu">typeof</span>(<span class="fl">3.14</span>)</span>
+<span id="cb12-6"><a href="tipovi.html#cb12-6" tabindex="-1"></a><span class="fu">typeof</span>(<span class="st">&quot;ABC&quot;</span>)</span>
+<span id="cb12-7"><a href="tipovi.html#cb12-7" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="tipovi.html#cb12-8" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;-----------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb12-9"><a href="tipovi.html#cb12-9" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="tipovi.html#cb12-10" tabindex="-1"></a><span class="co"># print the classes of the same constants. Do you see any differences?</span></span>
+<span id="cb12-11"><a href="tipovi.html#cb12-11" tabindex="-1"></a><span class="fu">class</span>(<span class="cn">TRUE</span>)</span>
+<span id="cb12-12"><a href="tipovi.html#cb12-12" tabindex="-1"></a><span class="fu">class</span>(<span class="dv">2</span><span class="dt">L</span>)</span>
+<span id="cb12-13"><a href="tipovi.html#cb12-13" tabindex="-1"></a><span class="fu">class</span>(F)</span>
+<span id="cb12-14"><a href="tipovi.html#cb12-14" tabindex="-1"></a><span class="fu">class</span>(<span class="fl">3.14</span>)</span>
+<span id="cb12-15"><a href="tipovi.html#cb12-15" tabindex="-1"></a><span class="fu">class</span>(<span class="st">&quot;ABC&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;logical&quot;
+## [1] &quot;integer&quot;
+## [1] &quot;logical&quot;
+## [1] &quot;double&quot;
+## [1] &quot;character&quot;
+## -----------
+## [1] &quot;logical&quot;
+## [1] &quot;integer&quot;
+## [1] &quot;logical&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;character&quot;</code></pre>
+</div>
+<hr />
+<p>Data can be explicitly converted from one type to another using the functions <code>as.&lt;type_name&gt;</code>:</p>
+<hr />
+<p><strong>Exercise 2.3 - conversion of data types</strong></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="tipovi.html#cb14-1" tabindex="-1"></a><span class="co"># perform the following conversions and print the result</span></span>
+<span id="cb14-2"><a href="tipovi.html#cb14-2" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="tipovi.html#cb14-3" tabindex="-1"></a><span class="co">#  2.35 to integer</span></span>
+<span id="cb14-4"><a href="tipovi.html#cb14-4" tabindex="-1"></a><span class="co">#  TRUE to ntomeric</span></span>
+<span id="cb14-5"><a href="tipovi.html#cb14-5" tabindex="-1"></a><span class="co">#  100L to character</span></span>
+<span id="cb14-6"><a href="tipovi.html#cb14-6" tabindex="-1"></a><span class="co">#  2.35 to character</span></span>
+<span id="cb14-7"><a href="tipovi.html#cb14-7" tabindex="-1"></a><span class="co">#  2e2  to character</span></span>
+<span id="cb14-8"><a href="tipovi.html#cb14-8" tabindex="-1"></a><span class="co">#  0 to logical</span></span>
+<span id="cb14-9"><a href="tipovi.html#cb14-9" tabindex="-1"></a><span class="co">#  2.75  to logical</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="tipovi.html#cb15-1" tabindex="-1"></a><span class="co"># perform the following conversions and print the result</span></span>
+<span id="cb15-2"><a href="tipovi.html#cb15-2" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="tipovi.html#cb15-3" tabindex="-1"></a><span class="co">#  2.35 to integer</span></span>
+<span id="cb15-4"><a href="tipovi.html#cb15-4" tabindex="-1"></a><span class="fu">as.integer</span>(<span class="fl">2.35</span>)</span>
+<span id="cb15-5"><a href="tipovi.html#cb15-5" tabindex="-1"></a><span class="co">#  TRUE to ntomeric</span></span>
+<span id="cb15-6"><a href="tipovi.html#cb15-6" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="cn">TRUE</span>)</span>
+<span id="cb15-7"><a href="tipovi.html#cb15-7" tabindex="-1"></a><span class="co">#  100L to character</span></span>
+<span id="cb15-8"><a href="tipovi.html#cb15-8" tabindex="-1"></a><span class="fu">as.character</span>(<span class="dv">100</span><span class="dt">L</span>)</span>
+<span id="cb15-9"><a href="tipovi.html#cb15-9" tabindex="-1"></a><span class="co">#  2.35 to character</span></span>
+<span id="cb15-10"><a href="tipovi.html#cb15-10" tabindex="-1"></a><span class="fu">as.character</span>(<span class="fl">2.35</span>)</span>
+<span id="cb15-11"><a href="tipovi.html#cb15-11" tabindex="-1"></a><span class="co">#  2e2  to character</span></span>
+<span id="cb15-12"><a href="tipovi.html#cb15-12" tabindex="-1"></a><span class="fu">as.character</span>(<span class="fl">2e2</span>)</span>
+<span id="cb15-13"><a href="tipovi.html#cb15-13" tabindex="-1"></a><span class="co">#  0 to logical</span></span>
+<span id="cb15-14"><a href="tipovi.html#cb15-14" tabindex="-1"></a><span class="fu">as.logical</span>(<span class="dv">0</span>)</span>
+<span id="cb15-15"><a href="tipovi.html#cb15-15" tabindex="-1"></a><span class="co">#  2.75  to logical</span></span>
+<span id="cb15-16"><a href="tipovi.html#cb15-16" tabindex="-1"></a><span class="fu">as.logical</span>(<span class="fl">2.75</span>)</span></code></pre></div>
+<pre><code>## [1] 2
+## [1] 1
+## [1] &quot;100&quot;
+## [1] &quot;2.35&quot;
+## [1] &quot;200&quot;
+## [1] FALSE
+## [1] TRUE</code></pre>
+</div>
+<hr />
+<p><em>R</em> will always perform an implicit conversion of types if possible:</p>
+<hr />
+<p><strong>Exercise 2.4 - implicit conversion</strong></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="tipovi.html#cb17-1" tabindex="-1"></a><span class="co"># Write the following phrases and print the results:</span></span>
+<span id="cb17-2"><a href="tipovi.html#cb17-2" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="tipovi.html#cb17-3" tabindex="-1"></a><span class="co"># arithmetic operator between logical and numeric variables</span></span>
+<span id="cb17-4"><a href="tipovi.html#cb17-4" tabindex="-1"></a><span class="co"># arithmetic operator between integer and numeric variables</span></span>
+<span id="cb17-5"><a href="tipovi.html#cb17-5" tabindex="-1"></a><span class="co"># logical operator negation (!) applied to numeric variable</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="tipovi.html#cb18-1" tabindex="-1"></a><span class="co"># arithmetic operator between logical and numeric variables</span></span>
+<span id="cb18-2"><a href="tipovi.html#cb18-2" tabindex="-1"></a><span class="cn">TRUE</span> <span class="sc">+</span> <span class="dv">5</span></span>
+<span id="cb18-3"><a href="tipovi.html#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="tipovi.html#cb18-4" tabindex="-1"></a><span class="co"># arithmetic operator between integer and numeric variables</span></span>
+<span id="cb18-5"><a href="tipovi.html#cb18-5" tabindex="-1"></a><span class="dv">5</span><span class="dt">L</span>  <span class="sc">+</span> <span class="fl">3.14</span></span>
+<span id="cb18-6"><a href="tipovi.html#cb18-6" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="tipovi.html#cb18-7" tabindex="-1"></a><span class="co"># logical operator negation (!) applied to numeric variable</span></span>
+<span id="cb18-8"><a href="tipovi.html#cb18-8" tabindex="-1"></a><span class="sc">!</span><span class="dv">25</span></span></code></pre></div>
+<pre><code>## [1] 6
+## [1] 8.14
+## [1] FALSE</code></pre>
+</div>
+<hr />
+<p>Implicit conversion will only be performed if it is meaningful - for example, we cannot perform arithmetic operations between a character type and a numeric type.</p>
+<hr />
+</div>
+<div id="operators" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Operators<a href="tipovi.html#operators" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As in other programming languages, R allows using various operators when forming expressions. Some of the more frequently used operators are:</p>
+<ul>
+<li><em>arithmetic</em> <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code>, <code>%%</code> (division reminder), <code>%/%</code></li>
+<li><em>comparison</em> <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt; =</code>, <code>==</code>, <code>!=</code></li>
+<li><em>logical</em> <code>!</code> (negation), <code>&amp;&amp;</code> (scalar AND), <code>||</code> (scalar OR), <code>&amp;</code> (vector AND), <code>|</code> (vector OR)</li>
+<li><em>assignment</em> <code>&lt;-</code> or<code>=</code></li>
+</ul>
+<hr />
+<p><strong>Exercise 2.5 - operators</strong></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="tipovi.html#cb20-1" tabindex="-1"></a><span class="co"># try the `5 / 2` and` 5 %/% 2` expressions</span></span>
+<span id="cb20-2"><a href="tipovi.html#cb20-2" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="tipovi.html#cb20-3" tabindex="-1"></a><span class="co"># calculate the &quot;square of 17&quot; and &quot;the remainder of 101 divided by 12&quot; </span></span>
+<span id="cb20-4"><a href="tipovi.html#cb20-4" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="tipovi.html#cb20-5" tabindex="-1"></a><span class="co"># check what is the result of the following expressions: `17 &gt; 13`,`!TRUE`, `5 &amp;&amp; 0`,`0. || 2`</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="tipovi.html#cb21-1" tabindex="-1"></a><span class="co"># try the `5 / 2` and` 5 %/% 2` expressions</span></span>
+<span id="cb21-2"><a href="tipovi.html#cb21-2" tabindex="-1"></a><span class="dv">5</span> <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb21-3"><a href="tipovi.html#cb21-3" tabindex="-1"></a><span class="dv">5</span> <span class="sc">%/%</span> <span class="dv">2</span></span>
+<span id="cb21-4"><a href="tipovi.html#cb21-4" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="tipovi.html#cb21-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;-----------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb21-6"><a href="tipovi.html#cb21-6" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="tipovi.html#cb21-7" tabindex="-1"></a><span class="co"># calculate the &quot;square of 17&quot; and &quot;the remainder of 101 divided by 12&quot; </span></span>
+<span id="cb21-8"><a href="tipovi.html#cb21-8" tabindex="-1"></a><span class="dv">17</span> <span class="sc">^</span> <span class="dv">2</span></span>
+<span id="cb21-9"><a href="tipovi.html#cb21-9" tabindex="-1"></a><span class="dv">101</span> <span class="sc">%%</span> <span class="dv">12</span></span>
+<span id="cb21-10"><a href="tipovi.html#cb21-10" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="tipovi.html#cb21-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;-----------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb21-12"><a href="tipovi.html#cb21-12" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="tipovi.html#cb21-13" tabindex="-1"></a><span class="co"># check what is the result of the following expressions: `17 &gt; 13`,`!TRUE`, `5 &amp;&amp; 0`,`0. || 2`</span></span>
+<span id="cb21-14"><a href="tipovi.html#cb21-14" tabindex="-1"></a><span class="dv">17</span><span class="sc">&gt;</span> <span class="dv">13</span></span>
+<span id="cb21-15"><a href="tipovi.html#cb21-15" tabindex="-1"></a><span class="sc">!</span> <span class="cn">TRUE</span></span>
+<span id="cb21-16"><a href="tipovi.html#cb21-16" tabindex="-1"></a><span class="dv">5</span> <span class="sc">&amp;&amp;</span> <span class="dv">0</span></span>
+<span id="cb21-17"><a href="tipovi.html#cb21-17" tabindex="-1"></a><span class="fl">0.</span> <span class="sc">||</span> <span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 2.5
+## [1] 2
+## -----------
+## [1] 289
+## [1] 5
+## -----------
+## [1] TRUE
+## [1] FALSE
+## [1] FALSE
+## [1] TRUE</code></pre>
+</div>
+<hr />
+<p>Logical values and comparison operators will most commonly be used with the conditional expressions, better known as “if-else” commands. In R, the syntax of such commands looks like this:</p>
+<p><code>if (expression) {block} else {block}</code></p>
+<p>Let’s try this on the following task:</p>
+<hr />
+<p><strong>Exercise 2.6 - conditional expressions</strong></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="tipovi.html#cb23-1" tabindex="-1"></a><span class="co"># Write a command that performs the following:</span></span>
+<span id="cb23-2"><a href="tipovi.html#cb23-2" tabindex="-1"></a><span class="co"># &quot;if 100 is an even number print &#39;Success!&#39;&quot;</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="tipovi.html#cb24-1" tabindex="-1"></a><span class="co"># Write a command that performs the following:</span></span>
+<span id="cb24-2"><a href="tipovi.html#cb24-2" tabindex="-1"></a><span class="co"># &quot;if 100 is an even number print &#39;Success!&#39;&quot;</span></span>
+<span id="cb24-3"><a href="tipovi.html#cb24-3" tabindex="-1"></a><span class="cf">if</span> (<span class="dv">100</span> <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">print</span>(<span class="st">&quot;Success!&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Success!&quot;</code></pre>
+</div>
+<hr />
+<p>We have noted above that we have two types of logical operators for “and” and “or”. We will explain the difference later, for now it is enough to know that instructions that control the program flow exclusively use the “C++”-like operators <code>&amp;&amp;</code> i <code>||</code>.</p>
+<p>Before, we have already mentioned that R offers two assignment operators, <code>&lt;-</code> and <code>=</code>. There are some minor differences, but those mostly pertain on using these operators in other contexts - when used purely for assigning a result of an expression to a new variable, their functionality is almost identical. In the literature, both versions can be seen for assigning values, but we will primarily and consistently use <code>&lt;-</code>, if nothing than because that way the code is visually more distinctive from code from the other programming languages.</p>
+<p><em>NOTE: an easy way to type in the <code>&lt;-</code> operator is to press the keys <code>ALT</code> and <code>-</code></em></p>
+<p>The operands in the expression that uses the assignment operator are called the “lvalue” (<em>left value</em>) and “rvalue” (<em>right value</em>), respectively. <em>Rvalue</em> is an expression that needs to be calculated, while the left (<em>lvalue</em>) is interpreted as “the place where the result of the expression on the right will be stored”. This means that examples like this</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="tipovi.html#cb26-1" tabindex="-1"></a>x <span class="sc">+</span> <span class="dv">1</span> <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># error !!!]</span></span></code></pre></div>
+<p>do not work - it is not unambiguous what is being stored where.</p>
+<p>Therefore, as a rule, the <em>lvalue</em> is most commonly a (new or existing) variable, though in some occasions we will actually be seeing a function call. This may appear confusing, but there is a perfectly intuitive explanation for this which we will bring later.</p>
+<hr />
+<p>Naming the variables mostly follows the rules from other programming languages, with some slight peculiarities - we can use letters, numbers, underscores and dots (the dot <code>.</code> is treated like a regular character!). The first symbol <strong>must be a letter or a dot</strong>.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="tipovi.html#cb27-1" tabindex="-1"></a>.myVarijable <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co">#OK</span></span>
+<span id="cb27-2"><a href="tipovi.html#cb27-2" tabindex="-1"></a>my.Variable <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co">#OK</span></span>
+<span id="cb27-3"><a href="tipovi.html#cb27-3" tabindex="-1"></a>_myVariable <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># not OK</span></span>
+<span id="cb27-4"><a href="tipovi.html#cb27-4" tabindex="-1"></a><span class="dv">123</span>Variable <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># not OK</span></span></code></pre></div>
+<p>If we use variable names which consist of multiple words, it is customary tp pick one of the following conventions:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="tipovi.html#cb28-1" tabindex="-1"></a>myVariable <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co">#  camelcase</span></span>
+<span id="cb28-2"><a href="tipovi.html#cb28-2" tabindex="-1"></a>my_Variable <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># underscore seperation or</span></span>
+<span id="cb28-3"><a href="tipovi.html#cb28-3" tabindex="-1"></a>my.variable <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># point separation</span></span></code></pre></div>
+<p>Sticking consistently to one of these choice will result in a nicer, more readable code.</p>
+<p>R also allows a way to go around the variable-naming conventions, and to use any printable character in a variable name. If we want to use this functionality, we then must put this name inside “backticks”:</p>
+<hr />
+<p><strong>Exercise 2.7 - variable name with special characters</strong></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="tipovi.html#cb29-1" tabindex="-1"></a><span class="co"># Enter an arbitrary name with special characters inside the left apostrophes</span></span>
+<span id="cb29-2"><a href="tipovi.html#cb29-2" tabindex="-1"></a><span class="co"># and print the value of the variable</span></span>
+<span id="cb29-3"><a href="tipovi.html#cb29-3" tabindex="-1"></a><span class="co"># `` &lt;- 2</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="tipovi.html#cb30-1" tabindex="-1"></a><span class="co"># Enter an arbitrary name with special characters inside the left apostrophes</span></span>
+<span id="cb30-2"><a href="tipovi.html#cb30-2" tabindex="-1"></a><span class="co"># and print the value of the variable</span></span>
+<span id="cb30-3"><a href="tipovi.html#cb30-3" tabindex="-1"></a><span class="co"># `` &lt;- 2</span></span>
+<span id="cb30-4"><a href="tipovi.html#cb30-4" tabindex="-1"></a><span class="st">`</span><span class="at">!% ^$*@ __ =</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb30-5"><a href="tipovi.html#cb30-5" tabindex="-1"></a><span class="st">`</span><span class="at">!% ^$*@ __ =</span><span class="st">`</span></span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+</div>
+<p>This way of naming variables is not too useful in practice, but it has its purpose - since the operators in R are actually functions (whose names are literally <code>+</code>, <code>^</code> etc.), by using left backticks we can directly reference them in their original form, which can be very practical in the so-called functional programming (which we will talk about in one of the future lessons).</p>
+<hr />
+<p>Assigning values to new variable names results in creation of new variables in the working environment (called the “global environment”). All variables we have created so far can be seen with the <code>ls()</code> function. If we want to delete some variables, we just provide their names in the call function <code>rm()</code>, without quotation marks (e.g. <code>rm (x, y, z)</code>). To delete <em>all</em> variables from the working environment, we can use the call <code>rm(list=ls())</code>, but this should be done with caution (there’s no “undo”!).</p>
+<hr />
+<p><strong>Exercise 2.8 - printing and deleting global environment variables</strong></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="tipovi.html#cb32-1" tabindex="-1"></a><span class="co"># print all of the global environment variables that have been created so far</span></span>
+<span id="cb32-2"><a href="tipovi.html#cb32-2" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="tipovi.html#cb32-3" tabindex="-1"></a><span class="co"># delete some of the above variables - eg rm(x, y, z)</span></span>
+<span id="cb32-4"><a href="tipovi.html#cb32-4" tabindex="-1"></a><span class="co"># list all remaining variables</span></span>
+<span id="cb32-5"><a href="tipovi.html#cb32-5" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="tipovi.html#cb32-6" tabindex="-1"></a><span class="co"># delete ALL variables from the global environment</span></span>
+<span id="cb32-7"><a href="tipovi.html#cb32-7" tabindex="-1"></a><span class="co"># (cautiously with this call in practice!)</span></span>
+<span id="cb32-8"><a href="tipovi.html#cb32-8" tabindex="-1"></a><span class="co"># Make sure the global environment is empty</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="tipovi.html#cb33-1" tabindex="-1"></a><span class="co"># print all of the global environment variables that have been created so far</span></span>
+<span id="cb33-2"><a href="tipovi.html#cb33-2" tabindex="-1"></a><span class="fu">ls</span>()</span>
+<span id="cb33-3"><a href="tipovi.html#cb33-3" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="tipovi.html#cb33-4" tabindex="-1"></a><span class="co"># delete some of the above-written variables - eg rm(x, y, z)</span></span>
+<span id="cb33-5"><a href="tipovi.html#cb33-5" tabindex="-1"></a><span class="co"># list all remaining variables</span></span>
+<span id="cb33-6"><a href="tipovi.html#cb33-6" tabindex="-1"></a><span class="fu">rm</span>(x, y)</span>
+<span id="cb33-7"><a href="tipovi.html#cb33-7" tabindex="-1"></a><span class="fu">ls</span>()</span>
+<span id="cb33-8"><a href="tipovi.html#cb33-8" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="tipovi.html#cb33-9" tabindex="-1"></a><span class="co"># delete ALL variables from the global environment</span></span>
+<span id="cb33-10"><a href="tipovi.html#cb33-10" tabindex="-1"></a><span class="co"># (cautiously with this call in practice!)</span></span>
+<span id="cb33-11"><a href="tipovi.html#cb33-11" tabindex="-1"></a><span class="co"># Make sure the global environment is empty</span></span>
+<span id="cb33-12"><a href="tipovi.html#cb33-12" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb33-13"><a href="tipovi.html#cb33-13" tabindex="-1"></a><span class="fu">ls</span>()</span></code></pre></div>
+</div>
+<hr />
+<p>Finally, whenever we need help with some function, we have the following options available:</p>
+<ul>
+<li>write only <code>&lt;function_name&gt;</code> (without parenthesis with parameters) and press <em><ENTER></em> - if the function is written in <em>R</em> (and not just <em>proxy</em> to a C implementation) the screen will print the original source code of the function</li>
+<li>Write <code>help(&lt;function_name&gt;)</code> or <code>?&lt;function_name&gt;</code> to get a documentation page with the list of parameters, examples, and so on.</li>
+<li>Write <code>example(&lt;function_name&gt;)</code> where we get a list of examples of using said function</li>
+</ul>
+<p>The following code chunk shows how to use the above methods (to save space, we will not show the result, but feel free to try out these commands in the console).</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="tipovi.html#cb34-1" tabindex="-1"></a><span class="co">#program code for `ls` function</span></span>
+<span id="cb34-2"><a href="tipovi.html#cb34-2" tabindex="-1"></a>ls</span>
+<span id="cb34-3"><a href="tipovi.html#cb34-3" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="tipovi.html#cb34-4" tabindex="-1"></a><span class="co"># help for `ls` function</span></span>
+<span id="cb34-5"><a href="tipovi.html#cb34-5" tabindex="-1"></a>?ls <span class="co"># or help(ls)</span></span>
+<span id="cb34-6"><a href="tipovi.html#cb34-6" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="tipovi.html#cb34-7" tabindex="-1"></a><span class="co"># examples of using the `ls` function</span></span>
+<span id="cb34-8"><a href="tipovi.html#cb34-8" tabindex="-1"></a><span class="fu">example</span>(ls)</span></code></pre></div>
+<hr />
+</div>
+<div id="missing-unknown-and-non-existent-values" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Missing, unknown, and non-existent values<a href="tipovi.html#missing-unknown-and-non-existent-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In R there are three ways of modeling “non-existent” values:</p>
+<ul>
+<li><code>NA</code> - (<em>not available</em>) - for missing or unknown values of a particular type</li>
+<li><code>NaN</code> - (<em>not a number</em>) - “impossible” number, e.g. <code>0 / 0</code></li>
+<li><code>NULL</code> - non-existent value, literally “nothing”</li>
+</ul>
+<p><code>NaN</code> is a subclass of <code>NA</code>. The difference between <code>NA</code> and <code>NULL</code> is subtle, but important. <code>NA</code> means that the value is possibly there, we just don’t know what it is. <code>NA</code> values still have a type, so an unknown numeric value is still numeric. <code>NULL</code> on the other hand is a placeholder for “nothing” - it is its own class, and it denotes that whatever we are referencing is empty.</p>
+<p>One important note for <em>SQL</em> users - what is <code>NULL</code> in SQL is <code>NA</code> in R. Do not be mixing SQL’s <code>NULL</code> and R’s <code>NULL</code>, since they are usually completely different things!</p>
+<hr />
+<p><strong>Exercise 2.9 - working with NA, NaN and NULL</strong></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="tipovi.html#cb35-1" tabindex="-1"></a><span class="co"># how much is &quot;5 + unknown number&quot; </span></span>
+<span id="cb35-2"><a href="tipovi.html#cb35-2" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="tipovi.html#cb35-3" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="tipovi.html#cb35-4" tabindex="-1"></a><span class="co"># how much is &quot;5 + non-existent number&quot; </span></span>
+<span id="cb35-5"><a href="tipovi.html#cb35-5" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="tipovi.html#cb35-6" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="tipovi.html#cb35-7" tabindex="-1"></a><span class="co"># check classes of the following:</span></span>
+<span id="cb35-8"><a href="tipovi.html#cb35-8" tabindex="-1"></a>   <span class="co"># NA</span></span>
+<span id="cb35-9"><a href="tipovi.html#cb35-9" tabindex="-1"></a>   <span class="co"># arithmetic operation between numeric and NA</span></span>
+<span id="cb35-10"><a href="tipovi.html#cb35-10" tabindex="-1"></a>   <span class="co"># NaN</span></span>
+<span id="cb35-11"><a href="tipovi.html#cb35-11" tabindex="-1"></a>   <span class="co"># NULL</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="tipovi.html#cb36-1" tabindex="-1"></a><span class="co"># how much is &quot;5 + unknown number&quot; </span></span>
+<span id="cb36-2"><a href="tipovi.html#cb36-2" tabindex="-1"></a><span class="dv">5</span> <span class="sc">+</span> <span class="cn">NaN</span></span>
+<span id="cb36-3"><a href="tipovi.html#cb36-3" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="tipovi.html#cb36-4" tabindex="-1"></a><span class="co"># how much is &quot;5 + non-existent number&quot; </span></span>
+<span id="cb36-5"><a href="tipovi.html#cb36-5" tabindex="-1"></a><span class="dv">5</span> <span class="sc">+</span> <span class="cn">NA</span></span>
+<span id="cb36-6"><a href="tipovi.html#cb36-6" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="tipovi.html#cb36-7" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;-----------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb36-8"><a href="tipovi.html#cb36-8" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="tipovi.html#cb36-9" tabindex="-1"></a><span class="co"># check classes of the following:</span></span>
+<span id="cb36-10"><a href="tipovi.html#cb36-10" tabindex="-1"></a>   <span class="co"># NA</span></span>
+<span id="cb36-11"><a href="tipovi.html#cb36-11" tabindex="-1"></a>   <span class="co"># arithmetic operation between numeric and NA</span></span>
+<span id="cb36-12"><a href="tipovi.html#cb36-12" tabindex="-1"></a>   <span class="co"># NaN</span></span>
+<span id="cb36-13"><a href="tipovi.html#cb36-13" tabindex="-1"></a>   <span class="co"># NULL</span></span>
+<span id="cb36-14"><a href="tipovi.html#cb36-14" tabindex="-1"></a><span class="fu">class</span>(<span class="cn">NA</span>) <span class="co"># logical type is &quot;weakest&quot;!</span></span>
+<span id="cb36-15"><a href="tipovi.html#cb36-15" tabindex="-1"></a><span class="fu">class</span>(<span class="dv">5</span> <span class="sc">+</span> <span class="cn">NA</span>)</span>
+<span id="cb36-16"><a href="tipovi.html#cb36-16" tabindex="-1"></a><span class="fu">class</span>(<span class="cn">NaN</span>)</span>
+<span id="cb36-17"><a href="tipovi.html#cb36-17" tabindex="-1"></a><span class="fu">class</span>(<span class="cn">NULL</span>)</span></code></pre></div>
+<pre><code>## [1] NaN
+## [1] NA
+## -----------
+## [1] &quot;logical&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;numeric&quot;
+## [1] &quot;NULL&quot;</code></pre>
+</div>
+<hr />
+<p>Checking missing values is similar to checking data types - we use the <code>is.na</code>,<code>is.nan</code> and <code>is.null</code> functions.</p>
+<hr />
+<p><strong>Exercise 2.10 - check NA, NaN and NULL </strong></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="tipovi.html#cb38-1" tabindex="-1"></a><span class="co"># which of the following is NA?   NA, NaN, NULL, &quot;&quot;, 0</span></span>
+<span id="cb38-2"><a href="tipovi.html#cb38-2" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="tipovi.html#cb38-3" tabindex="-1"></a><span class="co"># which of the following is NaN?   NA, NaN, NULL</span></span>
+<span id="cb38-4"><a href="tipovi.html#cb38-4" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="tipovi.html#cb38-5" tabindex="-1"></a><span class="co"># which of the following is NULL?   NA, NaN, NULL</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="tipovi.html#cb39-1" tabindex="-1"></a><span class="co"># which of the following is NA?   NA, NaN, NULL, &quot;&quot;, 0</span></span>
+<span id="cb39-2"><a href="tipovi.html#cb39-2" tabindex="-1"></a><span class="fu">is.na</span>(<span class="cn">NA</span>)</span>
+<span id="cb39-3"><a href="tipovi.html#cb39-3" tabindex="-1"></a><span class="fu">is.na</span>(<span class="cn">NaN</span>)</span>
+<span id="cb39-4"><a href="tipovi.html#cb39-4" tabindex="-1"></a><span class="fu">is.na</span>(<span class="cn">NULL</span>)</span>
+<span id="cb39-5"><a href="tipovi.html#cb39-5" tabindex="-1"></a><span class="fu">is.na</span>(<span class="st">&quot;&quot;</span>)</span>
+<span id="cb39-6"><a href="tipovi.html#cb39-6" tabindex="-1"></a><span class="fu">is.na</span>(<span class="dv">0</span>)</span>
+<span id="cb39-7"><a href="tipovi.html#cb39-7" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="tipovi.html#cb39-8" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;-----------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb39-9"><a href="tipovi.html#cb39-9" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="tipovi.html#cb39-10" tabindex="-1"></a><span class="co"># which of the following is NaN?   NA, NaN, NULL</span></span>
+<span id="cb39-11"><a href="tipovi.html#cb39-11" tabindex="-1"></a><span class="fu">is.nan</span>(<span class="cn">NA</span>)</span>
+<span id="cb39-12"><a href="tipovi.html#cb39-12" tabindex="-1"></a><span class="fu">is.nan</span>(<span class="cn">NaN</span>)</span>
+<span id="cb39-13"><a href="tipovi.html#cb39-13" tabindex="-1"></a><span class="fu">is.nan</span>(<span class="cn">NULL</span>)</span>
+<span id="cb39-14"><a href="tipovi.html#cb39-14" tabindex="-1"></a></span>
+<span id="cb39-15"><a href="tipovi.html#cb39-15" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;-----------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb39-16"><a href="tipovi.html#cb39-16" tabindex="-1"></a></span>
+<span id="cb39-17"><a href="tipovi.html#cb39-17" tabindex="-1"></a><span class="co"># which of the following is NULL?   NA, NaN, NULL</span></span>
+<span id="cb39-18"><a href="tipovi.html#cb39-18" tabindex="-1"></a><span class="fu">is.null</span>(<span class="cn">NA</span>)</span>
+<span id="cb39-19"><a href="tipovi.html#cb39-19" tabindex="-1"></a><span class="fu">is.null</span>(<span class="cn">NaN</span>)</span>
+<span id="cb39-20"><a href="tipovi.html#cb39-20" tabindex="-1"></a><span class="fu">is.null</span>(<span class="cn">NULL</span>)</span></code></pre></div>
+<pre><code>## [1] TRUE
+## [1] TRUE
+## logical(0)
+## [1] FALSE
+## [1] FALSE
+## -----------
+## [1] FALSE
+## [1] TRUE
+## logical(0)
+## -----------
+## [1] FALSE
+## [1] FALSE
+## [1] TRUE</code></pre>
+</div>
+<hr />
+<p>To end, we dedicate some room to a discussion of the <code>NA</code> value, since we will often encounter it in practice. Simply put, if the <code>NA</code> values appear, we can expect the following side effects:</p>
+<ul>
+<li>results of arithmetic expressions which contain <code>NA</code> as operands will result in <code>NA</code> values</li>
+<li>the results function calls which get <code>NA</code> as parameters can result with <code>NA</code> (but sometimes there is an option to use the parameter <code>na.rm = T</code> which actually means ‘ignore <code>NA</code> values’)</li>
+<li>logical expressions which contain <code>NA</code> may or may not necessarily result in a <code>NA</code> value, depending on whether the term depends on <code>NA</code> or not (eg <code>TRUE || NA</code> has the result of <code>TRUE</code>, but <code>FALSE || NA</code> has the result <code>NA</code>)</li>
+</ul>
+<p>With this last one, we must be especially careful as the NA in the conditional term results in a mistake:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="tipovi.html#cb41-1" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">NA</span> <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="fu">print</span> (<span class="st">&quot;Success!&quot;</span>) <span class="co"># error !!</span></span></code></pre></div>
+<p>In this lesson we have learned the basic elements of the language R. However, in practice, we much more often work with complex data types - vectors, matrices, data frames and lists - which are the subject of the following lesson.</p>
+<hr />
+</div>
+<div id="homework-exercises" class="section level2 unnumbered hasAnchor">
+<h2>Homework exercises<a href="tipovi.html#homework-exercises" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ol style="list-style-type: decimal">
+<li>What is the result of the following commands? Try to predict the result before executing each command.</li>
+</ol>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="tipovi.html#cb42-1" tabindex="-1"></a><span class="fu">as.complex</span>(<span class="dv">2</span>)</span>
+<span id="cb42-2"><a href="tipovi.html#cb42-2" tabindex="-1"></a><span class="fu">as.integer</span>(<span class="sc">-</span><span class="fl">3.25</span>)</span>
+<span id="cb42-3"><a href="tipovi.html#cb42-3" tabindex="-1"></a><span class="fu">as.logical</span>(<span class="st">&quot;0&quot;</span>)</span>
+<span id="cb42-4"><a href="tipovi.html#cb42-4" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="cn">TRUE</span>)</span>
+<span id="cb42-5"><a href="tipovi.html#cb42-5" tabindex="-1"></a><span class="fu">as.character</span>(<span class="fl">11.5</span> <span class="sc">+</span> <span class="dv">2</span><span class="dt">i</span>)</span>
+<span id="cb42-6"><a href="tipovi.html#cb42-6" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="st">&quot;ABC&quot;</span>)</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>How do the following expressions look like in R:</li>
+</ol>
+<ul>
+<li>“ten to the power of nine multiplied by 3”</li>
+<li>“natural logarithm of 5”</li>
+<li>“integer division of 10 by 3”</li>
+<li>“the remainder of integer division of 10 by 3”</li>
+<li>“tangent of 75 degrees”</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li><p>R has a special constant for “infinity”. Try to find what it is by using an arithmetic expression. Then, by using <code>if</code>, check whether reducing “infinity” from “infinity” results in a <code>NaN</code> value.</p></li>
+<li><p>Store <code>NULL</code> in a variable called <code>x</code>. Then try to convert this variable into a numeric type. Explain what you think has happened (full explanation will be given in the following chapter).</p></li>
+</ol>
+<hr />
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"> <img alt = "Creative Commons License" style = "border-width: 0" src = "https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /> </a> <br /> <span xmlns: dct = "http://purl.org/ dc / terms / "property =" dct: title "> Program in Ru &lt;/ span&gt; by <a xmlns: cc =" http://creativecommons.org/ns# "href =" https: //www.fer. unizg.hr/en/damir.pintar "property =" cc: attributionName "rel =" cc: attributionURL "> Damir Pintar </a> is licensed under <a rel =" license "href =" http: // creativecommons .org / licenses / by-nc-nd / 4.0 / "> Creative Commons Attribution-NonCommercial-NoDerivative 4.0 International License </a> <br /> Based on a work at <a xmlns: dct =" http: // purl.org/dc/terms/ "href =" https://ratnip.github.io/FER_OPJR/ "rel =" dct: source "> https://ratnip.github.io/FER_OPJR/ </a></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="vektori.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed",
+"edit": null,
+"download": null,
+"search": true
+}
+});
+});
+</script>
+
+</body>
+
+</html>
