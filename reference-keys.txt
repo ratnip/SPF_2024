@@ -29,3 +29,9 @@ label-based-indexing
 matrices-and-arrays
 matrix-slicing
 lists
+okviri
+data-frames
+selecting-rows-and-columns
+adding-and-deleting-rows-and-columns
+factors
+example-4.1---mishandling-factorization
