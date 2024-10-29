@@ -35,3 +35,15 @@ selecting-rows-and-columns
 adding-and-deleting-rows-and-columns
 factors
 example-4.1---mishandling-factorization
+control
+flow-control-commands
+conditional-execution
+loops
+therepeat-loop
+example-5.1---the-repeat-loop
+the-while-loop
+the-for-loop
+packages
+working-with-packages
+built-in-functions
+environments

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Conditional statements and programming loops | Let’s program in R</title>
+  <meta name="description" content="R Coursebook" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Conditional statements and programming loops | Let’s program in R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="R Coursebook" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Conditional statements and programming loops | Let’s program in R" />
+  
+  <meta name="twitter:description" content="R Coursebook" />
+  
+
+<meta name="author" content="Damir Pintar" />
+
+
+<meta name="date" content="2024-10-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="okviri.html"/>
+<link rel="next" href="packages.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<style type="text/css">
+.showopt {
+  background-color: #004c93;
+  color: #FFFFFF; 
+  width: 140px;
+  height: 4	0px;
+  text-align: center;
+  vertical-align: middle !important;
+  float: right;
+  font-family: sans-serif;
+  font-size:10 pt;
+  border-radius: 8px;
+}
+
+.showopt:hover {
+    background-color: #dfe4f2;
+    color: #004c93;
+}
+
+pre.plot {
+  background-color: white !important;
+}
+</style>
+
+<script>
+ $(document).ready(function() {
+
+  $chunks = $('.fold');
+
+  $chunks.each(function () {
+
+    // add button to source code chunks
+    if ( $(this).hasClass('s') ) {
+      $('pre.r', this).prepend("<div class=\"showopt\">Show solution</div><br style=\"line-height:22px;\"/>");
+      $('pre.r', this).children('code').attr('class', 'folded');
+    }
+
+    // add button to output chunks
+    if ( $(this).hasClass('o') ) {
+      $('pre:not(.r)', this).has('code').prepend("<div class=\"showopt\">Show results</div><br style=\"line-height:22px;\"/>");
+      $('pre:not(.r)', this).children('code:not(r)').addClass('folded');
+
+      // add button to plots
+      $(this).find('img').wrap('<pre class=\"plot\"></pre>');
+      $('pre.plot', this).prepend("<div class=\"showopt\">Show figure</div><br style=\"line-height:22px;\"/>");
+      $('pre.plot', this).children('img').addClass('folded');
+
+    }
+  });
+
+  // hide all chunks when document is loaded
+  $('.folded').css('display', 'none')
+
+  // function to toggle the visibility
+  $('.showopt').click(function() {
+    var label = $(this).html();
+    if (label.indexOf("Show") >= 0) {
+      $(this).html(label.replace("Show", "Hide"));
+    } else {
+      $(this).html(label.replace("Hide", "Show"));
+    }
+    $(this).siblings('code, img').slideToggle('fast', 'swing');
+  });
+});
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>(“Statistical Programming Fundamentals” course book)</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#foreword"><i class="fa fa-check"></i>Foreword</a></li>
+</ul></li>
+<li class="part"><span><b>I Basic elements of R</b></span></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction.html"><a href="introduction.html#general-facts-about-r"><i class="fa fa-check"></i><b>1.1.1</b> General facts about R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction.html"><a href="introduction.html#r-alternatives"><i class="fa fa-check"></i><b>1.1.2</b> R alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#installing-software-support"><i class="fa fa-check"></i><b>1.2</b> Installing Software Support</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#overview-of-the-development-interface-rstudio"><i class="fa fa-check"></i><b>1.3</b> Overview of the development interface <em>RStudio</em></a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="introduction.html"><a href="introduction.html#interactive-console"><i class="fa fa-check"></i><b>1.3.1</b> Interactive console</a></li>
+<li class="chapter" data-level="1.3.2" data-path="introduction.html"><a href="introduction.html#writing-r-scripts"><i class="fa fa-check"></i><b>1.3.2</b> Writing R scripts</a></li>
+<li class="chapter" data-level="1.3.3" data-path="introduction.html"><a href="introduction.html#r-markdown"><i class="fa fa-check"></i><b>1.3.3</b> <em>R Markdown</em></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#how-to-use-this-coursebook"><i class="fa fa-check"></i><b>1.4</b> How to use this coursebook?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tipovi.html"><a href="tipovi.html"><i class="fa fa-check"></i><b>2</b> Basic data types and operators</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tipovi.html"><a href="tipovi.html#basic-data-types"><i class="fa fa-check"></i><b>2.1</b> Basic data types</a></li>
+<li class="chapter" data-level="2.2" data-path="tipovi.html"><a href="tipovi.html#operators"><i class="fa fa-check"></i><b>2.2</b> Operators</a></li>
+<li class="chapter" data-level="2.3" data-path="tipovi.html"><a href="tipovi.html#missing-unknown-and-non-existent-values"><i class="fa fa-check"></i><b>2.3</b> Missing, unknown, and non-existent values</a></li>
+<li class="chapter" data-level="" data-path="tipovi.html"><a href="tipovi.html#homework-exercises"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="vektori.html"><a href="vektori.html"><i class="fa fa-check"></i><b>3</b> Vectors, matrices and lists</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="vektori.html"><a href="vektori.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="vektori.html"><a href="vektori.html#creating-a-vector"><i class="fa fa-check"></i><b>3.1.1</b> Creating a vector</a></li>
+<li class="chapter" data-level="3.1.2" data-path="vektori.html"><a href="vektori.html#vector-concatenation"><i class="fa fa-check"></i><b>3.1.2</b> Vector concatenation</a></li>
+<li class="chapter" data-level="3.1.3" data-path="vektori.html"><a href="vektori.html#operator"><i class="fa fa-check"></i><b>3.1.3</b> Operator <code>[</code></a></li>
+<li class="chapter" data-level="3.1.4" data-path="vektori.html"><a href="vektori.html#principles-of-vectorization-and-recycling"><i class="fa fa-check"></i><b>3.1.4</b> Principles of vectorization and recycling</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="vektori.html"><a href="vektori.html#index-vectors"><i class="fa fa-check"></i><b>3.2</b> Index vectors</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="vektori.html"><a href="vektori.html#positional-indexing"><i class="fa fa-check"></i><b>3.2.1</b> Positional Indexing</a></li>
+<li class="chapter" data-level="3.2.2" data-path="vektori.html"><a href="vektori.html#conditional-indexing"><i class="fa fa-check"></i><b>3.2.2</b> Conditional indexing</a></li>
+<li class="chapter" data-level="3.2.3" data-path="vektori.html"><a href="vektori.html#label-based-indexing"><i class="fa fa-check"></i><b>3.2.3</b> Label-based indexing</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="vektori.html"><a href="vektori.html#matrices-and-arrays"><i class="fa fa-check"></i><b>3.3</b> Matrices and arrays</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="vektori.html"><a href="vektori.html#matrix-slicing"><i class="fa fa-check"></i><b>3.3.1</b> Matrix slicing</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="vektori.html"><a href="vektori.html#lists"><i class="fa fa-check"></i><b>3.4</b> Lists</a></li>
+<li class="chapter" data-level="" data-path="vektori.html"><a href="vektori.html#homework-exercises-1"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="okviri.html"><a href="okviri.html"><i class="fa fa-check"></i><b>4</b> Data frames and factors</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="okviri.html"><a href="okviri.html#data-frames"><i class="fa fa-check"></i><b>4.1</b> Data frames</a></li>
+<li class="chapter" data-level="4.2" data-path="okviri.html"><a href="okviri.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>4.2</b> Selecting rows and columns</a></li>
+<li class="chapter" data-level="4.3" data-path="okviri.html"><a href="okviri.html#adding-and-deleting-rows-and-columns"><i class="fa fa-check"></i><b>4.3</b> Adding and deleting rows and columns</a></li>
+<li class="chapter" data-level="4.4" data-path="okviri.html"><a href="okviri.html#factors"><i class="fa fa-check"></i><b>4.4</b> Factors</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="okviri.html"><a href="okviri.html#example-4.1---mishandling-factorization"><i class="fa fa-check"></i><b>4.4.1</b> Example 4.1 - mishandling factorization</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="okviri.html"><a href="okviri.html#homework-exercises-2"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="control.html"><a href="control.html"><i class="fa fa-check"></i><b>5</b> Conditional statements and programming loops</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="control.html"><a href="control.html#flow-control-commands"><i class="fa fa-check"></i><b>5.1</b> Flow control commands</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="control.html"><a href="control.html#conditional-execution"><i class="fa fa-check"></i><b>5.1.1</b> Conditional execution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="control.html"><a href="control.html#loops"><i class="fa fa-check"></i><b>5.2</b> Loops</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="control.html"><a href="control.html#therepeat-loop"><i class="fa fa-check"></i><b>5.2.1</b> The<code>repeat</code> loop</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="control.html"><a href="control.html#example-5.1---the-repeat-loop"><i class="fa fa-check"></i><b>5.3</b> Example 5.1 - the <code>repeat</code> loop</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="control.html"><a href="control.html#the-while-loop"><i class="fa fa-check"></i><b>5.3.1</b> The <code>while</code> loop</a></li>
+<li class="chapter" data-level="5.3.2" data-path="control.html"><a href="control.html#the-for-loop"><i class="fa fa-check"></i><b>5.3.2</b> The <code>for</code> loop</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="control.html"><a href="control.html#homework-exercises-3"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="packages.html"><a href="packages.html"><i class="fa fa-check"></i><b>6</b> Packages, built-in functions and environments</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="packages.html"><a href="packages.html#working-with-packages"><i class="fa fa-check"></i><b>6.1</b> Working with packages</a></li>
+<li class="chapter" data-level="6.2" data-path="packages.html"><a href="packages.html#built-in-functions"><i class="fa fa-check"></i><b>6.2</b> Built-in functions</a></li>
+<li class="chapter" data-level="6.3" data-path="packages.html"><a href="packages.html#environments"><i class="fa fa-check"></i><b>6.3</b> Environments</a></li>
+<li class="chapter" data-level="" data-path="packages.html"><a href="packages.html#homework-exercises-4"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Let’s program in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="control" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> Conditional statements and programming loops<a href="control.html#control" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<hr />
+<div id="flow-control-commands" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Flow control commands<a href="control.html#flow-control-commands" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Under flow control commands we mostly refer to programming constructs which allow for conditional execution as well as so-called “looping”, where the segment of the program will be continually executed until (optionally!) certain conditions are fulfilled and the loop is exited.</p>
+<p>We will first remind ourselves how to do conditional execution in R.</p>
+<div id="conditional-execution" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Conditional execution<a href="control.html#conditional-execution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For conditional execution we use the<code>if-then</code> block, a construct used in almost every programming language:</p>
+<p><code>if (condition) {block} else {block}</code></p>
+<p>This command is pretty straightforward. If <code>condition</code> resolves to <code>TRUE</code> the first block will be executed, second block otherwise. We use <code>{</code> and <code>}</code> brackets to denote the start and end of block respectively, and we can do away with them completely if only one instruction is included in the block.</p>
+<p>Since we have already demonstrated the use of <code>if-then</code> command in Chapter 2, let’s instead show a common bug that may occur in R scripts that leverage this construct.</p>
+<p>Execute the following code and then try to correct the mistake.</p>
+<hr />
+<p><strong>Exercise 5.1 - <code>if</code> command</strong></p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="control.html#cb173-1" tabindex="-1"></a><span class="co"># execute the next conditional execution command</span></span>
+<span id="cb173-2"><a href="control.html#cb173-2" tabindex="-1"></a><span class="cf">if</span> (<span class="dv">2</span> <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="fu">print</span> (<span class="st">&quot;Success!&quot;</span>)</span>
+<span id="cb173-3"><a href="control.html#cb173-3" tabindex="-1"></a></span>
+<span id="cb173-4"><a href="control.html#cb173-4" tabindex="-1"></a></span>
+<span id="cb173-5"><a href="control.html#cb173-5" tabindex="-1"></a><span class="co"># find the error in the next `if-else` command and correct it</span></span>
+<span id="cb173-6"><a href="control.html#cb173-6" tabindex="-1"></a><span class="cf">if</span> (<span class="dv">1</span> <span class="sc">&gt;</span> <span class="dv">2</span>) <span class="fu">print</span> (<span class="st">&quot;Success!&quot;</span>)</span>
+<span id="cb173-7"><a href="control.html#cb173-7" tabindex="-1"></a><span class="cf">else</span> <span class="fu">print</span> (<span class="st">&quot;Fail!&quot;</span>)</span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="control.html#cb174-1" tabindex="-1"></a><span class="co"># execute the next conditional execution command</span></span>
+<span id="cb174-2"><a href="control.html#cb174-2" tabindex="-1"></a><span class="cf">if</span> (<span class="dv">2</span> <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="fu">print</span> (<span class="st">&quot;Success!&quot;</span>)</span>
+<span id="cb174-3"><a href="control.html#cb174-3" tabindex="-1"></a></span>
+<span id="cb174-4"><a href="control.html#cb174-4" tabindex="-1"></a></span>
+<span id="cb174-5"><a href="control.html#cb174-5" tabindex="-1"></a><span class="co"># find the error in the next `if-else` command and correct it</span></span>
+<span id="cb174-6"><a href="control.html#cb174-6" tabindex="-1"></a><span class="cf">if</span> (<span class="dv">1</span> <span class="sc">&gt;</span> <span class="dv">2</span>) {<span class="fu">print</span> (<span class="st">&quot;Success!&quot;</span>)</span>
+<span id="cb174-7"><a href="control.html#cb174-7" tabindex="-1"></a>  } <span class="cf">else</span> <span class="fu">print</span> (<span class="st">&quot;Failed!&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Success!&quot;
+## [1] &quot;Failed!&quot;</code></pre>
+</div>
+<hr />
+<p>The error occurs because R is an interpreting language that normally executes instructions row by row, and will only proceed to the next row before executing if the command is left “unfinished”. In the previous example, the second <code>if</code> command is actually completed in the first line, so R is “surprised” when the next line starts with <code>else</code>. In order to prevent this scenario, it is sufficient to indicate that the command has not yet been completed, which is most easily accomplished by opening the block in the first line and closing it in the line with <code>else</code>.</p>
+<p>R also has a vectorized version of conditional execution in the form of a function called, appropriately enough, <code>ifelse</code>. This one however does not control program flow itself, but rather performs conditional assignment based on the provided logical vector.</p>
+<hr />
+<p><strong>Exercise 5.2 - <code>ifelse</code> function</strong></p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="control.html#cb176-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb176-2"><a href="control.html#cb176-2" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb176-3"><a href="control.html#cb176-3" tabindex="-1"></a></span>
+<span id="cb176-4"><a href="control.html#cb176-4" tabindex="-1"></a><span class="co"># what does the vector `x` look like after executing the following command?</span></span>
+<span id="cb176-5"><a href="control.html#cb176-5" tabindex="-1"></a><span class="co"># try to predict the answer and then uncomment and check if you are correct</span></span>
+<span id="cb176-6"><a href="control.html#cb176-6" tabindex="-1"></a></span>
+<span id="cb176-7"><a href="control.html#cb176-7" tabindex="-1"></a><span class="co">#x &lt;- ifelse (a &lt; b, 2, 5)</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="control.html#cb177-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb177-2"><a href="control.html#cb177-2" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb177-3"><a href="control.html#cb177-3" tabindex="-1"></a></span>
+<span id="cb177-4"><a href="control.html#cb177-4" tabindex="-1"></a><span class="co"># what does the vector `x` look like after executing the following command?</span></span>
+<span id="cb177-5"><a href="control.html#cb177-5" tabindex="-1"></a><span class="co"># try to predict the answer and then uncomment an dcheck if you are correct</span></span>
+<span id="cb177-6"><a href="control.html#cb177-6" tabindex="-1"></a></span>
+<span id="cb177-7"><a href="control.html#cb177-7" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(a <span class="sc">&lt;</span> b, <span class="dv">2</span>, <span class="dv">5</span>)</span>
+<span id="cb177-8"><a href="control.html#cb177-8" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>## [1] 5 5 2</code></pre>
+</div>
+<p>This function is particularly suitable for creating new columns of data frames when we want a logical column derived from certain conditions related to the existing columns.</p>
+<hr />
+</div>
+</div>
+<div id="loops" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Loops<a href="control.html#loops" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Loop is a programming construct where depending on a condition a block of code gets repeated multiple times. In programming language R we have three loop variants, each using a different keyword:</p>
+<ul>
+<li><code>repeat</code> - conditionless, infinite loop</li>
+<li><code>while</code> - loop that checks condition before entering</li>
+<li><code>for</code> - an iterator loop (“loop with known number of repetitions”)</li>
+</ul>
+<div id="therepeat-loop" class="section level3 hasAnchor" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> The<code>repeat</code> loop<a href="control.html#therepeat-loop" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>repeat</code> is arguably the simplest type loop. It has the following syntax:</p>
+<p><code>repeat {block}</code></p>
+<p>This is an “infinite” loop where, once the block is completed, it gets re-executed again, and so on. The only way to exit this loop is to explicitly “break” out of it using the <code>break</code> command. In addition to <code>break</code>, we also have a <code>next</code> command that will skip the rest of the block, but will then go back to the beginning of the loop.</p>
+<p>Let’s see this loop in action in the following example.</p>
+</div>
+</div>
+<div id="example-5.1---the-repeat-loop" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Example 5.1 - the <code>repeat</code> loop<a href="control.html#example-5.1---the-repeat-loop" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="control.html#cb179-1" tabindex="-1"></a><span class="co"># answer the following questions before running the next block:</span></span>
+<span id="cb179-2"><a href="control.html#cb179-2" tabindex="-1"></a><span class="co"># - will the loop run indefinitely?</span></span>
+<span id="cb179-3"><a href="control.html#cb179-3" tabindex="-1"></a><span class="co"># - what will be printed on the screen?</span></span>
+<span id="cb179-4"><a href="control.html#cb179-4" tabindex="-1"></a></span>
+<span id="cb179-5"><a href="control.html#cb179-5" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb179-6"><a href="control.html#cb179-6" tabindex="-1"></a><span class="cf">repeat</span> {</span>
+<span id="cb179-7"><a href="control.html#cb179-7" tabindex="-1"></a>    i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb179-8"><a href="control.html#cb179-8" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="cf">next</span></span>
+<span id="cb179-9"><a href="control.html#cb179-9" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
+<span id="cb179-10"><a href="control.html#cb179-10" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="sc">&gt;</span> <span class="dv">10</span>) <span class="cf">break</span></span>
+<span id="cb179-11"><a href="control.html#cb179-11" tabindex="-1"></a>}</span></code></pre></div>
+<p>This type of loop is not used very frequently, mostly because it is usually more convenient to put the condition for exiting the loop in a more prominent place, which is exactly what the <code>while</code> loop does.</p>
+<div id="the-while-loop" class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> The <code>while</code> loop<a href="control.html#the-while-loop" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>while</code> loop uses a simple syntax which means “while the following condition is met, repeat the specified code”:</p>
+<p><code>while (condition) {block}</code></p>
+<p>The condition should evaluate to <code>TRUE</code> or <code>FALSE</code>, or something that can be implicitly converted to those values. We can also use <code>break</code> and <code>next</code> commands in the <code>while</code> loop; <code>break</code> will immediately exit the loop, and <code>next</code> will go back to checking the condition.</p>
+<p><strong>Exercise 5.3 - The <code>while</code> loop</strong></p>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="control.html#cb180-1" tabindex="-1"></a><span class="co"># add the looping condition so the loop</span></span>
+<span id="cb180-2"><a href="control.html#cb180-2" tabindex="-1"></a><span class="co"># prints something on screen exactly 7 times</span></span>
+<span id="cb180-3"><a href="control.html#cb180-3" tabindex="-1"></a></span>
+<span id="cb180-4"><a href="control.html#cb180-4" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb180-5"><a href="control.html#cb180-5" tabindex="-1"></a></span>
+<span id="cb180-6"><a href="control.html#cb180-6" tabindex="-1"></a><span class="cf">while</span> () {</span>
+<span id="cb180-7"><a href="control.html#cb180-7" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
+<span id="cb180-8"><a href="control.html#cb180-8" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb180-9"><a href="control.html#cb180-9" tabindex="-1"></a>}</span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="control.html#cb181-1" tabindex="-1"></a><span class="co"># add the looping condition so the loop</span></span>
+<span id="cb181-2"><a href="control.html#cb181-2" tabindex="-1"></a><span class="co"># prints something on screen exactly 7 times</span></span>
+<span id="cb181-3"><a href="control.html#cb181-3" tabindex="-1"></a></span>
+<span id="cb181-4"><a href="control.html#cb181-4" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb181-5"><a href="control.html#cb181-5" tabindex="-1"></a></span>
+<span id="cb181-6"><a href="control.html#cb181-6" tabindex="-1"></a><span class="cf">while</span> (i <span class="sc">&lt;=</span> <span class="dv">7</span>) {</span>
+<span id="cb181-7"><a href="control.html#cb181-7" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
+<span id="cb181-8"><a href="control.html#cb181-8" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb181-9"><a href="control.html#cb181-9" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5
+## [1] 6
+## [1] 7</code></pre>
+</div>
+<p>The <code>while</code> loop can also become an infinite loop if we enter the condition which never becomes <code>FALSE</code>, for example if we literally set <code>while(TRUE)</code>.</p>
+<p>Let’s try to use this loop in a slightly harder exercise.</p>
+<p><strong>Exercise 5.4 - The <code>while</code> loop (2)</strong></p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="control.html#cb183-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1234</span></span>
+<span id="cb183-2"><a href="control.html#cb183-2" tabindex="-1"></a>nbin <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">0</span>)</span>
+<span id="cb183-3"><a href="control.html#cb183-3" tabindex="-1"></a>  </span>
+<span id="cb183-4"><a href="control.html#cb183-4" tabindex="-1"></a><span class="co"># fill vector `nbin` with digits of `n` when turned into a binary form</span></span>
+<span id="cb183-5"><a href="control.html#cb183-5" tabindex="-1"></a><span class="co"># example: if `n` was 12, `nbin` should be c(1,1,0,0)</span></span>
+<span id="cb183-6"><a href="control.html#cb183-6" tabindex="-1"></a><span class="co"># use a `while` loop</span></span>
+<span id="cb183-7"><a href="control.html#cb183-7" tabindex="-1"></a><span class="co"># hint: a function called `rev` can be used to reverse the order of elements in a vector</span></span>
+<span id="cb183-8"><a href="control.html#cb183-8" tabindex="-1"></a><span class="co"># print resulting `nbin` on screen</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="control.html#cb184-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">682</span></span>
+<span id="cb184-2"><a href="control.html#cb184-2" tabindex="-1"></a>nbin <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">0</span>)</span>
+<span id="cb184-3"><a href="control.html#cb184-3" tabindex="-1"></a>  </span>
+<span id="cb184-4"><a href="control.html#cb184-4" tabindex="-1"></a><span class="co"># fill vector `nbin` with digits of `n` when turned into a binary form</span></span>
+<span id="cb184-5"><a href="control.html#cb184-5" tabindex="-1"></a><span class="co"># example: if `n` was 12, `nbin` should be c(1,1,0,0)</span></span>
+<span id="cb184-6"><a href="control.html#cb184-6" tabindex="-1"></a><span class="co"># use a `while` loop</span></span>
+<span id="cb184-7"><a href="control.html#cb184-7" tabindex="-1"></a><span class="co"># hint: a function called `rev` can be used to reverse the order of elements in a vector</span></span>
+<span id="cb184-8"><a href="control.html#cb184-8" tabindex="-1"></a><span class="co"># print resulting `nbin` on screen</span></span>
+<span id="cb184-9"><a href="control.html#cb184-9" tabindex="-1"></a></span>
+<span id="cb184-10"><a href="control.html#cb184-10" tabindex="-1"></a><span class="cf">while</span> (n <span class="sc">!=</span> <span class="dv">0</span>) {</span>
+<span id="cb184-11"><a href="control.html#cb184-11" tabindex="-1"></a>  nbin <span class="ot">&lt;-</span> <span class="fu">c</span>(nbin, n <span class="sc">%%</span> <span class="dv">2</span>)</span>
+<span id="cb184-12"><a href="control.html#cb184-12" tabindex="-1"></a>  n <span class="ot">&lt;-</span> n <span class="sc">%/%</span> <span class="dv">2</span></span>
+<span id="cb184-13"><a href="control.html#cb184-13" tabindex="-1"></a>}</span>
+<span id="cb184-14"><a href="control.html#cb184-14" tabindex="-1"></a></span>
+<span id="cb184-15"><a href="control.html#cb184-15" tabindex="-1"></a>nbin <span class="ot">&lt;-</span> <span class="fu">rev</span>(nbin)</span>
+<span id="cb184-16"><a href="control.html#cb184-16" tabindex="-1"></a>nbin</span></code></pre></div>
+<pre><code>##  [1] 1 0 1 0 1 0 1 0 1 0</code></pre>
+</div>
+</div>
+<div id="the-for-loop" class="section level3 hasAnchor" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> The <code>for</code> loop<a href="control.html#the-for-loop" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In programming languages <code>for</code> loop or “iterator loop” is most commonly used to traverse over a data structure (i.e. a vector) and process each element in turn, often ultimately packaging all the results in a new structure. The syntax for the <code>for</code> looks like this:</p>
+<p><code>for (i in v) {do something with i}</code></p>
+<p>In this expression <code>v</code> is a structure we are traversing over and <code>i</code> is a new variable which will be used to refer to the currently referenced element while inside the loop. Also, be careful not to mistake the keyword <code>in</code> with an operator <code>%in%</code> which you may recall is used for checking whether some element exists in a certain structure.</p>
+<p>Using the <code>for</code> loop this way will give us access to the contents of the element, but we will not be able to infer information about the original structure (for example if we want to change the element in place). There’s an alternative way of using the <code>for</code> loop where instead of iterating over elements themselves, we are iterating over integers we then use inside the loop for positional indexing:</p>
+<p><code>for (i in 1:length (a)) {do something with a[i]</code></p>
+<p>This way, while less elegant, is more flexible and often preferable.</p>
+<p><strong>Exercise 5.5 - <code>for</code> loop</strong></p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="control.html#cb186-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">4</span>)</span>
+<span id="cb186-2"><a href="control.html#cb186-2" tabindex="-1"></a></span>
+<span id="cb186-3"><a href="control.html#cb186-3" tabindex="-1"></a><span class="co"># print vector elements of `a` one by one</span></span>
+<span id="cb186-4"><a href="control.html#cb186-4" tabindex="-1"></a><span class="co"># with the help of `for` loop </span></span>
+<span id="cb186-5"><a href="control.html#cb186-5" tabindex="-1"></a><span class="co"># access the elements directly</span></span>
+<span id="cb186-6"><a href="control.html#cb186-6" tabindex="-1"></a></span>
+<span id="cb186-7"><a href="control.html#cb186-7" tabindex="-1"></a></span>
+<span id="cb186-8"><a href="control.html#cb186-8" tabindex="-1"></a><span class="co"># do the same, but iterate by indexes</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="control.html#cb187-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">4</span>)</span>
+<span id="cb187-2"><a href="control.html#cb187-2" tabindex="-1"></a></span>
+<span id="cb187-3"><a href="control.html#cb187-3" tabindex="-1"></a><span class="co"># print vector elements of `a` one by one</span></span>
+<span id="cb187-4"><a href="control.html#cb187-4" tabindex="-1"></a><span class="co"># with the help of `for` loop </span></span>
+<span id="cb187-5"><a href="control.html#cb187-5" tabindex="-1"></a><span class="co"># access the elements directly</span></span>
+<span id="cb187-6"><a href="control.html#cb187-6" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> a)  <span class="fu">print</span>(i)</span>
+<span id="cb187-7"><a href="control.html#cb187-7" tabindex="-1"></a></span>
+<span id="cb187-8"><a href="control.html#cb187-8" tabindex="-1"></a><span class="co"># do the same, but iterate by indexes</span></span>
+<span id="cb187-9"><a href="control.html#cb187-9" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span> (a)) <span class="fu">print</span>(a[i])</span></code></pre></div>
+<pre><code>## [1] -10
+## [1] -6
+## [1] -2
+## [1] 2
+## [1] 6
+## [1] 10
+## [1] -10
+## [1] -6
+## [1] -2
+## [1] 2
+## [1] 6
+## [1] 10</code></pre>
+</div>
+<p>Notice how the second way is better if you want to change the vector elements or need information on where the element is located in the original vector.</p>
+<p>Let’s now try a slightly more complex exercise.</p>
+<p><strong>Exercise 5.6 - <code>for</code> loop (2)</strong></p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="control.html#cb189-1" tabindex="-1"></a><span class="co"># read data from &quot;people.csv&quot; file into a data frame called `people`</span></span>
+<span id="cb189-2"><a href="control.html#cb189-2" tabindex="-1"></a><span class="co"># then, using a `for` loop, for each numeric column</span></span>
+<span id="cb189-3"><a href="control.html#cb189-3" tabindex="-1"></a><span class="co"># print its name and the mean of its values (function `mean`)</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="control.html#cb190-1" tabindex="-1"></a><span class="co"># read data from &quot;people.csv&quot; file into a data frame called `people`</span></span>
+<span id="cb190-2"><a href="control.html#cb190-2" tabindex="-1"></a><span class="co"># then, using a `for` loop, for each numeric column</span></span>
+<span id="cb190-3"><a href="control.html#cb190-3" tabindex="-1"></a><span class="co"># print first its name and then the mean of its values (function `mean`)</span></span>
+<span id="cb190-4"><a href="control.html#cb190-4" tabindex="-1"></a></span>
+<span id="cb190-5"><a href="control.html#cb190-5" tabindex="-1"></a>people <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;people.csv&quot;</span>)</span>
+<span id="cb190-6"><a href="control.html#cb190-6" tabindex="-1"></a></span>
+<span id="cb190-7"><a href="control.html#cb190-7" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(people)) {</span>
+<span id="cb190-8"><a href="control.html#cb190-8" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.numeric</span>(people[[i]])) {</span>
+<span id="cb190-9"><a href="control.html#cb190-9" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">names</span>(people)[i])</span>
+<span id="cb190-10"><a href="control.html#cb190-10" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">mean</span>(people[[i]]))</span>
+<span id="cb190-11"><a href="control.html#cb190-11" tabindex="-1"></a>  } </span>
+<span id="cb190-12"><a href="control.html#cb190-12" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<pre><code>## [1] &quot;birthyear&quot;
+## [1] 1978.404
+## [1] &quot;weight&quot;
+## [1] 75.1223
+## [1] &quot;height&quot;
+## [1] 160.5191</code></pre>
+<p>Be careful not to forget the difference between the <code>[</code> and <code>[[</code> operators. Also, note how we retrieved the name of the current element simply by using a <code>names</code> function to get the vector names (list is a vector, as you recall), and then leveraging positional indexing and <code>i</code> to get the actual name.</p>
+<hr />
+<p>Now that now that we have learned the loop syntax, it is important to emphasize one fact - <strong>in programming language R, it is generally not recommended to use program loops</strong>. Although this may initially seem unexpected and somewhat unorthodox, the reason is simple - as you may recall, R language is designed to work by the declarative “all at once” principle. We have already seen that the principle of vectorization and recycling effectively perform jobs that would often require constructing a programming loop in other programming languages, and in the chapters that follow, we will see that R also offers many other constructs that avoid explicit code repetition with the requirement of a declarative syntax that automatically performs it.</p>
+<p>For example, the following code is syntactically correct:</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="control.html#cb192-1" tabindex="-1"></a><span class="co"># example of unnecessary loop usage</span></span>
+<span id="cb192-2"><a href="control.html#cb192-2" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span> <span class="dv">5</span></span>
+<span id="cb192-3"><a href="control.html#cb192-3" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">6</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb192-4"><a href="control.html#cb192-4" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb192-5"><a href="control.html#cb192-5" tabindex="-1"></a></span>
+<span id="cb192-6"><a href="control.html#cb192-6" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span> (a)) c[i] <span class="ot">&lt;-</span> a[i] <span class="sc">+</span> b[i]</span></code></pre></div>
+<p>but probably works slower and is much less readable than:</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="control.html#cb193-1" tabindex="-1"></a><span class="co"># R syntax</span></span>
+<span id="cb193-2"><a href="control.html#cb193-2" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb193-3"><a href="control.html#cb193-3" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">6</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb193-4"><a href="control.html#cb193-4" tabindex="-1"></a></span>
+<span id="cb193-5"><a href="control.html#cb193-5" tabindex="-1"></a>c <span class="ot">&lt;-</span> a <span class="sc">+</span> b</span></code></pre></div>
+<p>All of this does not mean that we should not use loops in R, but that their use should be accompanied by an additional consideration of whether the loop is really needed and whether there is an alternative syntax that completes the same task but can be written declaratively (and is potentially faster, since many routines in R are implemented in language C). Early adoption of the “R” mode of thinking will result in long-term benefits that will be reflected in a more compact, cleaner, and often more effective program code.</p>
+</div>
+</div>
+<div id="homework-exercises-3" class="section level2 unnumbered hasAnchor">
+<h2>Homework exercises<a href="control.html#homework-exercises-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ol style="list-style-type: decimal">
+<li>Create a data frame with the following command:</li>
+</ol>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="control.html#cb194-1" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">zipcode =</span> <span class="fu">c</span>(<span class="dv">10000</span>, <span class="dv">51000</span>, <span class="dv">21000</span>, <span class="dv">31000</span>, <span class="dv">2000</span>),</span>
+<span id="cb194-2"><a href="control.html#cb194-2" tabindex="-1"></a>         <span class="at">cityName =</span> <span class="fu">c</span>(<span class="st">&quot;Zagreb&quot;</span>, <span class="st">&quot;Rijeka&quot;</span>, <span class="st">&quot;Split&quot;</span>, <span class="st">&quot;Osijek&quot;</span>, <span class="st">&quot;Dubrovnik&quot;</span>),</span>
+<span id="cb194-3"><a href="control.html#cb194-3" tabindex="-1"></a>         <span class="at">cityTax=</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">15</span>, <span class="dv">10</span>, <span class="dv">13</span>, <span class="dv">10</span>))</span></code></pre></div>
+<p>Add a column called “taxLevel” which will be the ordinal factor variable with the levels “small”, “medium” and “high” depending on whether the percentage of tax is strictly smaller than 12, between 12 and 15 or strictly greater than 15. Use the <code>ifelse</code> command.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Replace the loops in the next block with equivalent vectorized operations (for the second loop, review the <code>sum</code> function documentation).</li>
+</ol>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="control.html#cb195-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb195-2"><a href="control.html#cb195-2" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb195-3"><a href="control.html#cb195-3" tabindex="-1"></a></span>
+<span id="cb195-4"><a href="control.html#cb195-4" tabindex="-1"></a><span class="cf">while</span> (i <span class="sc">&lt;=</span> <span class="dv">100</span>) {</span>
+<span id="cb195-5"><a href="control.html#cb195-5" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">c</span>(a, i)</span>
+<span id="cb195-6"><a href="control.html#cb195-6" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb195-7"><a href="control.html#cb195-7" tabindex="-1"></a>}</span>
+<span id="cb195-8"><a href="control.html#cb195-8" tabindex="-1"></a></span>
+<span id="cb195-9"><a href="control.html#cb195-9" tabindex="-1"></a>total <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb195-10"><a href="control.html#cb195-10" tabindex="-1"></a></span>
+<span id="cb195-11"><a href="control.html#cb195-11" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> a) {</span>
+<span id="cb195-12"><a href="control.html#cb195-12" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>) total <span class="ot">&lt;-</span> total <span class="sc">+</span> i <span class="sc">*</span> i</span>
+<span id="cb195-13"><a href="control.html#cb195-13" tabindex="-1"></a>}</span>
+<span id="cb195-14"><a href="control.html#cb195-14" tabindex="-1"></a></span>
+<span id="cb195-15"><a href="control.html#cb195-15" tabindex="-1"></a><span class="fu">print</span> (total)</span></code></pre></div>
+<hr />
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"> <img alt = "Creative Commons License" style = "border-width: 0" src = "https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /> </a> <br /> <span xmlns: dct = "http://purl.org/ dc / terms / "property =" dct: title "> Program in Ru &lt;/ span&gt; by <a xmlns: cc =" http://creativecommons.org/ns# "href =" https: //www.fer. unizg.hr/en/damir.pintar "property =" cc: attributionName "rel =" cc: attributionURL "> Damir Pintar </a> is licensed under <a rel =" license "href =" http: // creativecommons .org / licenses / by-nc-nd / 4.0 / "> Creative Commons Attribution-NonCommercial-NoDerivative 4.0 International License </a> <br /> Based on a work at <a xmlns: dct =" http: // purl.org/dc/terms/ "href =" https://ratnip.github.io/FER_OPJR/ "rel =" dct: source "> https://ratnip.github.io/FER_OPJR/ </a></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="okviri.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="packages.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed",
+"edit": null,
+"download": null,
+"search": true
+}
+});
+});
+</script>
+
+</body>
+
+</html>
