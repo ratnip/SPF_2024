@@ -47,3 +47,17 @@ packages
 working-with-packages
 built-in-functions
 environments
+user
+user-defined-functions
+defining-a-new-function
+the-copy-on-modify-principle
+example-7.1---copy-on-modify
+example-7.2---copy-on-modify-2
+example-7.3---copy-on-modify-and-environments
+example-7.4---the---operator
+example-7.5---changing-a-data-frame-column-with-the---operator
+function-as-an-object
+the-apply-family
+the-apply-function
+the-lapply-sapply-and-vapply-functions
+other-functions-from-the-apply-family-and-the-available-alternatives
