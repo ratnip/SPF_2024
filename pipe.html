@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>9 Pipeline operator and tidy data | Let’s program in R</title>
+  <meta name="description" content="R Coursebook" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="9 Pipeline operator and tidy data | Let’s program in R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="R Coursebook" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="9 Pipeline operator and tidy data | Let’s program in R" />
+  
+  <meta name="twitter:description" content="R Coursebook" />
+  
+
+<meta name="author" content="Damir Pintar" />
+
+
+<meta name="date" content="2024-11-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="objects.html"/>
+<link rel="next" href="dates.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<style type="text/css">
+.showopt {
+  background-color: #004c93;
+  color: #FFFFFF; 
+  width: 140px;
+  height: 4	0px;
+  text-align: center;
+  vertical-align: middle !important;
+  float: right;
+  font-family: sans-serif;
+  font-size:10 pt;
+  border-radius: 8px;
+}
+
+.showopt:hover {
+    background-color: #dfe4f2;
+    color: #004c93;
+}
+
+pre.plot {
+  background-color: white !important;
+}
+</style>
+
+<script>
+ $(document).ready(function() {
+
+  $chunks = $('.fold');
+
+  $chunks.each(function () {
+
+    // add button to source code chunks
+    if ( $(this).hasClass('s') ) {
+      $('pre.r', this).prepend("<div class=\"showopt\">Show solution</div><br style=\"line-height:22px;\"/>");
+      $('pre.r', this).children('code').attr('class', 'folded');
+    }
+
+    // add button to output chunks
+    if ( $(this).hasClass('o') ) {
+      $('pre:not(.r)', this).has('code').prepend("<div class=\"showopt\">Show results</div><br style=\"line-height:22px;\"/>");
+      $('pre:not(.r)', this).children('code:not(r)').addClass('folded');
+
+      // add button to plots
+      $(this).find('img').wrap('<pre class=\"plot\"></pre>');
+      $('pre.plot', this).prepend("<div class=\"showopt\">Show figure</div><br style=\"line-height:22px;\"/>");
+      $('pre.plot', this).children('img').addClass('folded');
+
+    }
+  });
+
+  // hide all chunks when document is loaded
+  $('.folded').css('display', 'none')
+
+  // function to toggle the visibility
+  $('.showopt').click(function() {
+    var label = $(this).html();
+    if (label.indexOf("Show") >= 0) {
+      $(this).html(label.replace("Show", "Hide"));
+    } else {
+      $(this).html(label.replace("Hide", "Show"));
+    }
+    $(this).siblings('code, img').slideToggle('fast', 'swing');
+  });
+});
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>(“Statistical Programming Fundamentals” course book)</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#foreword"><i class="fa fa-check"></i>Foreword</a></li>
+</ul></li>
+<li class="part"><span><b>I Basic elements of R</b></span></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction.html"><a href="introduction.html#general-facts-about-r"><i class="fa fa-check"></i><b>1.1.1</b> General facts about R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction.html"><a href="introduction.html#r-alternatives"><i class="fa fa-check"></i><b>1.1.2</b> R alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#installing-software-support"><i class="fa fa-check"></i><b>1.2</b> Installing Software Support</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#overview-of-the-development-interface-rstudio"><i class="fa fa-check"></i><b>1.3</b> Overview of the development interface <em>RStudio</em></a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="introduction.html"><a href="introduction.html#interactive-console"><i class="fa fa-check"></i><b>1.3.1</b> Interactive console</a></li>
+<li class="chapter" data-level="1.3.2" data-path="introduction.html"><a href="introduction.html#writing-r-scripts"><i class="fa fa-check"></i><b>1.3.2</b> Writing R scripts</a></li>
+<li class="chapter" data-level="1.3.3" data-path="introduction.html"><a href="introduction.html#r-markdown"><i class="fa fa-check"></i><b>1.3.3</b> <em>R Markdown</em></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#how-to-use-this-coursebook"><i class="fa fa-check"></i><b>1.4</b> How to use this coursebook?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tipovi.html"><a href="tipovi.html"><i class="fa fa-check"></i><b>2</b> Basic data types and operators</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tipovi.html"><a href="tipovi.html#basic-data-types"><i class="fa fa-check"></i><b>2.1</b> Basic data types</a></li>
+<li class="chapter" data-level="2.2" data-path="tipovi.html"><a href="tipovi.html#operators"><i class="fa fa-check"></i><b>2.2</b> Operators</a></li>
+<li class="chapter" data-level="2.3" data-path="tipovi.html"><a href="tipovi.html#missing-unknown-and-non-existent-values"><i class="fa fa-check"></i><b>2.3</b> Missing, unknown, and non-existent values</a></li>
+<li class="chapter" data-level="" data-path="tipovi.html"><a href="tipovi.html#homework-exercises"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="vektori.html"><a href="vektori.html"><i class="fa fa-check"></i><b>3</b> Vectors, matrices and lists</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="vektori.html"><a href="vektori.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="vektori.html"><a href="vektori.html#creating-a-vector"><i class="fa fa-check"></i><b>3.1.1</b> Creating a vector</a></li>
+<li class="chapter" data-level="3.1.2" data-path="vektori.html"><a href="vektori.html#vector-concatenation"><i class="fa fa-check"></i><b>3.1.2</b> Vector concatenation</a></li>
+<li class="chapter" data-level="3.1.3" data-path="vektori.html"><a href="vektori.html#operator"><i class="fa fa-check"></i><b>3.1.3</b> Operator <code>[</code></a></li>
+<li class="chapter" data-level="3.1.4" data-path="vektori.html"><a href="vektori.html#principles-of-vectorization-and-recycling"><i class="fa fa-check"></i><b>3.1.4</b> Principles of vectorization and recycling</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="vektori.html"><a href="vektori.html#index-vectors"><i class="fa fa-check"></i><b>3.2</b> Index vectors</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="vektori.html"><a href="vektori.html#positional-indexing"><i class="fa fa-check"></i><b>3.2.1</b> Positional Indexing</a></li>
+<li class="chapter" data-level="3.2.2" data-path="vektori.html"><a href="vektori.html#conditional-indexing"><i class="fa fa-check"></i><b>3.2.2</b> Conditional indexing</a></li>
+<li class="chapter" data-level="3.2.3" data-path="vektori.html"><a href="vektori.html#label-based-indexing"><i class="fa fa-check"></i><b>3.2.3</b> Label-based indexing</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="vektori.html"><a href="vektori.html#matrices-and-arrays"><i class="fa fa-check"></i><b>3.3</b> Matrices and arrays</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="vektori.html"><a href="vektori.html#matrix-slicing"><i class="fa fa-check"></i><b>3.3.1</b> Matrix slicing</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="vektori.html"><a href="vektori.html#lists"><i class="fa fa-check"></i><b>3.4</b> Lists</a></li>
+<li class="chapter" data-level="" data-path="vektori.html"><a href="vektori.html#homework-exercises-1"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="okviri.html"><a href="okviri.html"><i class="fa fa-check"></i><b>4</b> Data frames and factors</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="okviri.html"><a href="okviri.html#data-frames"><i class="fa fa-check"></i><b>4.1</b> Data frames</a></li>
+<li class="chapter" data-level="4.2" data-path="okviri.html"><a href="okviri.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>4.2</b> Selecting rows and columns</a></li>
+<li class="chapter" data-level="4.3" data-path="okviri.html"><a href="okviri.html#adding-and-deleting-rows-and-columns"><i class="fa fa-check"></i><b>4.3</b> Adding and deleting rows and columns</a></li>
+<li class="chapter" data-level="4.4" data-path="okviri.html"><a href="okviri.html#factors"><i class="fa fa-check"></i><b>4.4</b> Factors</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="okviri.html"><a href="okviri.html#example-4.1---mishandling-factorization"><i class="fa fa-check"></i><b>4.4.1</b> Example 4.1 - mishandling factorization</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="okviri.html"><a href="okviri.html#homework-exercises-2"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="control.html"><a href="control.html"><i class="fa fa-check"></i><b>5</b> Conditional statements and programming loops</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="control.html"><a href="control.html#flow-control-commands"><i class="fa fa-check"></i><b>5.1</b> Flow control commands</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="control.html"><a href="control.html#conditional-execution"><i class="fa fa-check"></i><b>5.1.1</b> Conditional execution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="control.html"><a href="control.html#loops"><i class="fa fa-check"></i><b>5.2</b> Loops</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="control.html"><a href="control.html#therepeat-loop"><i class="fa fa-check"></i><b>5.2.1</b> The<code>repeat</code> loop</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="control.html"><a href="control.html#example-5.1---the-repeat-loop"><i class="fa fa-check"></i><b>5.3</b> Example 5.1 - the <code>repeat</code> loop</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="control.html"><a href="control.html#the-while-loop"><i class="fa fa-check"></i><b>5.3.1</b> The <code>while</code> loop</a></li>
+<li class="chapter" data-level="5.3.2" data-path="control.html"><a href="control.html#the-for-loop"><i class="fa fa-check"></i><b>5.3.2</b> The <code>for</code> loop</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="control.html"><a href="control.html#homework-exercises-3"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="packages.html"><a href="packages.html"><i class="fa fa-check"></i><b>6</b> Packages, built-in functions and environments</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="packages.html"><a href="packages.html#working-with-packages"><i class="fa fa-check"></i><b>6.1</b> Working with packages</a></li>
+<li class="chapter" data-level="6.2" data-path="packages.html"><a href="packages.html#built-in-functions"><i class="fa fa-check"></i><b>6.2</b> Built-in functions</a></li>
+<li class="chapter" data-level="6.3" data-path="packages.html"><a href="packages.html#environments"><i class="fa fa-check"></i><b>6.3</b> Environments</a></li>
+<li class="chapter" data-level="" data-path="packages.html"><a href="packages.html#homework-exercises-4"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="user.html"><a href="user.html"><i class="fa fa-check"></i><b>7</b> User Defined Functions</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="user.html"><a href="user.html#user-defined-functions"><i class="fa fa-check"></i><b>7.1</b> User defined functions</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="user.html"><a href="user.html#defining-a-new-function"><i class="fa fa-check"></i><b>7.1.1</b> Defining a new function</a></li>
+<li class="chapter" data-level="7.1.2" data-path="user.html"><a href="user.html#the-copy-on-modify-principle"><i class="fa fa-check"></i><b>7.1.2</b> The “copy-on-modify” principle</a></li>
+<li class="chapter" data-level="7.1.3" data-path="user.html"><a href="user.html#example-7.1---copy-on-modify"><i class="fa fa-check"></i><b>7.1.3</b> Example 7.1 - “copy-on-modify”</a></li>
+<li class="chapter" data-level="7.1.4" data-path="user.html"><a href="user.html#example-7.2---copy-on-modify-2"><i class="fa fa-check"></i><b>7.1.4</b> Example 7.2 - “copy-on-modify (2)”</a></li>
+<li class="chapter" data-level="7.1.5" data-path="user.html"><a href="user.html#example-7.3---copy-on-modify-and-environments"><i class="fa fa-check"></i><b>7.1.5</b> Example 7.3 - “copy-on-modify” and environments</a></li>
+<li class="chapter" data-level="7.1.6" data-path="user.html"><a href="user.html#example-7.4---the---operator"><i class="fa fa-check"></i><b>7.1.6</b> Example 7.4 - the <code>&lt;&lt;-</code> operator</a></li>
+<li class="chapter" data-level="7.1.7" data-path="user.html"><a href="user.html#example-7.5---changing-a-data-frame-column-with-the---operator"><i class="fa fa-check"></i><b>7.1.7</b> Example 7.5 - changing a data frame column with the <code>&lt;&lt;-</code> operator</a></li>
+<li class="chapter" data-level="7.1.8" data-path="user.html"><a href="user.html#function-as-an-object"><i class="fa fa-check"></i><b>7.1.8</b> Function as an object</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="user.html"><a href="user.html#the-apply-family"><i class="fa fa-check"></i><b>7.2</b> The <code>apply</code> family</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="user.html"><a href="user.html#the-apply-function"><i class="fa fa-check"></i><b>7.2.1</b> The <code>apply</code> function</a></li>
+<li class="chapter" data-level="7.2.2" data-path="user.html"><a href="user.html#the-lapply-sapply-and-vapply-functions"><i class="fa fa-check"></i><b>7.2.2</b> The <code>lapply</code>, <code>sapply</code> and <code>vapply</code> functions</a></li>
+<li class="chapter" data-level="7.2.3" data-path="user.html"><a href="user.html#other-functions-from-the-apply-family-and-the-available-alternatives"><i class="fa fa-check"></i><b>7.2.3</b> Other functions from the <code>apply</code> family and the available alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="user.html"><a href="user.html#homework-exercises-5"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="objects.html"><a href="objects.html"><i class="fa fa-check"></i><b>8</b> Object oriented systems in R</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="objects.html"><a href="objects.html#object-oriented-systems-in-r"><i class="fa fa-check"></i><b>8.1</b> Object-oriented systems in R</a></li>
+<li class="chapter" data-level="8.2" data-path="objects.html"><a href="objects.html#overview-of-the-s3-object-model"><i class="fa fa-check"></i><b>8.2</b> Overview of the S3 object model</a></li>
+<li class="chapter" data-level="8.3" data-path="objects.html"><a href="objects.html#generic-functions"><i class="fa fa-check"></i><b>8.3</b> Generic functions</a></li>
+<li class="chapter" data-level="8.4" data-path="objects.html"><a href="objects.html#adding-generic-functions-to-an-object"><i class="fa fa-check"></i><b>8.4</b> Adding generic functions to an object</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="objects.html"><a href="objects.html#conclusion-on-s3-objects"><i class="fa fa-check"></i><b>8.4.1</b> Conclusion on S3 objects</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="objects.html"><a href="objects.html#short-overview-of-s4-objects"><i class="fa fa-check"></i><b>8.5</b> Short overview of S4 objects</a></li>
+<li class="chapter" data-level="" data-path="objects.html"><a href="objects.html#homework-exercises-6"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Data management and visualizations</b></span></li>
+<li class="chapter" data-level="9" data-path="pipe.html"><a href="pipe.html"><i class="fa fa-check"></i><b>9</b> Pipeline operator and tidy data</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="pipe.html"><a href="pipe.html#pipeline-operator"><i class="fa fa-check"></i><b>9.1</b> Pipeline operator</a></li>
+<li class="chapter" data-level="9.2" data-path="pipe.html"><a href="pipe.html#tidy-data"><i class="fa fa-check"></i><b>9.2</b> Tidy data</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="pipe.html"><a href="pipe.html#the-pivot_longer-andpivot_wider-functions"><i class="fa fa-check"></i><b>9.2.1</b> The <code>pivot_longer</code> and<code>pivot_wider</code> functions</a></li>
+<li class="chapter" data-level="9.2.2" data-path="pipe.html"><a href="pipe.html#the-separate-and-unite-functions"><i class="fa fa-check"></i><b>9.2.2</b> The <code>separate</code> and <code>unite</code> functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="pipe.html"><a href="pipe.html#homework-exercises-7"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="dates.html"><a href="dates.html"><i class="fa fa-check"></i><b>10</b> Working with dates and character strings</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="dates.html"><a href="dates.html#working-with-dates"><i class="fa fa-check"></i><b>10.1</b> Working with dates</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="dates.html"><a href="dates.html#the-date-class"><i class="fa fa-check"></i><b>10.1.1</b> The <code>Date</code> class</a></li>
+<li class="chapter" data-level="10.1.2" data-path="dates.html"><a href="dates.html#theposixct-andposixlt-classes"><i class="fa fa-check"></i><b>10.1.2</b> The<code>POSIXct</code> and<code>POSIXlt</code> classes</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="dates.html"><a href="dates.html#the-lubridate-package"><i class="fa fa-check"></i><b>10.2</b> The <code>lubridate</code> package</a></li>
+<li class="chapter" data-level="10.3" data-path="dates.html"><a href="dates.html#working-with-character-strings"><i class="fa fa-check"></i><b>10.3</b> Working with character strings</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="dates.html"><a href="dates.html#text-analysis-and-regular-expressions"><i class="fa fa-check"></i><b>10.3.1</b> Text analysis and regular expressions</a></li>
+<li class="chapter" data-level="10.3.2" data-path="dates.html"><a href="dates.html#the-stringr-package"><i class="fa fa-check"></i><b>10.3.2</b> The <code>stringr</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="dates.html"><a href="dates.html#homework-exercises-8"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Let’s program in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="pipe" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">9</span> Pipeline operator and tidy data<a href="pipe.html#pipe" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="pipeline-operator" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Pipeline operator<a href="pipe.html#pipeline-operator" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s look at the following example: imagine that in R we want to create 100 random real variables from the range of [0,100], round them to two decimals, select a sample of 10 variables from this set, calculate the arithmetic mean of the sample and print it on the screen. One possible solution could be:</p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="pipe.html#cb321-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>) <span class="co"># (for repeatability)</span></span>
+<span id="cb321-2"><a href="pipe.html#cb321-2" tabindex="-1"></a></span>
+<span id="cb321-3"><a href="pipe.html#cb321-3" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">100</span>) <span class="co"># 100 random variables from uniform distribution from 0 to 100</span></span>
+<span id="cb321-4"><a href="pipe.html#cb321-4" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">round</span>(res, <span class="dv">2</span>)</span>
+<span id="cb321-5"><a href="pipe.html#cb321-5" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">sample</span>(res, <span class="dv">10</span>)</span>
+<span id="cb321-6"><a href="pipe.html#cb321-6" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">mean</span>(res)</span>
+<span id="cb321-7"><a href="pipe.html#cb321-7" tabindex="-1"></a>res</span></code></pre></div>
+<pre><code>## [1] 46.651</code></pre>
+<p>This kind of code has a lot of unnecessary repetition - in every line we use the <code>res</code> variable as well as the assignment operator <code>res</code> variable so we can store the in-between results. Alternatively, we could do everything in one row:</p>
+<hr />
+<p><strong>Exercise 9.1 - Nested functions</strong></p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="pipe.html#cb323-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb323-2"><a href="pipe.html#cb323-2" tabindex="-1"></a></span>
+<span id="cb323-3"><a href="pipe.html#cb323-3" tabindex="-1"></a><span class="co"># repeat the above example, but with only one line of code</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="pipe.html#cb324-1" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(<span class="fu">round</span>(<span class="fu">runif</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">100</span>), <span class="dv">2</span>), <span class="dv">10</span>))</span></code></pre></div>
+<pre><code>## [1] 46.651</code></pre>
+</div>
+<hr />
+<p>Here we see a typical example of a “code sandwich” which is not only often seen in R, but also appears in most programming languages. When we use the result of one function as an input to another, we have to “nest” it in the subsequent function call ending up with an error-prone code which is equally difficult to both write and read.</p>
+<p>A natural way of “solving” a series of instructions from the previous example would be to resolve them sequentially, i.e. from “left to right”; when we finish one task, the result becomes the input for the following task and so on until the process is complete. It would be benefitial if we apply this approach through programming code. This was precisely the motivation for the development of the so-called <em>pipeline</em> operator, provided by the package <code>magrittr</code> <span class="citation">(<a href="#ref-R-magrittr">Bache and Wickham 2014</a>)</span>.</p>
+<p>The weird name package is actually inspired by the name of abstract painter Rene Magritte, more specifically his famous painting <em>La trahison des images </em> depicting a pipe under which are the words <em>Ceci n’est pas une pipe</em>. In the same way, the <code>magrittr</code> package delivers a <em>pipeline</em> or <em>pipe</em> operator <code>%&gt;%</code>which is “not really a pipe”. Whatever you may think about this play on words or the painting itself which inspired this package, what is undeniable is the fact that the <em>pipeline</em> operator makes the code much more readable and as such has quickly become a strong favorite in the R community, especially when programming heavily relies on chaining function calls.</p>
+<p>How does the <code>%&gt;%</code> operator work? It’s rather simple - we place it between function calls to designate that the output from the function on the left should be the input for the function on the right. The place where the result from the previous function should go is denoted by the <code>.</code> symbol. We can do this as many times as we want, that is, depending on how many functions calls we “chain”.</p>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="pipe.html#cb326-1" tabindex="-1"></a><span class="fu">h</span>(<span class="fu">g</span>(<span class="fu">f</span>(x), y), z, w) <span class="co"># code without the %&gt;% operator</span></span>
+<span id="cb326-2"><a href="pipe.html#cb326-2" tabindex="-1"></a></span>
+<span id="cb326-3"><a href="pipe.html#cb326-3" tabindex="-1"></a><span class="fu">f</span>(x) <span class="sc">%&gt;%</span> <span class="fu">g</span>(., y) <span class="sc">%&gt;%</span> <span class="fu">h</span>(., z, w) <span class="co"># code with the %&gt;% operator</span></span></code></pre></div>
+<p>If the result of the previous function the first argument of the next function, then the <code>.</code> symbol (or in effect the whole argument) can be thrown out, so the syntax is even shorter:</p>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="pipe.html#cb327-1" tabindex="-1"></a><span class="fu">f</span>(x) <span class="sc">%&gt;%</span> <span class="fu">g</span>(y) <span class="sc">%&gt;%</span> <span class="fu">h</span>(z, w) <span class="co"># code without dots</span></span></code></pre></div>
+<p>Notice that these function calls are actually formally incorrect because they have an “invisible” first argument. Nevertheless, many R programmers prefer this syntax because it requires less typing and is somewhat more transparent, while the mentioned irregularity does not really matter in practice as long as the developer is aware of the existence of an “invisible” argument.</p>
+<p>Now let’s try to reformat our first example with the help of the `%&gt;% ’operator.</p>
+<hr />
+<p><strong>Exercise 9.2 - operator <code>%&gt;%</code></strong></p>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="pipe.html#cb328-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb328-2"><a href="pipe.html#cb328-2" tabindex="-1"></a></span>
+<span id="cb328-3"><a href="pipe.html#cb328-3" tabindex="-1"></a><span class="co"># solve the first example again using the %&gt;% operator</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="pipe.html#cb329-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb329-2"><a href="pipe.html#cb329-2" tabindex="-1"></a></span>
+<span id="cb329-3"><a href="pipe.html#cb329-3" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">sample</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">mean</span>() <span class="sc">%&gt;%</span> <span class="fu">print</span>()</span></code></pre></div>
+<pre><code>## [1] 46.651</code></pre>
+</div>
+<hr />
+<p>Note that by reading the above program code, we very easily interpret the meaning of that line of program code, especially when compared to the same command written in the form of a “sandwich”.</p>
+<p>We can store the end result of our “chain” of functions in the usual way:</p>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="pipe.html#cb331-1" tabindex="-1"></a>sum1to10 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">%&gt;%</span> sum <span class="co"># result is stored in variable `sum1to10`</span></span></code></pre></div>
+<p>but it may be more visually consistent to use the “inverted” assignment operator: <code>-&gt;</code>.</p>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="pipe.html#cb332-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">%&gt;%</span> sum <span class="ot">-&gt;</span> sum1to10 <span class="co"># works the same as the example above</span></span></code></pre></div>
+<p>Also note that in situations where the result of the previous function is the only parameter of the following function, we can completely leave out the parentheses (so in the examples above, <code>sum</code>,<code>sum()</code>or<code>sum(.)</code> would all work equally).</p>
+<p>Now let’s try to combine the <code>%&gt;%</code> operator and <code>lapply</code> with the example already seen in the section on functions in the<code>apply</code> family.</p>
+<hr />
+<p><strong>Exercise 9.3 - <code>lapply</code> function and <code>%&gt;%</code> operator</strong></p>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="pipe.html#cb333-1" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">b =</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">c =</span> <span class="dv">100</span><span class="sc">:</span><span class="dv">200</span>)</span>
+<span id="cb333-2"><a href="pipe.html#cb333-2" tabindex="-1"></a></span>
+<span id="cb333-3"><a href="pipe.html#cb333-3" tabindex="-1"></a><span class="co"># create a matrix which contains the first and last element of each list element</span></span>
+<span id="cb333-4"><a href="pipe.html#cb333-4" tabindex="-1"></a><span class="co"># these elements must be in their own rows</span></span>
+<span id="cb333-5"><a href="pipe.html#cb333-5" tabindex="-1"></a><span class="co"># use functions lapply, unlist and matrix as well as the %&gt;% operator</span></span>
+<span id="cb333-6"><a href="pipe.html#cb333-6" tabindex="-1"></a><span class="co"># save the result in the `res` variable</span></span>
+<span id="cb333-7"><a href="pipe.html#cb333-7" tabindex="-1"></a></span>
+<span id="cb333-8"><a href="pipe.html#cb333-8" tabindex="-1"></a>    </span>
+<span id="cb333-9"><a href="pipe.html#cb333-9" tabindex="-1"></a><span class="co"># print &#39;res&#39;</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="pipe.html#cb334-1" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">b =</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">c =</span> <span class="dv">100</span><span class="sc">:</span><span class="dv">200</span>)</span>
+<span id="cb334-2"><a href="pipe.html#cb334-2" tabindex="-1"></a></span>
+<span id="cb334-3"><a href="pipe.html#cb334-3" tabindex="-1"></a>l <span class="sc">%&gt;%</span> <span class="fu">lapply</span>(<span class="cf">function</span>(x) <span class="fu">c</span>(x [<span class="dv">1</span>], x [<span class="fu">length</span>(x)])) <span class="sc">%&gt;%</span> unlist <span class="sc">%&gt;%</span> <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> T) <span class="ot">-&gt;</span> res</span>
+<span id="cb334-4"><a href="pipe.html#cb334-4" tabindex="-1"></a>    </span>
+<span id="cb334-5"><a href="pipe.html#cb334-5" tabindex="-1"></a>res</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    1   10
+## [2,]   10   20
+## [3,]  100  200</code></pre>
+</div>
+<hr />
+<p>The pipeline operator is very convenient in conjunction with “classic” functions, but we may encounter a problem when we want to combine it with other operators. The cause of the problem is the syntax - the pipeline operator achieves its efficiency by imposing a new, “sequential” syntax, which is not compatible with the syntax imposed by other operators, such as <code>+</code>, <code>%%</code> or <code>[</code>.</p>
+<p>If it is really important for us to have a “continuous” function call chain in our code that will contain not only functions but also other operators, then one solution is to use operators as “ordinary” functions. Namely, each operator is actually a function that shares a name with the operator (using the <em>backtick</em> quotation mark which allows the use of symbols as variable names), so the following pairs of expressions are actually equivalent:</p>
+<hr />
+<p><strong>Example 9.1 - operators as functions</strong></p>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="pipe.html#cb336-1" tabindex="-1"></a><span class="co"># each pair of instructions is equivalent</span></span>
+<span id="cb336-2"><a href="pipe.html#cb336-2" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb336-3"><a href="pipe.html#cb336-3" tabindex="-1"></a><span class="st">`</span><span class="at">+</span><span class="st">`</span>(<span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb336-4"><a href="pipe.html#cb336-4" tabindex="-1"></a></span>
+<span id="cb336-5"><a href="pipe.html#cb336-5" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb336-6"><a href="pipe.html#cb336-6" tabindex="-1"></a><span class="st">`</span><span class="at">:</span><span class="st">`</span>(<span class="dv">1</span>, <span class="dv">5</span>)</span>
+<span id="cb336-7"><a href="pipe.html#cb336-7" tabindex="-1"></a></span>
+<span id="cb336-8"><a href="pipe.html#cb336-8" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb336-9"><a href="pipe.html#cb336-9" tabindex="-1"></a><span class="st">`</span><span class="at">&lt;-</span><span class="st">`</span>(<span class="st">&quot;x&quot;</span>, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb336-10"><a href="pipe.html#cb336-10" tabindex="-1"></a></span>
+<span id="cb336-11"><a href="pipe.html#cb336-11" tabindex="-1"></a>x[<span class="dv">1</span>]</span>
+<span id="cb336-12"><a href="pipe.html#cb336-12" tabindex="-1"></a><span class="st">`</span><span class="at">[</span><span class="st">`</span>(x, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 5
+## [1] 5
+## [1] 1 2 3 4 5
+## [1] 1 2 3 4 5
+## [1] 1
+## [1] 1</code></pre>
+<hr />
+<p>Let’s try to use this principle in the next exercise.</p>
+<hr />
+<p><strong>Exercise 9.4 - combining pipe operator with other operators</strong></p>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="pipe.html#cb338-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb338-2"><a href="pipe.html#cb338-2" tabindex="-1"></a></span>
+<span id="cb338-3"><a href="pipe.html#cb338-3" tabindex="-1"></a><span class="co"># &quot;clean up &quot; the following command with the help of the pipeline operator</span></span>
+<span id="cb338-4"><a href="pipe.html#cb338-4" tabindex="-1"></a><span class="fu">matrix</span>(<span class="fu">table</span>(<span class="fu">sample</span>(<span class="fu">round</span>(<span class="fu">sqrt</span>(<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>, <span class="dv">10000</span>, <span class="at">replace =</span> T))), <span class="dv">100</span>))[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="dv">3</span>, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    2    2    2
+## [2,]    1    1    1
+## [3,]    2    2    2</code></pre>
+<div class="fold s o">
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="pipe.html#cb340-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb340-2"><a href="pipe.html#cb340-2" tabindex="-1"></a></span>
+<span id="cb340-3"><a href="pipe.html#cb340-3" tabindex="-1"></a><span class="co"># &quot;clean up &quot; the following command with the help of the pipeline operator</span></span>
+<span id="cb340-4"><a href="pipe.html#cb340-4" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span> <span class="sc">%&gt;%</span> <span class="fu">sample</span>(<span class="dv">10000</span>, <span class="at">replace =</span> T) <span class="sc">%&gt;%</span> sqrt <span class="sc">%&gt;%</span> round <span class="sc">%&gt;%</span> </span>
+<span id="cb340-5"><a href="pipe.html#cb340-5" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">100</span>) <span class="sc">%&gt;%</span> table <span class="sc">%&gt;%</span> <span class="st">`</span><span class="at">[</span><span class="st">`</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> <span class="fu">matrix</span>(<span class="dv">3</span>, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    2    2    2
+## [2,]    1    1    1
+## [3,]    2    2    2</code></pre>
+</div>
+<p>The <code>%&gt;%</code> operator is particularly well suited when dealing with data frames, especially in scenarios when we have a defined data transformation procedure (e.g. filtering some rows, then selecting columns, then grouping the data according to a categorical variable etc.). With the help of this operator, the code itself acts as a readily interpretable representation of our data transformation process which we can easily customize and extend later. Future examples and exercises will often extensively rely on this operator, so we recommend that you master it well before proceeding with the lessons that follow.</p>
+<hr />
+</div>
+<div id="tidy-data" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Tidy data<a href="pipe.html#tidy-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>It is often stated in various literature that in data analysis, data preparation is often the most time consuming segment of the process. The book <a href="https://books.google.com/books/about/Exploratory_Data_Mining_and_Data_Cleanin.html?id=2OWJVkevamQC&redir_esc=y&hl=en">“Exploratory Data Mining and Data Cleaning”</a> mentions that preparation often requires from 50% to 80% of the total time devoted to analysis. Also, as Hadley Wickham states in his article <a href="http://vita.had.co.nz/papers/tidy-data.pdf"> “Tidy Data”</a>, data preparation is often not just the first step of the analysis, but rather a process that gets repeated as new knowledge is discovered or new data is collected.</p>
+<p>Hadley Wickham also introduced the term “tidy data” to refer to the organization of a data in such a way as to facilitate its further processing and analysis. In practice, datasets we get are often not originally intended for the purposes of analysis and as such are not organized in a way that would allow them to be easily used in the analytical process. “Tidy data” is actually a set of principles which may guides us how to “rearrange” data so that its structure matches the standard, expected metadata.</p>
+<p>Tidy data principles have similarities with the relational data model, but are defined in a way that is more appropriate for statisticians and developers. These principles can be summarized as follows:</p>
+<ul>
+<li>the data is organized into a table</li>
+<li>each line represents an observation</li>
+<li>each column represents a property or variable of that observation</li>
+</ul>
+<p>Since this may sound too trivial, let’s take a look at what properties Hadley lists as typical of “messy” data:</p>
+<ul>
+<li>column names are not variable names but rather their values</li>
+<li>multiple different variables are stored in the same column</li>
+<li>variables are saved in rows</li>
+<li>multiple types of different observations are stored in the same table</li>
+<li>one type of observation is stored in multiple tables</li>
+</ul>
+<p>Below, we will give some examples of tables that do not fully conform to the definition of tidy data, and show how to easily “tidy them up”. For this, we will leverage functions provided by the <code>tidyr</code> package.</p>
+<hr />
+<div id="the-pivot_longer-andpivot_wider-functions" class="section level3 hasAnchor" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> The <code>pivot_longer</code> and<code>pivot_wider</code> functions<a href="pipe.html#the-pivot_longer-andpivot_wider-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The workbook which corresponds to this leeson should have a file called <code>students.csv</code>. Let’s load it into our work environment. Since the file is stored using UTF-8 encoding (since it contains Croatian letters), you can also add a <code>fileEncoding ="UTF-8"</code> parameter to the <code>read.csv</code> command to get the special characters correctly printed.</p>
+<hr />
+<p><strong>Exercise 9.5 - <code>students</code> data set</strong></p>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="pipe.html#cb342-1" tabindex="-1"></a><span class="co"># load data from `students.csv` file into `students` variable</span></span>
+<span id="cb342-2"><a href="pipe.html#cb342-2" tabindex="-1"></a></span>
+<span id="cb342-3"><a href="pipe.html#cb342-3" tabindex="-1"></a><span class="co"># familiarize yourself with the data using standard functions for this purpose</span></span>
+<span id="cb342-4"><a href="pipe.html#cb342-4" tabindex="-1"></a><span class="co"># (names, sapply/class, str, head, summary ...)</span></span>
+<span id="cb342-5"><a href="pipe.html#cb342-5" tabindex="-1"></a><span class="co"># in the following examples for this process, we will use the phrase &quot;briefly explore the data frame&quot; </span></span>
+<span id="cb342-6"><a href="pipe.html#cb342-6" tabindex="-1"></a><span class="co"># as a shortcut for the above process</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="pipe.html#cb343-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;students.csv&quot;</span>, <span class="at">fileEncoding =</span><span class="st">&quot;UTF-8&quot;</span>, <span class="at">stringsAsFactors =</span> F)</span>
+<span id="cb343-2"><a href="pipe.html#cb343-2" tabindex="-1"></a></span>
+<span id="cb343-3"><a href="pipe.html#cb343-3" tabindex="-1"></a><span class="fu">str</span>(students)</span>
+<span id="cb343-4"><a href="pipe.html#cb343-4" tabindex="-1"></a><span class="fu">head</span>(students)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    27 obs. of  10 variables:
+##  $ JMBAG        : int  1341 1342 1343 1344 1345 1346 1347 1348 1349 1350 ...
+##  $ Surname      : chr  &quot;Anić&quot; &quot;Babić&quot; &quot;Crnoja&quot; &quot;Črnjac&quot; ...
+##  $ Name         : chr  &quot;Iva&quot; &quot;Josip&quot; &quot;Petra&quot; &quot;Lucija&quot; ...
+##  $ Math.1       : chr  &quot;2&quot; &quot;5&quot; &quot;4&quot; &quot;2&quot; ...
+##  $ Physics.1    : chr  &quot;2&quot; &quot;3&quot; &quot;3&quot; &quot;5&quot; ...
+##  $ Programming  : chr  &quot;NULL&quot; &quot;4&quot; &quot;4&quot; &quot;2&quot; ...
+##  $ Electronics  : chr  &quot;NULL&quot; &quot;3&quot; &quot;2&quot; &quot;2&quot; ...
+##  $ Digital.Logic: chr  &quot;4&quot; &quot;NULL&quot; &quot;3&quot; &quot;3&quot; ...
+##  $ Math.2       : chr  &quot;2&quot; &quot;5&quot; &quot;4&quot; &quot;3&quot; ...
+##  $ Algorithms.1 : chr  &quot;2&quot; &quot;5&quot; &quot;3&quot; &quot;4&quot; ...
+##   JMBAG Surname   Name Math.1 Physics.1 Programming Electronics Digital.Logic
+## 1  1341    Anić    Iva      2         2        NULL        NULL             4
+## 2  1342   Babić  Josip      5         3           4           3          NULL
+## 3  1343  Crnoja  Petra      4         3           4           2             3
+## 4  1344  Črnjac Lucija      2         5           2           2             3
+## 5  1345   Dizla  Stipe   NULL         4           3           5             2
+## 6  1346   Ermić   Igor   NULL         3        NULL           5             5
+##   Math.2 Algorithms.1
+## 1      2            2
+## 2      5            5
+## 3      4            3
+## 4      3            4
+## 5      2            2
+## 6      5            5</code></pre>
+</div>
+<hr />
+<p>Note that this dataset has a lot of missing values that are written as <code>NULL</code>. Because R does not recognize this as a missing value, it loaded the data as character strings (or as factors if we had the <code>stringsAsFactors</code> parameter set to <code>TRUE</code>). Because the columns that relate to the ratings are obviously numeric, we can easily convert them to such using the <code>as.numeric ()</code> (or <code>as.numeric(as.character())</code> command if they are factors!). But there is a simpler way - if we know how the missing value is represented in the dataset, we can directly embed it in the <code>read.csv</code> command using the <code>na.strings</code> parameter.</p>
+<hr />
+<p><strong>Exercise 9.6 - using the <code>na.strings</code> parameter</strong></p>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="pipe.html#cb345-1" tabindex="-1"></a><span class="co"># reload the data from the `students.csv` file into the `students` variable</span></span>
+<span id="cb345-2"><a href="pipe.html#cb345-2" tabindex="-1"></a><span class="co"># add the `na.strings` parameter to the `read.csv` command with a character string representing NA</span></span>
+<span id="cb345-3"><a href="pipe.html#cb345-3" tabindex="-1"></a></span>
+<span id="cb345-4"><a href="pipe.html#cb345-4" tabindex="-1"></a></span>
+<span id="cb345-5"><a href="pipe.html#cb345-5" tabindex="-1"></a><span class="co"># briefly explore the `students` data frame</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="pipe.html#cb346-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span> (<span class="st">&quot;students.csv&quot;</span>, <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">stringsAsFactors =</span> F, <span class="at">na.strings =</span> <span class="st">&quot;NULL&quot;</span>)</span>
+<span id="cb346-2"><a href="pipe.html#cb346-2" tabindex="-1"></a></span>
+<span id="cb346-3"><a href="pipe.html#cb346-3" tabindex="-1"></a></span>
+<span id="cb346-4"><a href="pipe.html#cb346-4" tabindex="-1"></a><span class="fu">str</span>(students)</span>
+<span id="cb346-5"><a href="pipe.html#cb346-5" tabindex="-1"></a><span class="fu">head</span>(students)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    27 obs. of  10 variables:
+##  $ JMBAG        : int  1341 1342 1343 1344 1345 1346 1347 1348 1349 1350 ...
+##  $ Surname      : chr  &quot;Anić&quot; &quot;Babić&quot; &quot;Crnoja&quot; &quot;Črnjac&quot; ...
+##  $ Name         : chr  &quot;Iva&quot; &quot;Josip&quot; &quot;Petra&quot; &quot;Lucija&quot; ...
+##  $ Math.1       : int  2 5 4 2 NA NA NA 3 3 4 ...
+##  $ Physics.1    : int  2 3 3 5 4 3 3 4 2 2 ...
+##  $ Programming  : int  NA 4 4 2 3 NA 3 3 3 4 ...
+##  $ Electronics  : int  NA 3 2 2 5 5 3 4 2 2 ...
+##  $ Digital.Logic: int  4 NA 3 3 2 5 2 4 3 5 ...
+##  $ Math.2       : int  2 5 4 3 2 5 2 5 NA 4 ...
+##  $ Algorithms.1 : int  2 5 3 4 2 5 5 4 3 2 ...
+##   JMBAG Surname   Name Math.1 Physics.1 Programming Electronics Digital.Logic
+## 1  1341    Anić    Iva      2         2          NA          NA             4
+## 2  1342   Babić  Josip      5         3           4           3            NA
+## 3  1343  Crnoja  Petra      4         3           4           2             3
+## 4  1344  Črnjac Lucija      2         5           2           2             3
+## 5  1345   Dizla  Stipe     NA         4           3           5             2
+## 6  1346   Ermić   Igor     NA         3          NA           5             5
+##   Math.2 Algorithms.1
+## 1      2            2
+## 2      5            5
+## 3      4            3
+## 4      3            4
+## 5      2            2
+## 6      5            5</code></pre>
+</div>
+<hr />
+<p>We see that the columns are now of the appropriate type - but still the data frame does not fully fit the definition of “tidy data”. The names of the columns are actually the categories of the variable <code>course</code> and the ‘observation’ in this table is represented by the student, even though a more logical granularity would be to have each grade as a specific observation. Now, adding a new grade from a course is only possible by adding a new column, making sure to add grades for <em>all</em> students, which would inevitably mean immediately entering a lot of <code>NA</code> values for all student/course combinations where no grade yet exists (and maybe never will, if the student never takes that course at all).</p>
+<p>Let’s try to reorganize the table so each row represents “a grade student received in a particular course”. Consider what steps should be taken to create such a table. We need to:</p>
+<ul>
+<li>create a categorical variable <code>Course</code> which would have the names of all the courses (currently spread over column names)</li>
+<li>create all student/course combinations that make sense (i.e. have a grade assigned to them)</li>
+<li>fill in the combinations with the corresponding grade value</li>
+</ul>
+<p>This process is not impossible, but it does require a lot of jumping through hoops to redesign the data frame. To simplify this process, we can use the <code>pivot_longer</code> function from the<code>tidyr</code> package, which performs the exact procedure we described above: it “pivots” columns into a single variable and then populates the values of that variable with the existing column/row combinations, converting a table into a “longer” shape. The function signature looks like this (not all parameters are shown):</p>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="pipe.html#cb348-1" tabindex="-1"></a><span class="fu">pivot_longer</span>(data, cols, names_to, values_to, values_drop_na)</span></code></pre></div>
+<p>You can get a detailed description of the function as well as the parameters not shown above by calling <code>?pilot_longer</code>, but here we will just briefly explain some of the parameters:</p>
+<ul>
+<li><code>data</code> represents our data frame</li>
+<li><code>cols</code> represents the set of columns we “pivot”; we can specify column names separated by commas (quotes are also not required), use the syntax <code>first_column:last_column</code>, or even just name the columns we do NOT want to gather by prefacing them with the <code>-</code> sign</li>
+<li><code>names_to</code> represents the name of the new column - the categorical variable we want to create (in our case <code>"Course"</code>);<br />
+</li>
+<li><code>value_to</code> represents the name of the new column (variable) which will hold values with values (in our case <code>Grade"</code>)</li>
+<li><code>values_drop_na</code> describes whether we want to omit observations with <code>NA</code> values</li>
+</ul>
+<p>Let’s try out this function with our untidy data frame.</p>
+<hr />
+<p><strong>Exercise 9.7 - <code>pivot_longer</code> function</strong></p>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="pipe.html#cb349-1" tabindex="-1"></a><span class="co"># create a `grades` data frame by using the `pivot_longer` function on the `students` data frame</span></span>
+<span id="cb349-2"><a href="pipe.html#cb349-2" tabindex="-1"></a><span class="co"># new columns should be called &quot;Course&quot; and &quot;Grade&quot;</span></span>
+<span id="cb349-3"><a href="pipe.html#cb349-3" tabindex="-1"></a></span>
+<span id="cb349-4"><a href="pipe.html#cb349-4" tabindex="-1"></a></span>
+<span id="cb349-5"><a href="pipe.html#cb349-5" tabindex="-1"></a><span class="co"># briefly explore the `grades` data frame</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="pipe.html#cb350-1" tabindex="-1"></a><span class="co"># create a `grades` data frame by using the `pivot_longer` function on the `students` data frame</span></span>
+<span id="cb350-2"><a href="pipe.html#cb350-2" tabindex="-1"></a><span class="co"># new columns should be called &quot;Course&quot; and &quot;Grade&quot;</span></span>
+<span id="cb350-3"><a href="pipe.html#cb350-3" tabindex="-1"></a></span>
+<span id="cb350-4"><a href="pipe.html#cb350-4" tabindex="-1"></a><span class="co">#library(tidyr)  # if necessary</span></span>
+<span id="cb350-5"><a href="pipe.html#cb350-5" tabindex="-1"></a>grades <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(students, <span class="at">cols =</span> Math<span class="fl">.1</span><span class="sc">:</span>Algorithms<span class="fl">.1</span>, </span>
+<span id="cb350-6"><a href="pipe.html#cb350-6" tabindex="-1"></a>                       <span class="at">names_to =</span> <span class="st">&quot;Course&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Grade&quot;</span>,</span>
+<span id="cb350-7"><a href="pipe.html#cb350-7" tabindex="-1"></a>                       <span class="at">values_drop_na =</span> T)</span>
+<span id="cb350-8"><a href="pipe.html#cb350-8" tabindex="-1"></a></span>
+<span id="cb350-9"><a href="pipe.html#cb350-9" tabindex="-1"></a><span class="fu">str</span>(grades)</span>
+<span id="cb350-10"><a href="pipe.html#cb350-10" tabindex="-1"></a><span class="fu">head</span>(grades)</span></code></pre></div>
+<pre><code>## tibble [168 × 5] (S3: tbl_df/tbl/data.frame)
+##  $ JMBAG  : int [1:168] 1341 1341 1341 1341 1341 1342 1342 1342 1342 1342 ...
+##  $ Surname: chr [1:168] &quot;Anić&quot; &quot;Anić&quot; &quot;Anić&quot; &quot;Anić&quot; ...
+##  $ Name   : chr [1:168] &quot;Iva&quot; &quot;Iva&quot; &quot;Iva&quot; &quot;Iva&quot; ...
+##  $ Course : chr [1:168] &quot;Math.1&quot; &quot;Physics.1&quot; &quot;Digital.Logic&quot; &quot;Math.2&quot; ...
+##  $ Grade  : int [1:168] 2 2 4 2 2 5 3 4 3 5 ...
+## # A tibble: 6 × 5
+##   JMBAG Surname Name  Course        Grade
+##   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;
+## 1  1341 Anić    Iva   Math.1            2
+## 2  1341 Anić    Iva   Physics.1         2
+## 3  1341 Anić    Iva   Digital.Logic     4
+## 4  1341 Anić    Iva   Math.2            2
+## 5  1341 Anić    Iva   Algorithms.1      2
+## 6  1342 Babić   Josip Math.1            5</code></pre>
+</div>
+<hr />
+<p>The <code>pivot_wider</code> function does the inverse job from the <code>pivot_longer</code> function. It will “expand” data from a combination of a categorical column and a corresponding “value” column so the categories become column names, and the values from the value column get appropriately “spread” over the corresponding columns.</p>
+<p>The (abridged) function signature looks like this:</p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="pipe.html#cb352-1" tabindex="-1"></a><span class="fu">pivot_wider</span>(data, names_from, <span class="at">names_prefix =</span> <span class="st">&quot;&quot;</span>, values_from, <span class="at">values_fill =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<p>Complete documentation of this function is easily retrieved by using <code>?pivot_wider</code>. The shortened list of parameters outlined above do the following:</p>
+<ul>
+<li><code>data</code> is again out data frame</li>
+<li><code>names_from</code> represents the name of the column whose values we will be pivoting into new columns (no need for quotes)</li>
+<li><code>names_prefix</code> is an optional prefix we can add to new columns (useful if values of new columns are numbers, again no need for quotes)</li>
+<li><code>values_from</code> represents the name of the column with values we will be filling the cells of new columns with</li>
+<li><code>values_fill</code> is an optional value we can put when the values are missing; if left at <code>NULL</code> the values will be filled with <code>NA</code></li>
+</ul>
+<p>Let’s try to “reconstruct” the original <code>students</code> data frame with this command.</p>
+<hr />
+<p><strong>Exercise 9.8 - <code>pivot_wider</code> function</strong></p>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="pipe.html#cb353-1" tabindex="-1"></a><span class="co"># &quot;pivot&quot; the `grades` data frame into a wide format to reconstruct the</span></span>
+<span id="cb353-2"><a href="pipe.html#cb353-2" tabindex="-1"></a><span class="co"># original data frame</span></span>
+<span id="cb353-3"><a href="pipe.html#cb353-3" tabindex="-1"></a><span class="co"># store the results in a `students2` data frame</span></span>
+<span id="cb353-4"><a href="pipe.html#cb353-4" tabindex="-1"></a></span>
+<span id="cb353-5"><a href="pipe.html#cb353-5" tabindex="-1"></a><span class="co"># compare `students` and` students2` data frames</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="pipe.html#cb354-1" tabindex="-1"></a><span class="co"># &quot;pivot&quot; the `grades` data frame into a wide format to reconstruct the</span></span>
+<span id="cb354-2"><a href="pipe.html#cb354-2" tabindex="-1"></a><span class="co"># original data frame</span></span>
+<span id="cb354-3"><a href="pipe.html#cb354-3" tabindex="-1"></a><span class="co"># store the results in a `students2` data frame</span></span>
+<span id="cb354-4"><a href="pipe.html#cb354-4" tabindex="-1"></a>students2 <span class="ot">&lt;-</span> <span class="fu">pivot_wider</span>(grades, <span class="at">names_from =</span> Course, <span class="at">values_from =</span> Grade)</span>
+<span id="cb354-5"><a href="pipe.html#cb354-5" tabindex="-1"></a></span>
+<span id="cb354-6"><a href="pipe.html#cb354-6" tabindex="-1"></a><span class="co"># compare `students` and `students2` data frames</span></span>
+<span id="cb354-7"><a href="pipe.html#cb354-7" tabindex="-1"></a><span class="fu">head</span>(students)</span>
+<span id="cb354-8"><a href="pipe.html#cb354-8" tabindex="-1"></a><span class="fu">head</span>(students2)</span>
+<span id="cb354-9"><a href="pipe.html#cb354-9" tabindex="-1"></a><span class="fu">str</span>(students)</span>
+<span id="cb354-10"><a href="pipe.html#cb354-10" tabindex="-1"></a><span class="fu">str</span>(students2)</span></code></pre></div>
+<pre><code>##   JMBAG Surname   Name Math.1 Physics.1 Programming Electronics Digital.Logic
+## 1  1341    Anić    Iva      2         2          NA          NA             4
+## 2  1342   Babić  Josip      5         3           4           3            NA
+## 3  1343  Crnoja  Petra      4         3           4           2             3
+## 4  1344  Črnjac Lucija      2         5           2           2             3
+## 5  1345   Dizla  Stipe     NA         4           3           5             2
+## 6  1346   Ermić   Igor     NA         3          NA           5             5
+##   Math.2 Algorithms.1
+## 1      2            2
+## 2      5            5
+## 3      4            3
+## 4      3            4
+## 5      2            2
+## 6      5            5
+## # A tibble: 6 × 10
+##   JMBAG Surname Name   Math.1 Physics.1 Digital.Logic Math.2 Algorithms.1
+##   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;int&gt;     &lt;int&gt;         &lt;int&gt;  &lt;int&gt;        &lt;int&gt;
+## 1  1341 Anić    Iva         2         2             4      2            2
+## 2  1342 Babić   Josip       5         3            NA      5            5
+## 3  1343 Crnoja  Petra       4         3             3      4            3
+## 4  1344 Črnjac  Lucija      2         5             3      3            4
+## 5  1345 Dizla   Stipe      NA         4             2      2            2
+## 6  1346 Ermić   Igor       NA         3             5      5            5
+## # ℹ 2 more variables: Programming &lt;int&gt;, Electronics &lt;int&gt;
+## &#39;data.frame&#39;:    27 obs. of  10 variables:
+##  $ JMBAG        : int  1341 1342 1343 1344 1345 1346 1347 1348 1349 1350 ...
+##  $ Surname      : chr  &quot;Anić&quot; &quot;Babić&quot; &quot;Crnoja&quot; &quot;Črnjac&quot; ...
+##  $ Name         : chr  &quot;Iva&quot; &quot;Josip&quot; &quot;Petra&quot; &quot;Lucija&quot; ...
+##  $ Math.1       : int  2 5 4 2 NA NA NA 3 3 4 ...
+##  $ Physics.1    : int  2 3 3 5 4 3 3 4 2 2 ...
+##  $ Programming  : int  NA 4 4 2 3 NA 3 3 3 4 ...
+##  $ Electronics  : int  NA 3 2 2 5 5 3 4 2 2 ...
+##  $ Digital.Logic: int  4 NA 3 3 2 5 2 4 3 5 ...
+##  $ Math.2       : int  2 5 4 3 2 5 2 5 NA 4 ...
+##  $ Algorithms.1 : int  2 5 3 4 2 5 5 4 3 2 ...
+## tibble [27 × 10] (S3: tbl_df/tbl/data.frame)
+##  $ JMBAG        : int [1:27] 1341 1342 1343 1344 1345 1346 1347 1348 1349 1350 ...
+##  $ Surname      : chr [1:27] &quot;Anić&quot; &quot;Babić&quot; &quot;Crnoja&quot; &quot;Črnjac&quot; ...
+##  $ Name         : chr [1:27] &quot;Iva&quot; &quot;Josip&quot; &quot;Petra&quot; &quot;Lucija&quot; ...
+##  $ Math.1       : int [1:27] 2 5 4 2 NA NA NA 3 3 4 ...
+##  $ Physics.1    : int [1:27] 2 3 3 5 4 3 3 4 2 2 ...
+##  $ Digital.Logic: int [1:27] 4 NA 3 3 2 5 2 4 3 5 ...
+##  $ Math.2       : int [1:27] 2 5 4 3 2 5 2 5 NA 4 ...
+##  $ Algorithms.1 : int [1:27] 2 5 3 4 2 5 5 4 3 2 ...
+##  $ Programming  : int [1:27] NA 4 4 2 3 NA 3 3 3 4 ...
+##  $ Electronics  : int [1:27] NA 3 2 2 5 5 3 4 2 2 ...</code></pre>
+</div>
+<hr />
+<p>In the previous example, we demonstrated the inverse functionality of the <code>pivot_longer</code> and <code>pivot_wider</code> functions, but our usage <code>pivot_wider</code> did not serve to tidy up the data, it just enabled us to revert to the original data frame. Let us now look at an example where <code>pivot_wider</code> is sed to actually make the data tidier.</p>
+<p>Let’s load data from the <code>cars.csv</code> file that stores the technical characteristics of specific cars.</p>
+<hr />
+<p><strong>Exercise 9.9 - <code>cars</code> data set</strong></p>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="pipe.html#cb356-1" tabindex="-1"></a><span class="co">#load the `cars.csv` file into a data frame called `cars`</span></span>
+<span id="cb356-2"><a href="pipe.html#cb356-2" tabindex="-1"></a></span>
+<span id="cb356-3"><a href="pipe.html#cb356-3" tabindex="-1"></a><span class="co">#briefly explore the `cars` data frame</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="pipe.html#cb357-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;cars.csv&quot;</span>, <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">stringsAsFactors =</span> F)</span>
+<span id="cb357-2"><a href="pipe.html#cb357-2" tabindex="-1"></a></span>
+<span id="cb357-3"><a href="pipe.html#cb357-3" tabindex="-1"></a><span class="fu">str</span>(cars)</span>
+<span id="cb357-4"><a href="pipe.html#cb357-4" tabindex="-1"></a><span class="fu">head</span>(cars)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    18 obs. of  3 variables:
+##  $ Car.model               : chr  &quot;Opel Astra&quot; &quot;Opel Astra&quot; &quot;Opel Astra&quot; &quot;Opel Astra&quot; ...
+##  $ Technical.Characteristic: chr  &quot;Cylinders&quot; &quot;HP&quot; &quot;Length m&quot; &quot;Mass kg&quot; ...
+##  $ Value                   : num  4 125 4.27 1285 4 ...
+##    Car.model Technical.Characteristic    Value
+## 1 Opel Astra                Cylinders    4.000
+## 2 Opel Astra                       HP  125.000
+## 3 Opel Astra                 Length m    4.267
+## 4 Opel Astra                  Mass kg 1285.000
+## 5    Audi A4                Cylinders    4.000
+## 6    Audi A4                       HP  136.000</code></pre>
+</div>
+<hr />
+<p>This table clearly violates the principles of tidy data which dictate that only one type of variable should be stored in a column - the technical characteristics of the car are placed in a unique column called <code>Technical.Characteristic</code> and in the <code>value</code> column holds very heterogeneous values (we have mass in kilograms, length in meters, etc.).</p>
+<p>Try tidying up this data frame with the <code>pivot_wider</code> function.</p>
+<hr />
+<p><strong>Exercise 9.10 - <code>pivot_wider</code> function (2)</strong></p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="pipe.html#cb359-1" tabindex="-1"></a><span class="co"># create an `cars2` data frame which will have </span></span>
+<span id="cb359-2"><a href="pipe.html#cb359-2" tabindex="-1"></a><span class="co"># the tidied data from the `cars` data frame</span></span>
+<span id="cb359-3"><a href="pipe.html#cb359-3" tabindex="-1"></a></span>
+<span id="cb359-4"><a href="pipe.html#cb359-4" tabindex="-1"></a><span class="co"># briefly explore the `cars2` data frame</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="pipe.html#cb360-1" tabindex="-1"></a><span class="co"># create an `cars2` data frame which will have </span></span>
+<span id="cb360-2"><a href="pipe.html#cb360-2" tabindex="-1"></a><span class="co"># the tidied data from the `cars` data frame</span></span>
+<span id="cb360-3"><a href="pipe.html#cb360-3" tabindex="-1"></a>cars2 <span class="ot">&lt;-</span> <span class="fu">pivot_wider</span>(cars, <span class="at">names_from =</span> Technical.Characteristic, <span class="at">values_from =</span> Value)</span>
+<span id="cb360-4"><a href="pipe.html#cb360-4" tabindex="-1"></a></span>
+<span id="cb360-5"><a href="pipe.html#cb360-5" tabindex="-1"></a><span class="co"># briefly explore the `cars2` data frame</span></span>
+<span id="cb360-6"><a href="pipe.html#cb360-6" tabindex="-1"></a><span class="fu">str</span>(cars2)</span>
+<span id="cb360-7"><a href="pipe.html#cb360-7" tabindex="-1"></a><span class="fu">head</span>(cars2)</span></code></pre></div>
+<pre><code>## tibble [5 × 6] (S3: tbl_df/tbl/data.frame)
+##  $ Car.model: chr [1:5] &quot;Opel Astra&quot; &quot;Audi A4&quot; &quot;Renault Grand Scenic&quot; &quot;Citroen C6&quot; ...
+##  $ Cylinders: num [1:5] 4 4 4 6 2
+##  $ HP       : num [1:5] 125 136 110 215 103
+##  $ Length m : num [1:5] 4.27 4.7 4.56 NA NA
+##  $ Mass kg  : num [1:5] 1285 1470 NA 1816 1260
+##  $ Valves   : num [1:5] NA NA 16 NA NA
+## # A tibble: 5 × 6
+##   Car.model            Cylinders    HP `Length m` `Mass kg` Valves
+##   &lt;chr&gt;                    &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+## 1 Opel Astra                   4   125       4.27      1285     NA
+## 2 Audi A4                      4   136       4.70      1470     NA
+## 3 Renault Grand Scenic         4   110       4.56        NA     16
+## 4 Citroen C6                   6   215      NA         1816     NA
+## 5 Fiat 500L                    2   103      NA         1260     NA</code></pre>
+</div>
+<hr />
+<p>The <code>pivot_longer</code> and <code>pivot_wider</code> commands are not only used for ‘messy’ data. Sometimes we will be pivoting our tables because one or other format is better suited for the analysis methods we wont to employ on the data. Let’s show this on the example of recommender systems</p>
+<p>Shopping cart data (or “consumer basket data”) is a record of items purchased by a customer during their visit to the store (be it a virtual store or a real retail outlet). If we write consumer basket information in a “wide” or “matrix” format, then we organize the information so that the columns represent individual items and the rows represent one successful “visit” to the story (or simply “invoice”). Here, a value of <code>1</code> means that the item ultimately ended up in the cart, while <code>0</code> means it was not present there (alternative way would be to use numbers over <code>1</code> to denote the exact quantity).</p>
+<p>This kind of representation is suitable for some recommender system implementations, because then the choice of which items to recommend can boil down to finding a “row vector” which is the closest to the one representing the current shopping cart. On the other hand, this type of representation is very uneconomical - if the store has a large number of items on offer, data will often have long rows mostly filled with “zeros”. Alternatively, the “long” format simply puts a combination of a shopping cart identifier (or account number) and the name (or code) of the item purchased in each row. This dataset will naturally have significantly more rows, but will still be much more suitable for storage purposes in cases where the number of items in the range is far greater than the number of items in the average basket.</p>
+<hr />
+<p><strong>Exercise 9.11 - Consumer basket data</strong></p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="pipe.html#cb362-1" tabindex="-1"></a><span class="co"># Load data from the `ConsumersBasket.csv` file into the `invoices` data frame</span></span>
+<span id="cb362-2"><a href="pipe.html#cb362-2" tabindex="-1"></a></span>
+<span id="cb362-3"><a href="pipe.html#cb362-3" tabindex="-1"></a><span class="co"># briefly explore the `invoices` data frame</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="pipe.html#cb363-1" tabindex="-1"></a>invoices <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;ConsumerBasket.csv&quot;</span>, <span class="at">stringsAsFactors =</span> F, <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>)</span>
+<span id="cb363-2"><a href="pipe.html#cb363-2" tabindex="-1"></a></span>
+<span id="cb363-3"><a href="pipe.html#cb363-3" tabindex="-1"></a><span class="fu">str</span>(invoices)</span>
+<span id="cb363-4"><a href="pipe.html#cb363-4" tabindex="-1"></a><span class="fu">head</span>(invoices)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    104 obs. of  21 variables:
+##  $ invoiceID           : int  15671 15672 15673 15674 15675 15676 15677 15678 15679 15680 ...
+##  $ Coca.cola.2l        : int  0 1 1 0 1 0 0 0 0 0 ...
+##  $ Chips.150g          : int  0 0 1 0 0 0 0 1 0 0 ...
+##  $ Nutella.400.g       : int  0 1 0 0 1 0 0 0 0 0 ...
+##  $ Light.Beer          : int  0 1 0 0 0 0 0 0 0 1 ...
+##  $ Dark.Beer           : int  1 0 0 1 0 0 0 0 0 1 ...
+##  $ Fabric.Softener.1.5l: int  0 0 0 0 0 0 0 1 0 1 ...
+##  $ Water.2l            : int  0 0 1 0 0 0 0 0 1 1 ...
+##  $ Oranges             : int  0 0 0 1 1 0 0 0 1 1 ...
+##  $ Apples              : int  1 0 0 1 0 0 0 0 0 0 ...
+##  $ Pineapples          : int  0 0 1 0 0 0 0 1 1 1 ...
+##  $ Napkins             : int  0 0 0 0 1 1 0 0 0 0 ...
+##  $ Patte               : int  0 0 1 1 0 0 0 0 0 1 ...
+##  $ Ketchup             : int  1 0 0 1 0 0 0 0 0 1 ...
+##  $ Mustard             : int  1 0 0 0 0 0 0 1 0 0 ...
+##  $ Milk.0.5l           : int  0 1 0 1 1 0 0 0 0 0 ...
+##  $ Sour.Cream          : int  0 1 0 0 0 0 1 0 0 1 ...
+##  $ Feta.cheese         : int  0 0 0 1 0 0 0 0 0 0 ...
+##  $ Sardines            : int  0 0 0 0 0 0 0 0 0 1 ...
+##  $ Tuna.patte          : int  1 1 1 0 0 1 0 0 0 0 ...
+##  $ Nescaffe            : int  0 0 1 0 0 0 0 0 1 0 ...
+##   invoiceID Coca.cola.2l Chips.150g Nutella.400.g Light.Beer Dark.Beer
+## 1     15671            0          0             0          0         1
+## 2     15672            1          0             1          1         0
+## 3     15673            1          1             0          0         0
+## 4     15674            0          0             0          0         1
+## 5     15675            1          0             1          0         0
+## 6     15676            0          0             0          0         0
+##   Fabric.Softener.1.5l Water.2l Oranges Apples Pineapples Napkins Patte Ketchup
+## 1                    0        0       0      1          0       0     0       1
+## 2                    0        0       0      0          0       0     0       0
+## 3                    0        1       0      0          1       0     1       0
+## 4                    0        0       1      1          0       0     1       1
+## 5                    0        0       1      0          0       1     0       0
+## 6                    0        0       0      0          0       1     0       0
+##   Mustard Milk.0.5l Sour.Cream Feta.cheese Sardines Tuna.patte Nescaffe
+## 1       1         0          0           0        0          1        0
+## 2       0         1          1           0        0          1        0
+## 3       0         0          0           0        0          1        1
+## 4       0         1          0           1        0          0        0
+## 5       0         1          0           0        0          0        0
+## 6       0         0          0           0        0          1        0</code></pre>
+</div>
+<hr />
+<p><strong>Exercise 9.12 - converting data frame to a ‘long’ format</strong></p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="pipe.html#cb365-1" tabindex="-1"></a><span class="co"># convert `invoices` data frame to a &quot;long&quot; format</span></span>
+<span id="cb365-2"><a href="pipe.html#cb365-2" tabindex="-1"></a><span class="co"># each row needs to have invoiceID and itemName </span></span>
+<span id="cb365-3"><a href="pipe.html#cb365-3" tabindex="-1"></a><span class="co"># only bought items need to be present</span></span>
+<span id="cb365-4"><a href="pipe.html#cb365-4" tabindex="-1"></a><span class="co"># name the new data frame `invoicesLong`</span></span>
+<span id="cb365-5"><a href="pipe.html#cb365-5" tabindex="-1"></a></span>
+<span id="cb365-6"><a href="pipe.html#cb365-6" tabindex="-1"></a><span class="co"># store the new data frame in a new CSV file</span></span>
+<span id="cb365-7"><a href="pipe.html#cb365-7" tabindex="-1"></a><span class="co"># called &quot;ConsumerBasketLong.csv&quot;</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="pipe.html#cb366-1" tabindex="-1"></a><span class="co"># convert `invoices` data frame to a &quot;long&quot; format</span></span>
+<span id="cb366-2"><a href="pipe.html#cb366-2" tabindex="-1"></a><span class="co"># each row needs to have invoiceID and itemName </span></span>
+<span id="cb366-3"><a href="pipe.html#cb366-3" tabindex="-1"></a><span class="co"># only bought items need to be present</span></span>
+<span id="cb366-4"><a href="pipe.html#cb366-4" tabindex="-1"></a><span class="co"># name the new data frame `invoicesLong`</span></span>
+<span id="cb366-5"><a href="pipe.html#cb366-5" tabindex="-1"></a>invoicesLong <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(invoices, <span class="at">cols =</span> <span class="sc">-</span>invoiceID, <span class="at">names_to =</span> <span class="st">&quot;itemName&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>)</span>
+<span id="cb366-6"><a href="pipe.html#cb366-6" tabindex="-1"></a>invoicesLong  <span class="ot">&lt;-</span> invoicesLong[invoicesLong<span class="sc">$</span>value <span class="sc">!=</span> <span class="dv">0</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb366-7"><a href="pipe.html#cb366-7" tabindex="-1"></a>invoicesLong <span class="ot">&lt;-</span> invoicesLong[<span class="fu">order</span>(invoicesLong<span class="sc">$</span>invoiceID),]</span>
+<span id="cb366-8"><a href="pipe.html#cb366-8" tabindex="-1"></a><span class="fu">head</span>(invoicesLong)</span>
+<span id="cb366-9"><a href="pipe.html#cb366-9" tabindex="-1"></a></span>
+<span id="cb366-10"><a href="pipe.html#cb366-10" tabindex="-1"></a></span>
+<span id="cb366-11"><a href="pipe.html#cb366-11" tabindex="-1"></a><span class="co"># store the new data frame in a new CSV file</span></span>
+<span id="cb366-12"><a href="pipe.html#cb366-12" tabindex="-1"></a><span class="co"># called &quot;ConsumerBasketLong.csv&quot;</span></span>
+<span id="cb366-13"><a href="pipe.html#cb366-13" tabindex="-1"></a><span class="fu">write.csv</span>(invoicesLong, <span class="at">file =</span> <span class="st">&#39;ConsumerBasketLong.csv&#39;</span>, <span class="at">row.names =</span> F)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##   invoiceID itemName    
+##       &lt;int&gt; &lt;chr&gt;       
+## 1     15671 Dark.Beer   
+## 2     15671 Apples      
+## 3     15671 Ketchup     
+## 4     15671 Mustard     
+## 5     15671 Tuna.patte  
+## 6     15672 Coca.cola.2l</code></pre>
+</div>
+<hr />
+<p><strong>Exercise 9.13 - converting data frame to a ‘wide’ format</strong></p>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="pipe.html#cb368-1" tabindex="-1"></a><span class="co"># try formatting the &quot;long&quot; format back to &quot;wide&quot;</span></span>
+<span id="cb368-2"><a href="pipe.html#cb368-2" tabindex="-1"></a></span>
+<span id="cb368-3"><a href="pipe.html#cb368-3" tabindex="-1"></a><span class="co"># store the new data frame in a new CSV file</span></span>
+<span id="cb368-4"><a href="pipe.html#cb368-4" tabindex="-1"></a><span class="co"># called &quot;ConsumerBasketWide.csv&quot;</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="pipe.html#cb369-1" tabindex="-1"></a>invoicesWide <span class="ot">&lt;-</span> invoicesLong</span>
+<span id="cb369-2"><a href="pipe.html#cb369-2" tabindex="-1"></a>invoicesWide<span class="sc">$</span>value <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb369-3"><a href="pipe.html#cb369-3" tabindex="-1"></a>invoicesWide <span class="ot">&lt;-</span> <span class="fu">pivot_wider</span>(invoicesWide, <span class="at">names_from =</span> itemName, </span>
+<span id="cb369-4"><a href="pipe.html#cb369-4" tabindex="-1"></a>                        <span class="at">values_from =</span> value, <span class="at">values_fill =</span> <span class="dv">0</span>)</span>
+<span id="cb369-5"><a href="pipe.html#cb369-5" tabindex="-1"></a><span class="fu">head</span>(invoicesWide)</span>
+<span id="cb369-6"><a href="pipe.html#cb369-6" tabindex="-1"></a><span class="fu">write.csv</span>(invoicesWide, <span class="at">file =</span> <span class="st">&#39;ConsumerBasketWide.csv&#39;</span>, <span class="at">row.names =</span> F)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 21
+##   invoiceID Dark.Beer Apples Ketchup Mustard Tuna.patte Coca.cola.2l
+##       &lt;int&gt;     &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
+## 1     15671         1      1       1       1          1            0
+## 2     15672         0      0       0       0          1            1
+## 3     15673         0      0       0       0          1            1
+## 4     15674         1      1       1       0          0            0
+## 5     15675         0      0       0       0          0            1
+## 6     15676         0      0       0       0          1            0
+## # ℹ 14 more variables: Nutella.400.g &lt;dbl&gt;, Light.Beer &lt;dbl&gt;, Milk.0.5l &lt;dbl&gt;,
+## #   Sour.Cream &lt;dbl&gt;, Chips.150g &lt;dbl&gt;, Water.2l &lt;dbl&gt;, Pineapples &lt;dbl&gt;,
+## #   Patte &lt;dbl&gt;, Nescaffe &lt;dbl&gt;, Oranges &lt;dbl&gt;, Feta.cheese &lt;dbl&gt;,
+## #   Napkins &lt;dbl&gt;, Fabric.Softener.1.5l &lt;dbl&gt;, Sardines &lt;dbl&gt;</code></pre>
+</div>
+<hr />
+</div>
+<div id="the-separate-and-unite-functions" class="section level3 hasAnchor" number="9.2.2">
+<h3><span class="header-section-number">9.2.2</span> The <code>separate</code> and <code>unite</code> functions<a href="pipe.html#the-separate-and-unite-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<hr />
+<p>The <code>tidyr</code> package has a number of other useful features for efficient transformation and clean up of our data frames, and here we will address two more commonly used onesm called <code>separate</code> and <code>unite</code>.</p>
+<p>The <code>separate</code> function is useful when a column has “complex” values that we want to separate into two or more columns.</p>
+<p><strong>Exercise 9.14 - <code>Deparments</code> data set</strong></p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="pipe.html#cb371-1" tabindex="-1"></a><span class="co"># read data from the `departments.csv` file into the` departments` variable</span></span>
+<span id="cb371-2"><a href="pipe.html#cb371-2" tabindex="-1"></a></span>
+<span id="cb371-3"><a href="pipe.html#cb371-3" tabindex="-1"></a><span class="co"># briefly explore the `departments` data frame</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="pipe.html#cb372-1" tabindex="-1"></a>departments <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;departments.csv&quot;</span>, <span class="at">stringsAsFactors =</span> F)</span>
+<span id="cb372-2"><a href="pipe.html#cb372-2" tabindex="-1"></a></span>
+<span id="cb372-3"><a href="pipe.html#cb372-3" tabindex="-1"></a><span class="fu">str</span>(departments)</span>
+<span id="cb372-4"><a href="pipe.html#cb372-4" tabindex="-1"></a><span class="fu">head</span>(departments)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    28 obs. of  4 variables:
+##  $ Department: chr  &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; ...
+##  $ Quarter   : chr  &quot;Q1-2015&quot; &quot;Q2-2015&quot; &quot;Q3-2015&quot; &quot;Q4-2015&quot; ...
+##  $ RevenuesKn: num  12416 224290 10644 191229 258697 ...
+##  $ ExpensesKn: num  23101 63886 35468 12249 61515 ...
+##   Department Quarter RevenuesKn ExpensesKn
+## 1          A Q1-2015    12416.2    23100.5
+## 2          A Q2-2015   224290.1    63886.1
+## 3          A Q3-2015    10643.7    35467.8
+## 4          A Q4-2015   191229.3    12249.1
+## 5          A Q1-2016   258697.4    61514.6
+## 6          A Q2-2016   121865.3    46092.6</code></pre>
+</div>
+<hr />
+<p>This table shows the revenues and expenditures of a company departments by quarter. Quarters are currently stored in a complex variable called <code>Quarter</code> consisting of identifiers of the annual quarter (<code>Q1</code>, <code>Q2</code>, <code>Q3</code> or <code>Q4</code>) and year. For analysis purposes, it would probably be more convenient to break this down into two columns - <code>Quarter</code> (which would store only the quarter identifier) and <code>Year</code>.</p>
+<p>The <code>tidyr</code> package for this purpose offers a <code>separate</code> function with the following signature:</p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="pipe.html#cb374-1" tabindex="-1"></a><span class="fu">separate</span>(data, col, into, <span class="at">sep =</span> <span class="st">&quot;[^[:alnum:]] +&quot;</span>, <span class="at">remove =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb374-2"><a href="pipe.html#cb374-2" tabindex="-1"></a>  <span class="at">convert =</span> <span class="cn">FALSE</span>, <span class="at">extra =</span> <span class="st">&quot;warn&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;warn&quot;</span>, ...)</span></code></pre></div>
+<p>The complete documentation of the function can be viewed with the command <code>?separate</code> while here we explain some important parameters:</p>
+<ul>
+<li><code>col</code> - column to be separated (no quotes required)</li>
+<li><code>into</code> - names of new columns (character vector is recommended)</li>
+<li><code>sep</code> - value separator in original column, <em>default</em> value is actually a regular expression for “something that is not an alphanumeric character”</li>
+<li><code>remove</code> - describes whether or not to remove the original column</li>
+</ul>
+<p>Let’s try to apply this function to the <code>departments</code> data frame.</p>
+<hr />
+<p><strong>Exercise 9.15 - the <code>separate</code> function</strong></p>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="pipe.html#cb375-1" tabindex="-1"></a><span class="co"># Separate the `Quarter` column into the `Quarter` and `Year` columns while removing the original column</span></span>
+<span id="cb375-2"><a href="pipe.html#cb375-2" tabindex="-1"></a><span class="co"># save the resulting data frame to the `departments2` variable</span></span>
+<span id="cb375-3"><a href="pipe.html#cb375-3" tabindex="-1"></a><span class="co"># try to do everything within one command with the help of the `%&gt;%` operator</span></span>
+<span id="cb375-4"><a href="pipe.html#cb375-4" tabindex="-1"></a></span>
+<span id="cb375-5"><a href="pipe.html#cb375-5" tabindex="-1"></a></span>
+<span id="cb375-6"><a href="pipe.html#cb375-6" tabindex="-1"></a><span class="co"># briefly explore the `departments2` data frame</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="pipe.html#cb376-1" tabindex="-1"></a>departments <span class="sc">%&gt;%</span> <span class="fu">separate</span>(Quarter, <span class="fu">c</span>(<span class="st">&quot;Quarter&quot;</span>, <span class="st">&quot;Year&quot;</span>), <span class="st">&quot;-&quot;</span>) <span class="ot">-&gt;</span> departments2</span>
+<span id="cb376-2"><a href="pipe.html#cb376-2" tabindex="-1"></a></span>
+<span id="cb376-3"><a href="pipe.html#cb376-3" tabindex="-1"></a><span class="fu">str</span>(departments2)</span>
+<span id="cb376-4"><a href="pipe.html#cb376-4" tabindex="-1"></a><span class="fu">head</span>(departments2)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    28 obs. of  5 variables:
+##  $ Department: chr  &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; ...
+##  $ Quarter   : chr  &quot;Q1&quot; &quot;Q2&quot; &quot;Q3&quot; &quot;Q4&quot; ...
+##  $ Year      : chr  &quot;2015&quot; &quot;2015&quot; &quot;2015&quot; &quot;2015&quot; ...
+##  $ RevenuesKn: num  12416 224290 10644 191229 258697 ...
+##  $ ExpensesKn: num  23101 63886 35468 12249 61515 ...
+##   Department Quarter Year RevenuesKn ExpensesKn
+## 1          A      Q1 2015    12416.2    23100.5
+## 2          A      Q2 2015   224290.1    63886.1
+## 3          A      Q3 2015    10643.7    35467.8
+## 4          A      Q4 2015   191229.3    12249.1
+## 5          A      Q1 2016   258697.4    61514.6
+## 6          A      Q2 2016   121865.3    46092.6</code></pre>
+</div>
+<hr />
+<p>Note that the <code>Quarter</code> and<code>Year</code> columns are actually categorical variables so it would probably be a good idea to factorize them if we are to use them in further analysis.</p>
+<p>The <code>separate</code> function is often used to disassemble dates (eg <code>2016-10-28</code> into the year, month and day), but in such situations it is recommended to use the <code>lubridate</code> package created precisely for easier date management. We will introduce this package in one of the following chapters.</p>
+<hr />
+<p>Finally, let’s learn the <code>unite</code> function, which is somewhat less commonly used and is actually an inverse of the <code>separate</code> function. The <code>unite</code> function signature is:</p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="pipe.html#cb378-1" tabindex="-1"></a><span class="fu">unite</span>(data, col, ..., <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>, <span class="at">remove =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>In this case, too, we can easily retrieve the documentation for <code>unite</code>, and will just briefly describe the parameters that potentially require additional explanation:</p>
+<ul>
+<li><code>col</code> - new column name (quotes not required)</li>
+<li><code>...</code> - the names of the columns we merge - we don’t have to use quotation marks, and if there are many columns we can use the same syntax to select as with the <code>gather</code> function</li>
+</ul>
+<p>Let’s try using this function on the <code>departments2</code> data frame.</p>
+<hr />
+<p><strong>Exercise 9.16 - the <code>unite</code> function</strong></p>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="pipe.html#cb379-1" tabindex="-1"></a><span class="co"># merge the `Quarter` and `Year` columns from the `departments2` table into a unique` Quarter` column</span></span>
+<span id="cb379-2"><a href="pipe.html#cb379-2" tabindex="-1"></a><span class="co"># remove the previous `Quarter` and `Year` columns</span></span>
+<span id="cb379-3"><a href="pipe.html#cb379-3" tabindex="-1"></a><span class="co"># use `-` as a separator</span></span>
+<span id="cb379-4"><a href="pipe.html#cb379-4" tabindex="-1"></a><span class="co"># save the result to the `departments3` variable</span></span>
+<span id="cb379-5"><a href="pipe.html#cb379-5" tabindex="-1"></a><span class="co"># use the `%&gt;% &#39;operator to put everything in one line</span></span>
+<span id="cb379-6"><a href="pipe.html#cb379-6" tabindex="-1"></a></span>
+<span id="cb379-7"><a href="pipe.html#cb379-7" tabindex="-1"></a></span>
+<span id="cb379-8"><a href="pipe.html#cb379-8" tabindex="-1"></a><span class="co"># compare `departments` and `departments3` data frames</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="pipe.html#cb380-1" tabindex="-1"></a>departments2 <span class="sc">%&gt;%</span> <span class="fu">unite</span>(Quarter, Quarter, Year, <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>) <span class="ot">-&gt;</span> departments3</span>
+<span id="cb380-2"><a href="pipe.html#cb380-2" tabindex="-1"></a></span>
+<span id="cb380-3"><a href="pipe.html#cb380-3" tabindex="-1"></a><span class="fu">str</span>(departments2)</span>
+<span id="cb380-4"><a href="pipe.html#cb380-4" tabindex="-1"></a><span class="fu">head</span>(departments2)</span>
+<span id="cb380-5"><a href="pipe.html#cb380-5" tabindex="-1"></a><span class="fu">str</span>(departments3)</span>
+<span id="cb380-6"><a href="pipe.html#cb380-6" tabindex="-1"></a><span class="fu">head</span>(departments3)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    28 obs. of  5 variables:
+##  $ Department: chr  &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; ...
+##  $ Quarter   : chr  &quot;Q1&quot; &quot;Q2&quot; &quot;Q3&quot; &quot;Q4&quot; ...
+##  $ Year      : chr  &quot;2015&quot; &quot;2015&quot; &quot;2015&quot; &quot;2015&quot; ...
+##  $ RevenuesKn: num  12416 224290 10644 191229 258697 ...
+##  $ ExpensesKn: num  23101 63886 35468 12249 61515 ...
+##   Department Quarter Year RevenuesKn ExpensesKn
+## 1          A      Q1 2015    12416.2    23100.5
+## 2          A      Q2 2015   224290.1    63886.1
+## 3          A      Q3 2015    10643.7    35467.8
+## 4          A      Q4 2015   191229.3    12249.1
+## 5          A      Q1 2016   258697.4    61514.6
+## 6          A      Q2 2016   121865.3    46092.6
+## &#39;data.frame&#39;:    28 obs. of  4 variables:
+##  $ Department: chr  &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; ...
+##  $ Quarter   : chr  &quot;Q1-2015&quot; &quot;Q2-2015&quot; &quot;Q3-2015&quot; &quot;Q4-2015&quot; ...
+##  $ RevenuesKn: num  12416 224290 10644 191229 258697 ...
+##  $ ExpensesKn: num  23101 63886 35468 12249 61515 ...
+##   Department Quarter RevenuesKn ExpensesKn
+## 1          A Q1-2015    12416.2    23100.5
+## 2          A Q2-2015   224290.1    63886.1
+## 3          A Q3-2015    10643.7    35467.8
+## 4          A Q4-2015   191229.3    12249.1
+## 5          A Q1-2016   258697.4    61514.6
+## 6          A Q2-2016   121865.3    46092.6</code></pre>
+</div>
+<hr />
+</div>
+</div>
+<div id="homework-exercises-7" class="section level2 unnumbered hasAnchor">
+<h2>Homework exercises<a href="pipe.html#homework-exercises-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ol style="list-style-type: decimal">
+<li>Initialize the random number generator using the command <code>set.seed(1234)</code>. Then, with the help of a single command and the `%&gt;% ’operator, perform the following:</li>
+</ol>
+<ul>
+<li>create 100,000 random numbers drawn from the normal distribution with arithmetic mean of 10000 and standard deviation of 1000</li>
+<li>round the numbers to the first larger integer</li>
+<li>drop duplicates from the set</li>
+<li>sort the set in ascending order</li>
+<li>randomly select 100 elements from the set</li>
+<li>organize these 100 elements into a 10x10 matrix, arranged in rows</li>
+<li>calculate sums of rows of the matrix</li>
+<li>print the mean of line sums on the screen.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>The <code>weather.csv</code> file contains meteorological station meteorological data which measures the temperature, pressure, humidity and wind speed every hour (data are downloaded and adapted from the data set of the<code>weatherData</code> package available on CRAN). Do the following:</li>
+</ol>
+<ul>
+<li>load the file into the data frame and examine the loaded data (<code>names</code>, <code>str</code>, <code>summary</code>,<code>head</code> …)</li>
+<li>answer: is it a tidy dataset? Why?</li>
+<li>Take the appropriate steps to obtain a data frame that complies with the tidy data principle</li>
+<li>save the new data frame to the file called <code>weatherClean.csv</code></li>
+</ul>
+<hr />
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Programirajmo u R-u</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.fer.unizg.hr/en/damir.pintar" property="cc:attributionName" rel="cc:attributionURL">Damir Pintar</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://ratnip.github.io/FER_OPJR/" rel="dct:source">https://ratnip.github.io/FER_OPJR/</a></p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-R-magrittr" class="csl-entry">
+Bache, Stefan Milton, and Hadley Wickham. 2014. <em>Magrittr: A Forward-Pipe Operator for r</em>. <a href="https://CRAN.R-project.org/package=magrittr">https://CRAN.R-project.org/package=magrittr</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="objects.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dates.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed",
+"edit": null,
+"download": null,
+"search": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

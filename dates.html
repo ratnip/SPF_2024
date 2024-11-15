@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>10 Working with dates and character strings | Let’s program in R</title>
+  <meta name="description" content="R Coursebook" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="10 Working with dates and character strings | Let’s program in R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="R Coursebook" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="10 Working with dates and character strings | Let’s program in R" />
+  
+  <meta name="twitter:description" content="R Coursebook" />
+  
+
+<meta name="author" content="Damir Pintar" />
+
+
+<meta name="date" content="2024-11-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="pipe.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+<style type="text/css">
+.showopt {
+  background-color: #004c93;
+  color: #FFFFFF; 
+  width: 140px;
+  height: 4	0px;
+  text-align: center;
+  vertical-align: middle !important;
+  float: right;
+  font-family: sans-serif;
+  font-size:10 pt;
+  border-radius: 8px;
+}
+
+.showopt:hover {
+    background-color: #dfe4f2;
+    color: #004c93;
+}
+
+pre.plot {
+  background-color: white !important;
+}
+</style>
+
+<script>
+ $(document).ready(function() {
+
+  $chunks = $('.fold');
+
+  $chunks.each(function () {
+
+    // add button to source code chunks
+    if ( $(this).hasClass('s') ) {
+      $('pre.r', this).prepend("<div class=\"showopt\">Show solution</div><br style=\"line-height:22px;\"/>");
+      $('pre.r', this).children('code').attr('class', 'folded');
+    }
+
+    // add button to output chunks
+    if ( $(this).hasClass('o') ) {
+      $('pre:not(.r)', this).has('code').prepend("<div class=\"showopt\">Show results</div><br style=\"line-height:22px;\"/>");
+      $('pre:not(.r)', this).children('code:not(r)').addClass('folded');
+
+      // add button to plots
+      $(this).find('img').wrap('<pre class=\"plot\"></pre>');
+      $('pre.plot', this).prepend("<div class=\"showopt\">Show figure</div><br style=\"line-height:22px;\"/>");
+      $('pre.plot', this).children('img').addClass('folded');
+
+    }
+  });
+
+  // hide all chunks when document is loaded
+  $('.folded').css('display', 'none')
+
+  // function to toggle the visibility
+  $('.showopt').click(function() {
+    var label = $(this).html();
+    if (label.indexOf("Show") >= 0) {
+      $(this).html(label.replace("Show", "Hide"));
+    } else {
+      $(this).html(label.replace("Hide", "Show"));
+    }
+    $(this).siblings('code, img').slideToggle('fast', 'swing');
+  });
+});
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>(“Statistical Programming Fundamentals” course book)</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#foreword"><i class="fa fa-check"></i>Foreword</a></li>
+</ul></li>
+<li class="part"><span><b>I Basic elements of R</b></span></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-r"><i class="fa fa-check"></i><b>1.1</b> What is R?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction.html"><a href="introduction.html#general-facts-about-r"><i class="fa fa-check"></i><b>1.1.1</b> General facts about R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction.html"><a href="introduction.html#r-alternatives"><i class="fa fa-check"></i><b>1.1.2</b> R alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#installing-software-support"><i class="fa fa-check"></i><b>1.2</b> Installing Software Support</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#overview-of-the-development-interface-rstudio"><i class="fa fa-check"></i><b>1.3</b> Overview of the development interface <em>RStudio</em></a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="introduction.html"><a href="introduction.html#interactive-console"><i class="fa fa-check"></i><b>1.3.1</b> Interactive console</a></li>
+<li class="chapter" data-level="1.3.2" data-path="introduction.html"><a href="introduction.html#writing-r-scripts"><i class="fa fa-check"></i><b>1.3.2</b> Writing R scripts</a></li>
+<li class="chapter" data-level="1.3.3" data-path="introduction.html"><a href="introduction.html#r-markdown"><i class="fa fa-check"></i><b>1.3.3</b> <em>R Markdown</em></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#how-to-use-this-coursebook"><i class="fa fa-check"></i><b>1.4</b> How to use this coursebook?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tipovi.html"><a href="tipovi.html"><i class="fa fa-check"></i><b>2</b> Basic data types and operators</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tipovi.html"><a href="tipovi.html#basic-data-types"><i class="fa fa-check"></i><b>2.1</b> Basic data types</a></li>
+<li class="chapter" data-level="2.2" data-path="tipovi.html"><a href="tipovi.html#operators"><i class="fa fa-check"></i><b>2.2</b> Operators</a></li>
+<li class="chapter" data-level="2.3" data-path="tipovi.html"><a href="tipovi.html#missing-unknown-and-non-existent-values"><i class="fa fa-check"></i><b>2.3</b> Missing, unknown, and non-existent values</a></li>
+<li class="chapter" data-level="" data-path="tipovi.html"><a href="tipovi.html#homework-exercises"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="vektori.html"><a href="vektori.html"><i class="fa fa-check"></i><b>3</b> Vectors, matrices and lists</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="vektori.html"><a href="vektori.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="vektori.html"><a href="vektori.html#creating-a-vector"><i class="fa fa-check"></i><b>3.1.1</b> Creating a vector</a></li>
+<li class="chapter" data-level="3.1.2" data-path="vektori.html"><a href="vektori.html#vector-concatenation"><i class="fa fa-check"></i><b>3.1.2</b> Vector concatenation</a></li>
+<li class="chapter" data-level="3.1.3" data-path="vektori.html"><a href="vektori.html#operator"><i class="fa fa-check"></i><b>3.1.3</b> Operator <code>[</code></a></li>
+<li class="chapter" data-level="3.1.4" data-path="vektori.html"><a href="vektori.html#principles-of-vectorization-and-recycling"><i class="fa fa-check"></i><b>3.1.4</b> Principles of vectorization and recycling</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="vektori.html"><a href="vektori.html#index-vectors"><i class="fa fa-check"></i><b>3.2</b> Index vectors</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="vektori.html"><a href="vektori.html#positional-indexing"><i class="fa fa-check"></i><b>3.2.1</b> Positional Indexing</a></li>
+<li class="chapter" data-level="3.2.2" data-path="vektori.html"><a href="vektori.html#conditional-indexing"><i class="fa fa-check"></i><b>3.2.2</b> Conditional indexing</a></li>
+<li class="chapter" data-level="3.2.3" data-path="vektori.html"><a href="vektori.html#label-based-indexing"><i class="fa fa-check"></i><b>3.2.3</b> Label-based indexing</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="vektori.html"><a href="vektori.html#matrices-and-arrays"><i class="fa fa-check"></i><b>3.3</b> Matrices and arrays</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="vektori.html"><a href="vektori.html#matrix-slicing"><i class="fa fa-check"></i><b>3.3.1</b> Matrix slicing</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="vektori.html"><a href="vektori.html#lists"><i class="fa fa-check"></i><b>3.4</b> Lists</a></li>
+<li class="chapter" data-level="" data-path="vektori.html"><a href="vektori.html#homework-exercises-1"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="okviri.html"><a href="okviri.html"><i class="fa fa-check"></i><b>4</b> Data frames and factors</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="okviri.html"><a href="okviri.html#data-frames"><i class="fa fa-check"></i><b>4.1</b> Data frames</a></li>
+<li class="chapter" data-level="4.2" data-path="okviri.html"><a href="okviri.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>4.2</b> Selecting rows and columns</a></li>
+<li class="chapter" data-level="4.3" data-path="okviri.html"><a href="okviri.html#adding-and-deleting-rows-and-columns"><i class="fa fa-check"></i><b>4.3</b> Adding and deleting rows and columns</a></li>
+<li class="chapter" data-level="4.4" data-path="okviri.html"><a href="okviri.html#factors"><i class="fa fa-check"></i><b>4.4</b> Factors</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="okviri.html"><a href="okviri.html#example-4.1---mishandling-factorization"><i class="fa fa-check"></i><b>4.4.1</b> Example 4.1 - mishandling factorization</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="okviri.html"><a href="okviri.html#homework-exercises-2"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="control.html"><a href="control.html"><i class="fa fa-check"></i><b>5</b> Conditional statements and programming loops</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="control.html"><a href="control.html#flow-control-commands"><i class="fa fa-check"></i><b>5.1</b> Flow control commands</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="control.html"><a href="control.html#conditional-execution"><i class="fa fa-check"></i><b>5.1.1</b> Conditional execution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="control.html"><a href="control.html#loops"><i class="fa fa-check"></i><b>5.2</b> Loops</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="control.html"><a href="control.html#therepeat-loop"><i class="fa fa-check"></i><b>5.2.1</b> The<code>repeat</code> loop</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="control.html"><a href="control.html#example-5.1---the-repeat-loop"><i class="fa fa-check"></i><b>5.3</b> Example 5.1 - the <code>repeat</code> loop</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="control.html"><a href="control.html#the-while-loop"><i class="fa fa-check"></i><b>5.3.1</b> The <code>while</code> loop</a></li>
+<li class="chapter" data-level="5.3.2" data-path="control.html"><a href="control.html#the-for-loop"><i class="fa fa-check"></i><b>5.3.2</b> The <code>for</code> loop</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="control.html"><a href="control.html#homework-exercises-3"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="packages.html"><a href="packages.html"><i class="fa fa-check"></i><b>6</b> Packages, built-in functions and environments</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="packages.html"><a href="packages.html#working-with-packages"><i class="fa fa-check"></i><b>6.1</b> Working with packages</a></li>
+<li class="chapter" data-level="6.2" data-path="packages.html"><a href="packages.html#built-in-functions"><i class="fa fa-check"></i><b>6.2</b> Built-in functions</a></li>
+<li class="chapter" data-level="6.3" data-path="packages.html"><a href="packages.html#environments"><i class="fa fa-check"></i><b>6.3</b> Environments</a></li>
+<li class="chapter" data-level="" data-path="packages.html"><a href="packages.html#homework-exercises-4"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="user.html"><a href="user.html"><i class="fa fa-check"></i><b>7</b> User Defined Functions</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="user.html"><a href="user.html#user-defined-functions"><i class="fa fa-check"></i><b>7.1</b> User defined functions</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="user.html"><a href="user.html#defining-a-new-function"><i class="fa fa-check"></i><b>7.1.1</b> Defining a new function</a></li>
+<li class="chapter" data-level="7.1.2" data-path="user.html"><a href="user.html#the-copy-on-modify-principle"><i class="fa fa-check"></i><b>7.1.2</b> The “copy-on-modify” principle</a></li>
+<li class="chapter" data-level="7.1.3" data-path="user.html"><a href="user.html#example-7.1---copy-on-modify"><i class="fa fa-check"></i><b>7.1.3</b> Example 7.1 - “copy-on-modify”</a></li>
+<li class="chapter" data-level="7.1.4" data-path="user.html"><a href="user.html#example-7.2---copy-on-modify-2"><i class="fa fa-check"></i><b>7.1.4</b> Example 7.2 - “copy-on-modify (2)”</a></li>
+<li class="chapter" data-level="7.1.5" data-path="user.html"><a href="user.html#example-7.3---copy-on-modify-and-environments"><i class="fa fa-check"></i><b>7.1.5</b> Example 7.3 - “copy-on-modify” and environments</a></li>
+<li class="chapter" data-level="7.1.6" data-path="user.html"><a href="user.html#example-7.4---the---operator"><i class="fa fa-check"></i><b>7.1.6</b> Example 7.4 - the <code>&lt;&lt;-</code> operator</a></li>
+<li class="chapter" data-level="7.1.7" data-path="user.html"><a href="user.html#example-7.5---changing-a-data-frame-column-with-the---operator"><i class="fa fa-check"></i><b>7.1.7</b> Example 7.5 - changing a data frame column with the <code>&lt;&lt;-</code> operator</a></li>
+<li class="chapter" data-level="7.1.8" data-path="user.html"><a href="user.html#function-as-an-object"><i class="fa fa-check"></i><b>7.1.8</b> Function as an object</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="user.html"><a href="user.html#the-apply-family"><i class="fa fa-check"></i><b>7.2</b> The <code>apply</code> family</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="user.html"><a href="user.html#the-apply-function"><i class="fa fa-check"></i><b>7.2.1</b> The <code>apply</code> function</a></li>
+<li class="chapter" data-level="7.2.2" data-path="user.html"><a href="user.html#the-lapply-sapply-and-vapply-functions"><i class="fa fa-check"></i><b>7.2.2</b> The <code>lapply</code>, <code>sapply</code> and <code>vapply</code> functions</a></li>
+<li class="chapter" data-level="7.2.3" data-path="user.html"><a href="user.html#other-functions-from-the-apply-family-and-the-available-alternatives"><i class="fa fa-check"></i><b>7.2.3</b> Other functions from the <code>apply</code> family and the available alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="user.html"><a href="user.html#homework-exercises-5"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="objects.html"><a href="objects.html"><i class="fa fa-check"></i><b>8</b> Object oriented systems in R</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="objects.html"><a href="objects.html#object-oriented-systems-in-r"><i class="fa fa-check"></i><b>8.1</b> Object-oriented systems in R</a></li>
+<li class="chapter" data-level="8.2" data-path="objects.html"><a href="objects.html#overview-of-the-s3-object-model"><i class="fa fa-check"></i><b>8.2</b> Overview of the S3 object model</a></li>
+<li class="chapter" data-level="8.3" data-path="objects.html"><a href="objects.html#generic-functions"><i class="fa fa-check"></i><b>8.3</b> Generic functions</a></li>
+<li class="chapter" data-level="8.4" data-path="objects.html"><a href="objects.html#adding-generic-functions-to-an-object"><i class="fa fa-check"></i><b>8.4</b> Adding generic functions to an object</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="objects.html"><a href="objects.html#conclusion-on-s3-objects"><i class="fa fa-check"></i><b>8.4.1</b> Conclusion on S3 objects</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="objects.html"><a href="objects.html#short-overview-of-s4-objects"><i class="fa fa-check"></i><b>8.5</b> Short overview of S4 objects</a></li>
+<li class="chapter" data-level="" data-path="objects.html"><a href="objects.html#homework-exercises-6"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Data management and visualizations</b></span></li>
+<li class="chapter" data-level="9" data-path="pipe.html"><a href="pipe.html"><i class="fa fa-check"></i><b>9</b> Pipeline operator and tidy data</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="pipe.html"><a href="pipe.html#pipeline-operator"><i class="fa fa-check"></i><b>9.1</b> Pipeline operator</a></li>
+<li class="chapter" data-level="9.2" data-path="pipe.html"><a href="pipe.html#tidy-data"><i class="fa fa-check"></i><b>9.2</b> Tidy data</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="pipe.html"><a href="pipe.html#the-pivot_longer-andpivot_wider-functions"><i class="fa fa-check"></i><b>9.2.1</b> The <code>pivot_longer</code> and<code>pivot_wider</code> functions</a></li>
+<li class="chapter" data-level="9.2.2" data-path="pipe.html"><a href="pipe.html#the-separate-and-unite-functions"><i class="fa fa-check"></i><b>9.2.2</b> The <code>separate</code> and <code>unite</code> functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="pipe.html"><a href="pipe.html#homework-exercises-7"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="dates.html"><a href="dates.html"><i class="fa fa-check"></i><b>10</b> Working with dates and character strings</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="dates.html"><a href="dates.html#working-with-dates"><i class="fa fa-check"></i><b>10.1</b> Working with dates</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="dates.html"><a href="dates.html#the-date-class"><i class="fa fa-check"></i><b>10.1.1</b> The <code>Date</code> class</a></li>
+<li class="chapter" data-level="10.1.2" data-path="dates.html"><a href="dates.html#theposixct-andposixlt-classes"><i class="fa fa-check"></i><b>10.1.2</b> The<code>POSIXct</code> and<code>POSIXlt</code> classes</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="dates.html"><a href="dates.html#the-lubridate-package"><i class="fa fa-check"></i><b>10.2</b> The <code>lubridate</code> package</a></li>
+<li class="chapter" data-level="10.3" data-path="dates.html"><a href="dates.html#working-with-character-strings"><i class="fa fa-check"></i><b>10.3</b> Working with character strings</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="dates.html"><a href="dates.html#text-analysis-and-regular-expressions"><i class="fa fa-check"></i><b>10.3.1</b> Text analysis and regular expressions</a></li>
+<li class="chapter" data-level="10.3.2" data-path="dates.html"><a href="dates.html#the-stringr-package"><i class="fa fa-check"></i><b>10.3.2</b> The <code>stringr</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="dates.html"><a href="dates.html#homework-exercises-8"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Let’s program in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="dates" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">10</span> Working with dates and character strings<a href="dates.html#dates" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<hr />
+<div id="working-with-dates" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Working with dates<a href="dates.html#working-with-dates" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Managing dates and timestamps is always a challenge when working with real-life datasets, since we have to take into account things like:</p>
+<ul>
+<li>different date and time format specifications</li>
+<li>different internal representations</li>
+<li>different time zones</li>
+<li>difference between mathematical and calendar understanding of time periods</li>
+</ul>
+<p>One of the more commonly used standards is the so-called “unix time” (or “POSIX time”), which counts as the number of seconds elapsed since midnight on January 1, 1970 UTC (<em>Coordinated Universal Time</em>). This is not an universal standard for all operations systems or applications; for example, Microsoft Excel has its own format where it counts the days since 1.1.1900 and then the number of hours, minutes and seconds elapsed since midnight.</p>
+<p>The R programming language has offers three main classes for date/time management:</p>
+<ul>
+<li><code>Date</code> for dates</li>
+<li><code>POSIXct</code> for compact representation of timestamps</li>
+<li><code>POSIXlt</code> for “long” representation of timestamps (in list format)</li>
+</ul>
+<div id="the-date-class" class="section level3 hasAnchor" number="10.1.1">
+<h3><span class="header-section-number">10.1.1</span> The <code>Date</code> class<a href="dates.html#the-date-class" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We use the Date class when we want to note the date but not the exact time of an observation or event. This class does not have a constructor, and we most commonly create <code>Date</code> objects using the following functions:</p>
+<ul>
+<li><code>Sys.Date()</code> which returns today’s date</li>
+<li><code>as.Date(&lt;date_string&gt;)</code> which accepts a character string as a parameter</li>
+</ul>
+<p>The function <code>as.Date()</code> by default accepts dates in the following format: <code>%Y-%m-%d</code>. Here, <code>%Y</code> represents a four-digit year, while <code>%m</code> and <code>%d</code> are two-digit months and days. If we want to interpret a date that is written in another format then we need to add an additional parameter called <code>format</code> which will parametrically describe the format we are using (e.g. for <code>28/10/1978</code> the format parameter value should be <code>%d/%m/%Y</code>). Other format specifications can easily be viewed using the <code>?strptime</code> command, although a much simpler approach entails using functions of the<code>lubridate</code> package (to be introduced later in this chapter).</p>
+<hr />
+<p><strong>Exercise 10.1 - class <code>Date</code></strong></p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="dates.html#cb382-1" tabindex="-1"></a><span class="co"># print out today&#39;s date</span></span>
+<span id="cb382-2"><a href="dates.html#cb382-2" tabindex="-1"></a></span>
+<span id="cb382-3"><a href="dates.html#cb382-3" tabindex="-1"></a><span class="co"># convert the following character strings to a `Date` type object and print the result on the screen:</span></span>
+<span id="cb382-4"><a href="dates.html#cb382-4" tabindex="-1"></a><span class="co"># &#39;1986-12-27&#39;, &#39;2016-31-05&#39;, &#39;17.10.2015 &#39;, &#39;01#01#2001&#39;</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="dates.html#cb383-1" tabindex="-1"></a><span class="co"># print out today&#39;s date</span></span>
+<span id="cb383-2"><a href="dates.html#cb383-2" tabindex="-1"></a><span class="fu">Sys.Date</span>()</span>
+<span id="cb383-3"><a href="dates.html#cb383-3" tabindex="-1"></a></span>
+<span id="cb383-4"><a href="dates.html#cb383-4" tabindex="-1"></a><span class="co"># convert the following character strings to a Date type object and print the result on the screen:</span></span>
+<span id="cb383-5"><a href="dates.html#cb383-5" tabindex="-1"></a><span class="co"># &#39;1986-12-27&#39;, &#39;2016-31-05&#39;, &#39;17.10.2015 &#39;, &#39;01#01#2001&#39;</span></span>
+<span id="cb383-6"><a href="dates.html#cb383-6" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="st">&quot;27/12/1986&quot;</span>)</span>
+<span id="cb383-7"><a href="dates.html#cb383-7" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="st">&#39;2016-31-05&#39;</span>, <span class="at">format =</span> <span class="st">&#39;%Y-%d-%m&#39;</span>)</span>
+<span id="cb383-8"><a href="dates.html#cb383-8" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="st">&#39;17.10.2015&#39;</span>, <span class="at">format =</span> <span class="st">&#39;%d.%m.%Y&#39;</span>)</span>
+<span id="cb383-9"><a href="dates.html#cb383-9" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="st">&#39;01#01#2001&#39;</span>, <span class="at">format =</span> <span class="st">&#39;%d#%m#%Y&#39;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2024-11-15&quot;
+## [1] &quot;0027-12-19&quot;
+## [1] &quot;2016-05-31&quot;
+## [1] &quot;2015-10-17&quot;
+## [1] &quot;2001-01-01&quot;</code></pre>
+</div>
+<hr />
+<p>Dates allow using simple arithmetic operations. We can add or substract days from a date by using operators <code>+</code> and <code>-</code> with integers, or we can calculate the difference between two dates with the operator <code>-</code>.
+***</p>
+<p><strong>Exercise 10.2 - date arithmetics</strong></p>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="dates.html#cb385-1" tabindex="-1"></a><span class="co"># print out what date was 1000 days before today</span></span>
+<span id="cb385-2"><a href="dates.html#cb385-2" tabindex="-1"></a></span>
+<span id="cb385-3"><a href="dates.html#cb385-3" tabindex="-1"></a><span class="co"># add one day to 2/28/2015. and 2/28/2016 and print the result</span></span>
+<span id="cb385-4"><a href="dates.html#cb385-4" tabindex="-1"></a></span>
+<span id="cb385-5"><a href="dates.html#cb385-5" tabindex="-1"></a><span class="co"># print out how many days have passed since 1.1.2000. until today</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="dates.html#cb386-1" tabindex="-1"></a><span class="co"># print out what date was 1000 days before today</span></span>
+<span id="cb386-2"><a href="dates.html#cb386-2" tabindex="-1"></a><span class="fu">Sys.Date</span>() <span class="sc">-</span> <span class="dv">1000</span></span>
+<span id="cb386-3"><a href="dates.html#cb386-3" tabindex="-1"></a></span>
+<span id="cb386-4"><a href="dates.html#cb386-4" tabindex="-1"></a><span class="co"># add one day to 2/28/2015. and 2/28/2016 and print the result</span></span>
+<span id="cb386-5"><a href="dates.html#cb386-5" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="st">&#39;2015-02-28&#39;</span>) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb386-6"><a href="dates.html#cb386-6" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="st">&#39;2016-02-28&#39;</span>) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb386-7"><a href="dates.html#cb386-7" tabindex="-1"></a></span>
+<span id="cb386-8"><a href="dates.html#cb386-8" tabindex="-1"></a><span class="co"># print out how many days have passed since 1.1.2000. until today</span></span>
+<span id="cb386-9"><a href="dates.html#cb386-9" tabindex="-1"></a><span class="fu">Sys.Date</span>() <span class="sc">-</span> <span class="fu">as.Date</span>(<span class="st">&#39;2000-01-01&#39;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2022-02-19&quot;
+## [1] &quot;2015-03-01&quot;
+## [1] &quot;2016-02-29&quot;
+## Time difference of 9085 days</code></pre>
+</div>
+<hr />
+<p>The last expression will actually result in an object of class <code>difftime</code> which is an object representation of a time interval. Printing this object uses so-called “automatic” unit selection (specifically, the <code>units</code> parameter is by default set to <code>auto</code>) that will attempt to select the most appropriate time unit for printing. If we want to explicitly choose which time unit we want (seconds, minutes, hours, days or weeks), then it’s easier to forgo using the <code>-</code> operator and leverage the <code>difftime()</code> function directly. Specific time unit can then be chosen by setting the <code>units</code> parameter to <code>seconds</code>, <code>minutes</code> etc.</p>
+<hr />
+<p><strong>Exercise 10.3 - function <code>difftime</code></strong></p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="dates.html#cb388-1" tabindex="-1"></a><span class="co"># How many weeks passed between 1.3.2016. i 1.3.2015.?</span></span>
+<span id="cb388-2"><a href="dates.html#cb388-2" tabindex="-1"></a><span class="co"># use the `difftime` function</span></span>
+<span id="cb388-3"><a href="dates.html#cb388-3" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: You do not need to explicitly call the `as.Date` function, the `difftime()` function</span></span>
+<span id="cb388-4"><a href="dates.html#cb388-4" tabindex="-1"></a><span class="co"># will do it by itself if you submit the date in the default format</span></span>
+<span id="cb388-5"><a href="dates.html#cb388-5" tabindex="-1"></a></span>
+<span id="cb388-6"><a href="dates.html#cb388-6" tabindex="-1"></a><span class="co"># how many hours have passed between 1.3.2015. and today?</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="dates.html#cb389-1" tabindex="-1"></a><span class="co"># How many weeks passed between 1.3.2016. i 1.3.2015.?</span></span>
+<span id="cb389-2"><a href="dates.html#cb389-2" tabindex="-1"></a><span class="co"># use the `difftime` function</span></span>
+<span id="cb389-3"><a href="dates.html#cb389-3" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: You do not need to explicitly call the `as.Date` function, the `difftime()` function</span></span>
+<span id="cb389-4"><a href="dates.html#cb389-4" tabindex="-1"></a><span class="co"># will do it by itself if you submit the date in the default format</span></span>
+<span id="cb389-5"><a href="dates.html#cb389-5" tabindex="-1"></a><span class="fu">difftime</span>(<span class="st">&#39;2016-03-01&#39;</span>, <span class="st">&#39;2015-03-01&#39;</span>, <span class="at">units =</span> <span class="st">&quot;weeks&quot;</span>)</span>
+<span id="cb389-6"><a href="dates.html#cb389-6" tabindex="-1"></a></span>
+<span id="cb389-7"><a href="dates.html#cb389-7" tabindex="-1"></a><span class="co"># how many hours have passed between 1.3.2015. and today?</span></span>
+<span id="cb389-8"><a href="dates.html#cb389-8" tabindex="-1"></a><span class="fu">difftime</span>(<span class="fu">Sys.Date</span>(), <span class="st">&#39;2015-03-01&#39;</span>, <span class="at">units =</span> <span class="st">&quot;hours&quot;</span>)</span></code></pre></div>
+<pre><code>## Time difference of 52.28571 weeks
+## Time difference of 85129 hours</code></pre>
+</div>
+<hr />
+<p>The <code>difftime</code> function actually works with timestamps as well, i.e. we don’t necessarily have to work at the date level, we can get information on finer granularity when it comes to time units. We will show this in more detail after we learn the class <code>POSIXct</code>. Also, if we only require a number (of seconds, hours, days, etc.), we can easily transform the <code>difftime</code> output into an integer using the <code>as.numeric</code> function.</p>
+<p>The R language also implements a special variant of the <code>seq</code> function for working with dates, which has the following signature:</p>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="dates.html#cb391-1" tabindex="-1"></a><span class="fu">seq</span>(from, to, by, <span class="at">length.out =</span> <span class="cn">NULL</span>, <span class="at">along.with =</span> <span class="cn">NULL</span>, ...)</span></code></pre></div>
+<p>The parameters of this function are as follows:</p>
+<ul>
+<li><code>from</code> - start date (required parameter)</li>
+<li><code>to</code> - final date</li>
+<li><code>by</code> - step of the sequence in days, or a character string which denotes the time interval such as <code>"7 days"</code>, <code>"2 weeks"</code> etc. (for all possibilities see the documentation!)</li>
+<li><code>length.out</code> - length of sequence</li>
+<li><code>along.with</code> - vector whose length we take for reference (<code>along.with(x)</code> is the same as <code>length.out = length(x)</code>)</li>
+</ul>
+<p>Let’s try this function.</p>
+<hr />
+<p><strong>Exercise 10.4 - function <code>seq</code> and dates </strong></p>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="dates.html#cb392-1" tabindex="-1"></a><span class="co"># print the date sequence from 1/1/2010. to 1/1/2030. in 6-month increments</span></span>
+<span id="cb392-2"><a href="dates.html#cb392-2" tabindex="-1"></a></span>
+<span id="cb392-3"><a href="dates.html#cb392-3" tabindex="-1"></a></span>
+<span id="cb392-4"><a href="dates.html#cb392-4" tabindex="-1"></a><span class="co"># make a schedule for one round of cleaning the common areas of an apartment building</span></span>
+<span id="cb392-5"><a href="dates.html#cb392-5" tabindex="-1"></a><span class="co"># common areas must be cleaned every 3 weeks</span></span>
+<span id="cb392-6"><a href="dates.html#cb392-6" tabindex="-1"></a><span class="co"># each apartment must get their own date</span></span>
+<span id="cb392-7"><a href="dates.html#cb392-7" tabindex="-1"></a></span>
+<span id="cb392-8"><a href="dates.html#cb392-8" tabindex="-1"></a><span class="co"># apartments are described by the following data frame</span></span>
+<span id="cb392-9"><a href="dates.html#cb392-9" tabindex="-1"></a>apartments <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">appId =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb392-10"><a href="dates.html#cb392-10" tabindex="-1"></a>                      <span class="at">surname =</span> <span class="fu">c</span>(<span class="st">&quot;Ebert&quot;</span>, <span class="st">&quot;Ladovac&quot;</span>, <span class="st">&quot;Cerić&quot;</span>, <span class="st">&quot;Dikla&quot;</span>, <span class="st">&quot;Anic&quot;</span>,</span>
+<span id="cb392-11"><a href="dates.html#cb392-11" tabindex="-1"></a>                                  <span class="st">&quot;Perić&quot;</span>, <span class="st">&quot;Žužić&quot;</span>, <span class="st">&quot;Babić&quot;</span>, <span class="st">&quot;Ibiza&quot;</span>, <span class="st">&quot;Radler&quot;</span>))</span>
+<span id="cb392-12"><a href="dates.html#cb392-12" tabindex="-1"></a></span>
+<span id="cb392-13"><a href="dates.html#cb392-13" tabindex="-1"></a><span class="co"># Add a `cleaningDate` column with one date for each apartment</span></span>
+<span id="cb392-14"><a href="dates.html#cb392-14" tabindex="-1"></a><span class="co"># in order of apartment numbers, starting today</span></span>
+<span id="cb392-15"><a href="dates.html#cb392-15" tabindex="-1"></a></span>
+<span id="cb392-16"><a href="dates.html#cb392-16" tabindex="-1"></a></span>
+<span id="cb392-17"><a href="dates.html#cb392-17" tabindex="-1"></a><span class="co"># print out the &#39;apartments&#39; data frame</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="dates.html#cb393-1" tabindex="-1"></a><span class="co"># print the date sequence from 1/1/2010. to 1/1/2030. in 6-month increments</span></span>
+<span id="cb393-2"><a href="dates.html#cb393-2" tabindex="-1"></a><span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&#39;2010-01-01&#39;</span>), <span class="fu">as.Date</span>(<span class="st">&#39;2030-01-01&#39;</span>), <span class="at">by =</span> <span class="st">&quot;6 months&quot;</span>)</span>
+<span id="cb393-3"><a href="dates.html#cb393-3" tabindex="-1"></a></span>
+<span id="cb393-4"><a href="dates.html#cb393-4" tabindex="-1"></a><span class="co"># Add a `cleaningDate` column with one date for each apartment</span></span>
+<span id="cb393-5"><a href="dates.html#cb393-5" tabindex="-1"></a><span class="co"># in order of apartment numbers, starting today</span></span>
+<span id="cb393-6"><a href="dates.html#cb393-6" tabindex="-1"></a><span class="fu">seq</span>(<span class="fu">Sys.Date</span>(), <span class="at">by =</span> <span class="st">&quot;3 weeks&quot;</span>,</span>
+<span id="cb393-7"><a href="dates.html#cb393-7" tabindex="-1"></a>    <span class="at">along.with =</span> apartments<span class="sc">$</span>appId) <span class="ot">-&gt;</span> apartments<span class="sc">$</span>cleaningDate</span>
+<span id="cb393-8"><a href="dates.html#cb393-8" tabindex="-1"></a></span>
+<span id="cb393-9"><a href="dates.html#cb393-9" tabindex="-1"></a><span class="co"># print out the &#39;apartments&#39; data frame</span></span>
+<span id="cb393-10"><a href="dates.html#cb393-10" tabindex="-1"></a>apartments</span></code></pre></div>
+<pre><code>##  [1] &quot;2010-01-01&quot; &quot;2010-07-01&quot; &quot;2011-01-01&quot; &quot;2011-07-01&quot; &quot;2012-01-01&quot;
+##  [6] &quot;2012-07-01&quot; &quot;2013-01-01&quot; &quot;2013-07-01&quot; &quot;2014-01-01&quot; &quot;2014-07-01&quot;
+## [11] &quot;2015-01-01&quot; &quot;2015-07-01&quot; &quot;2016-01-01&quot; &quot;2016-07-01&quot; &quot;2017-01-01&quot;
+## [16] &quot;2017-07-01&quot; &quot;2018-01-01&quot; &quot;2018-07-01&quot; &quot;2019-01-01&quot; &quot;2019-07-01&quot;
+## [21] &quot;2020-01-01&quot; &quot;2020-07-01&quot; &quot;2021-01-01&quot; &quot;2021-07-01&quot; &quot;2022-01-01&quot;
+## [26] &quot;2022-07-01&quot; &quot;2023-01-01&quot; &quot;2023-07-01&quot; &quot;2024-01-01&quot; &quot;2024-07-01&quot;
+## [31] &quot;2025-01-01&quot; &quot;2025-07-01&quot; &quot;2026-01-01&quot; &quot;2026-07-01&quot; &quot;2027-01-01&quot;
+## [36] &quot;2027-07-01&quot; &quot;2028-01-01&quot; &quot;2028-07-01&quot; &quot;2029-01-01&quot; &quot;2029-07-01&quot;
+## [41] &quot;2030-01-01&quot;
+##    appId surname cleaningDate
+## 1      1   Ebert   2024-11-15
+## 2      2 Ladovac   2024-12-06
+## 3      3   Cerić   2024-12-27
+## 4      4   Dikla   2025-01-17
+## 5      5    Anic   2025-02-07
+## 6      6   Perić   2025-02-28
+## 7      7   Žužić   2025-03-21
+## 8      8   Babić   2025-04-11
+## 9      9   Ibiza   2025-05-02
+## 10    10  Radler   2025-05-23</code></pre>
+</div>
+<hr />
+</div>
+<div id="theposixct-andposixlt-classes" class="section level3 hasAnchor" number="10.1.2">
+<h3><span class="header-section-number">10.1.2</span> The<code>POSIXct</code> and<code>POSIXlt</code> classes<a href="dates.html#theposixct-andposixlt-classes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The class <code>POSIXct</code> is used when in addition to the date we also need to know the exact time for some observation or event. The usual way of creating an object of this class is using the following functions:</p>
+<ul>
+<li><code>Sys.time()</code> which returns the current timestamp (using the timezone set by the operating system)</li>
+<li><code>as.POSIXct(&lt;timestamp_string&gt;)</code> which uses a character string representing the date and time</li>
+</ul>
+<p>The function <code>as.POSIXct()</code> expects a timestamp character string that uses the following format: <code>%Y-%m-%d %H:%M:%S</code>. First three format specifications are identical to the date format specification, while <code>%H</code>, <code>%M</code> and <code>%S</code> represent two-digit hours, minutes and seconds (24-hour time format is assumed unless <code>am</code> or <code>pm</code> is noted). The <code>as.POSIXct</code> function can also accept an optional <code>tz</code> parameter which explicitly sets the timezone. To parse other timestamp formats, it is necessary - as with the class <code>Date</code> - to add a <code>format</code> parameter containing a specification on how to interpret the given character string. Again, for the list of all parameters we can refer to the the <code>?strptime</code> command, although as with the <code>Date</code> class we will later learn it’s often easier to use one of the functions of the <code>lubridate</code> package.</p>
+<hr />
+<p><strong>Exercise 10.5 - class <code>POSIXct</code> </strong></p>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="dates.html#cb395-1" tabindex="-1"></a><span class="co"># print the current date and time</span></span>
+<span id="cb395-2"><a href="dates.html#cb395-2" tabindex="-1"></a></span>
+<span id="cb395-3"><a href="dates.html#cb395-3" tabindex="-1"></a><span class="co"># convert the following character strings to timestamps and print them on the screen:</span></span>
+<span id="cb395-4"><a href="dates.html#cb395-4" tabindex="-1"></a><span class="co"># &quot;2015-10-28 15:30:42&quot;</span></span>
+<span id="cb395-5"><a href="dates.html#cb395-5" tabindex="-1"></a><span class="co"># &quot;01-12-2001 14:30&quot; &lt;- timestamp read in New York, USA, EST time zone</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="dates.html#cb396-1" tabindex="-1"></a><span class="co"># print the current date and time</span></span>
+<span id="cb396-2"><a href="dates.html#cb396-2" tabindex="-1"></a><span class="fu">Sys.time</span>()</span>
+<span id="cb396-3"><a href="dates.html#cb396-3" tabindex="-1"></a></span>
+<span id="cb396-4"><a href="dates.html#cb396-4" tabindex="-1"></a><span class="co"># convert the following character strings to timestamps and print them on the screen:</span></span>
+<span id="cb396-5"><a href="dates.html#cb396-5" tabindex="-1"></a><span class="co"># &quot;2015-10-28 15:30:42&quot;</span></span>
+<span id="cb396-6"><a href="dates.html#cb396-6" tabindex="-1"></a><span class="co"># &quot;01-12-2001 14:30&quot; &lt;- timestamp read in New York, USA, EST time zone</span></span>
+<span id="cb396-7"><a href="dates.html#cb396-7" tabindex="-1"></a><span class="fu">as.POSIXct</span>(<span class="st">&quot;2015-10-28 15:30:42&quot;</span>)</span>
+<span id="cb396-8"><a href="dates.html#cb396-8" tabindex="-1"></a><span class="fu">as.POSIXct</span>(<span class="st">&quot;01-12-2001 14:30&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;EST&quot;</span>, <span class="at">format =</span> <span class="st">&quot;%d-%m-%Y %H:%M&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2024-11-15 10:04:02 CET&quot;
+## [1] &quot;2015-10-28 15:30:42 CET&quot;
+## [1] &quot;2001-12-01 14:30:00 EST&quot;</code></pre>
+</div>
+<hr />
+<p>Time zone names are standardized (so-called “Olson time zones”) and are retrieved from the underlying operating system. We can explicitly retrieve them using the <code>OlsonNames()</code> function. Also, we can easily print the current platform’s time zone by using the <code>Sys.timezone()</code> function.</p>
+<hr />
+<p><strong>Exercise 10.6 - time zones</strong></p>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="dates.html#cb398-1" tabindex="-1"></a><span class="co"># print the current time zone</span></span>
+<span id="cb398-2"><a href="dates.html#cb398-2" tabindex="-1"></a></span>
+<span id="cb398-3"><a href="dates.html#cb398-3" tabindex="-1"></a><span class="co"># print out 10 randomly selected time zone names installed on the current platform</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="dates.html#cb399-1" tabindex="-1"></a><span class="co"># print the current time zone</span></span>
+<span id="cb399-2"><a href="dates.html#cb399-2" tabindex="-1"></a><span class="fu">Sys.timezone</span>()</span>
+<span id="cb399-3"><a href="dates.html#cb399-3" tabindex="-1"></a></span>
+<span id="cb399-4"><a href="dates.html#cb399-4" tabindex="-1"></a><span class="co"># print out 10 randomly selected time zone names installed on the current platform</span></span>
+<span id="cb399-5"><a href="dates.html#cb399-5" tabindex="-1"></a><span class="fu">sample</span>(<span class="fu">OlsonNames</span>(), <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Europe/Zagreb&quot;
+##  [1] &quot;Europe/Tiraspol&quot;    &quot;Etc/GMT+10&quot;         &quot;US/East-Indiana&quot;   
+##  [4] &quot;America/Recife&quot;     &quot;GB&quot;                 &quot;America/Araguaina&quot; 
+##  [7] &quot;America/Paramaribo&quot; &quot;Europe/Tallinn&quot;     &quot;Asia/Kuwait&quot;       
+## [10] &quot;America/Martinique&quot;</code></pre>
+</div>
+<hr />
+<p>Timestamps can also use <code>+</code> and <code>-</code> operators (with integers as the second operand) to add or substract seconds from the timestamp. Additionally, we can subtract two timestamps to get the difference in seconds, or use the <code>difftime</code> function with the selected time unit value.</p>
+<hr />
+<p><strong>Exercise 10.7 - timestamp arithmetics</strong></p>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="dates.html#cb401-1" tabindex="-1"></a><span class="co"># print out what the time will be 1000 seconds from now</span></span>
+<span id="cb401-2"><a href="dates.html#cb401-2" tabindex="-1"></a></span>
+<span id="cb401-3"><a href="dates.html#cb401-3" tabindex="-1"></a><span class="co"># print out how many hours have passed since midnight 1/1/2015 </span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="dates.html#cb402-1" tabindex="-1"></a><span class="co"># print out what the time will be 1000 seconds from now</span></span>
+<span id="cb402-2"><a href="dates.html#cb402-2" tabindex="-1"></a><span class="fu">Sys.time</span>() <span class="sc">+</span> <span class="dv">1000</span></span>
+<span id="cb402-3"><a href="dates.html#cb402-3" tabindex="-1"></a></span>
+<span id="cb402-4"><a href="dates.html#cb402-4" tabindex="-1"></a><span class="co"># print out how many hours have passed since midnight 1/1/2015. by far</span></span>
+<span id="cb402-5"><a href="dates.html#cb402-5" tabindex="-1"></a><span class="fu">difftime</span>(<span class="fu">Sys.time</span>(), <span class="st">&quot;2015-01-01 00:00:00&quot;</span>, <span class="at">units =</span> <span class="st">&quot;hours&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2024-11-15 10:20:42 CET&quot;
+## Time difference of 86554.07 hours</code></pre>
+</div>
+<hr />
+<p>The class <code>POSIXlt</code> is very similar to its compact relative <code>POSIXct</code>. We use the similarly fashioned <code>as.POSIXlt</code> function to create one, however the difference is that we end up with a list which allows us to easily extract certain parameters from a timestamp, such as number of seconds, minutes, day of the week, etc. We can easily see all the elements of the list if we create a <code>POSIXlt</code> object and then call the <code>unclass</code> function on it, which will convert it to an “ordinary” list. We can even go a step further - if we put this list through the <code>unlist</code> function, we get a simple, easily interpretable character vector as a result.</p>
+<hr />
+<p><strong>Exercise 10.8 - class <code>POSIXlt</code> </strong></p>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="dates.html#cb404-1" tabindex="-1"></a><span class="co"># convert the following character string to a timestamp of type `POSIXlt`</span></span>
+<span id="cb404-2"><a href="dates.html#cb404-2" tabindex="-1"></a><span class="co"># store the result in the variable `t_long`</span></span>
+<span id="cb404-3"><a href="dates.html#cb404-3" tabindex="-1"></a><span class="co"># &quot;01/05/2013 13:35&quot;</span></span>
+<span id="cb404-4"><a href="dates.html#cb404-4" tabindex="-1"></a></span>
+<span id="cb404-5"><a href="dates.html#cb404-5" tabindex="-1"></a><span class="co"># print just the number of hours of the timestamp `t_long`</span></span>
+<span id="cb404-6"><a href="dates.html#cb404-6" tabindex="-1"></a><span class="co"># then just the number of minutes</span></span>
+<span id="cb404-7"><a href="dates.html#cb404-7" tabindex="-1"></a><span class="co"># you can find this information in subelements called `hour` and `minute`</span></span>
+<span id="cb404-8"><a href="dates.html#cb404-8" tabindex="-1"></a></span>
+<span id="cb404-9"><a href="dates.html#cb404-9" tabindex="-1"></a><span class="co"># remove the class and list property of the variable `t_long`</span></span>
+<span id="cb404-10"><a href="dates.html#cb404-10" tabindex="-1"></a><span class="co"># and print it on the screen</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="dates.html#cb405-1" tabindex="-1"></a><span class="co"># convert the following character string to a timestamp of type `POSIXlt`</span></span>
+<span id="cb405-2"><a href="dates.html#cb405-2" tabindex="-1"></a><span class="co"># store the result in the variable `t_long`</span></span>
+<span id="cb405-3"><a href="dates.html#cb405-3" tabindex="-1"></a><span class="co"># &quot;01/05/2013 13:35&quot;</span></span>
+<span id="cb405-4"><a href="dates.html#cb405-4" tabindex="-1"></a>t_long <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(<span class="st">&quot;01/05/2013 13:35&quot;</span>, <span class="at">format =</span> <span class="st">&quot;%d/%m/%Y %H:%M&quot;</span>)</span>
+<span id="cb405-5"><a href="dates.html#cb405-5" tabindex="-1"></a></span>
+<span id="cb405-6"><a href="dates.html#cb405-6" tabindex="-1"></a><span class="co"># print just the number of hours of the timestamp `t_long`</span></span>
+<span id="cb405-7"><a href="dates.html#cb405-7" tabindex="-1"></a><span class="co"># then just the number of minutes</span></span>
+<span id="cb405-8"><a href="dates.html#cb405-8" tabindex="-1"></a><span class="co"># you can find this information in subelements called `hour` and `minute`</span></span>
+<span id="cb405-9"><a href="dates.html#cb405-9" tabindex="-1"></a>t_long<span class="sc">$</span>hour</span>
+<span id="cb405-10"><a href="dates.html#cb405-10" tabindex="-1"></a>t_long<span class="sc">$</span>min</span>
+<span id="cb405-11"><a href="dates.html#cb405-11" tabindex="-1"></a></span>
+<span id="cb405-12"><a href="dates.html#cb405-12" tabindex="-1"></a><span class="co"># remove the class and list property of the variable `t_long`</span></span>
+<span id="cb405-13"><a href="dates.html#cb405-13" tabindex="-1"></a><span class="co"># and print it on the screen</span></span>
+<span id="cb405-14"><a href="dates.html#cb405-14" tabindex="-1"></a>t_long <span class="sc">%&gt;%</span> <span class="fu">unclass</span>() <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span></code></pre></div>
+<pre><code>## [1] 13
+## [1] 35
+##    sec    min   hour   mday    mon   year   wday   yday  isdst   zone gmtoff 
+##    &quot;0&quot;   &quot;35&quot;   &quot;13&quot;    &quot;1&quot;    &quot;4&quot;  &quot;113&quot;    &quot;3&quot;  &quot;120&quot;    &quot;1&quot; &quot;CEST&quot;     NA</code></pre>
+</div>
+<hr />
+</div>
+</div>
+<div id="the-lubridate-package" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> The <code>lubridate</code> package<a href="dates.html#the-lubridate-package" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Although the R language has relatively good support for working with dates and timestamps, we can make managing them significantly more efficient by using a package called <code>lubridate</code> package. If we analyze data where the time component is very important, or manage data sets that use exotic ways of noting date and time, then we can greatly simplify and accelerate the analysis process by using the features provided by this package.</p>
+<p>One of the things that may be most helpful to developers who don’t like to write formatted date parsing specifications is the family of date parsing functions whose names match the overall “structure” of the record we want to parse. For example, the function called <code>ymd</code> can parse character strings in which the date is written in the order <em>year-month-day</em>. The function is “smart” enough to interpret the details of the record itself, such as delimiters, character fields, etc. If the record has a different day, month, and year layout, it is only necessary to arrange the letters appropriately in the function name.</p>
+<hr />
+<p><strong>Exercise 10.9 - date parsing functions of the <code>lubridate</code> package</strong></p>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="dates.html#cb407-1" tabindex="-1"></a><span class="co"># library(lubridate) # load if needed!</span></span>
+<span id="cb407-2"><a href="dates.html#cb407-2" tabindex="-1"></a></span>
+<span id="cb407-3"><a href="dates.html#cb407-3" tabindex="-1"></a><span class="co"># using the functions in the `lubridate` package</span></span>
+<span id="cb407-4"><a href="dates.html#cb407-4" tabindex="-1"></a><span class="co"># parse the following character strings into dates and print them on the screen</span></span>
+<span id="cb407-5"><a href="dates.html#cb407-5" tabindex="-1"></a><span class="co"># &quot;2016-07-31&quot;</span></span>
+<span id="cb407-6"><a href="dates.html#cb407-6" tabindex="-1"></a><span class="co"># &quot;28/2/1983&quot;</span></span>
+<span id="cb407-7"><a href="dates.html#cb407-7" tabindex="-1"></a><span class="co"># &quot;07#31#1996&quot;</span></span>
+<span id="cb407-8"><a href="dates.html#cb407-8" tabindex="-1"></a><span class="co"># &quot;20010830&quot;</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="dates.html#cb408-1" tabindex="-1"></a><span class="co"># using the functions in the `lubridate` package</span></span>
+<span id="cb408-2"><a href="dates.html#cb408-2" tabindex="-1"></a><span class="co"># parse the following character strings into dates and print them on the screen</span></span>
+<span id="cb408-3"><a href="dates.html#cb408-3" tabindex="-1"></a><span class="co"># &quot;2016-07-31&quot;</span></span>
+<span id="cb408-4"><a href="dates.html#cb408-4" tabindex="-1"></a><span class="co"># &quot;28/2/1983&quot;</span></span>
+<span id="cb408-5"><a href="dates.html#cb408-5" tabindex="-1"></a><span class="co"># &quot;07#31#1996&quot;</span></span>
+<span id="cb408-6"><a href="dates.html#cb408-6" tabindex="-1"></a><span class="co"># &quot;20010830&quot;</span></span>
+<span id="cb408-7"><a href="dates.html#cb408-7" tabindex="-1"></a><span class="fu">ymd</span>(<span class="st">&quot;2016-07-31&quot;</span>)</span>
+<span id="cb408-8"><a href="dates.html#cb408-8" tabindex="-1"></a><span class="fu">dmy</span>(<span class="st">&quot;28/2/1983&quot;</span>)</span>
+<span id="cb408-9"><a href="dates.html#cb408-9" tabindex="-1"></a><span class="fu">mdy</span>(<span class="st">&quot;07#31#1996&quot;</span>)</span>
+<span id="cb408-10"><a href="dates.html#cb408-10" tabindex="-1"></a><span class="fu">ymd</span>(<span class="st">&quot;20010830&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2016-07-31&quot;
+## [1] &quot;1983-02-28&quot;
+## [1] &quot;1996-07-31&quot;
+## [1] &quot;2001-08-30&quot;</code></pre>
+</div>
+<hr />
+<p>The aforementioned approach can also be used for timestamps, we just add the underscore and then the “letters” for hours, minutes and/or seconds (e.g. <code>ymd_hms</code>).</p>
+<hr />
+<p><strong>Exercise 10.10 - timestamp parsing functions of the <code>lubridate</code> package</strong></p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="dates.html#cb410-1" tabindex="-1"></a><span class="co"># using the functions in the `lubridate` package</span></span>
+<span id="cb410-2"><a href="dates.html#cb410-2" tabindex="-1"></a><span class="co"># parse the following character strings to timestamps and print them on the screen</span></span>
+<span id="cb410-3"><a href="dates.html#cb410-3" tabindex="-1"></a><span class="co"># &quot;17/05/1977 10:15 pm&quot;</span></span>
+<span id="cb410-4"><a href="dates.html#cb410-4" tabindex="-1"></a><span class="co"># &quot;20160429 05:10:17&quot;</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="dates.html#cb411-1" tabindex="-1"></a><span class="co"># using the functions in the `lubridate` package</span></span>
+<span id="cb411-2"><a href="dates.html#cb411-2" tabindex="-1"></a><span class="co"># parse the following character strings to timestamps and print them on the screen</span></span>
+<span id="cb411-3"><a href="dates.html#cb411-3" tabindex="-1"></a><span class="co"># &quot;17/05/1977 10:15 pm&quot;</span></span>
+<span id="cb411-4"><a href="dates.html#cb411-4" tabindex="-1"></a><span class="co"># &quot;20160429 05/10/17&quot;</span></span>
+<span id="cb411-5"><a href="dates.html#cb411-5" tabindex="-1"></a><span class="fu">dmy_hm</span>(<span class="st">&quot;17/05/1977 10:15 pm&quot;</span>)</span>
+<span id="cb411-6"><a href="dates.html#cb411-6" tabindex="-1"></a><span class="fu">ymd_hms</span>(<span class="st">&quot;20160429 05:10:17&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;1977-05-17 22:15:00 UTC&quot;
+## [1] &quot;2016-04-29 05:10:17 UTC&quot;</code></pre>
+</div>
+<hr />
+<p>Note that these functions always sets <code>UTC</code> for the time zone. This was intentionally designed to motivate the use of a consistent time zone in the data set we are analyzing. If desired, we can set the time zone with the <code>tz</code> parameter during parsing. Similarly, with timestamps already initialized, we can manage time zones using the following functions</p>
+<ul>
+<li><code>force_tz</code> - “enforces” the change to a new time zone while leaving the timestamp values the same</li>
+<li><code>with_tz</code> - converts a timestamp into one that matches the requested time zone</li>
+</ul>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="dates.html#cb413-1" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">&quot;20161129 05:10:17&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;EST&quot;</span>)</span>
+<span id="cb413-2"><a href="dates.html#cb413-2" tabindex="-1"></a>t</span>
+<span id="cb413-3"><a href="dates.html#cb413-3" tabindex="-1"></a></span>
+<span id="cb413-4"><a href="dates.html#cb413-4" tabindex="-1"></a><span class="fu">force_tz</span>(t, <span class="at">tz =</span> <span class="st">&quot;CET&quot;</span>)</span>
+<span id="cb413-5"><a href="dates.html#cb413-5" tabindex="-1"></a><span class="fu">with_tz</span>(t, <span class="at">tz =</span> <span class="st">&quot;CET&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2016-11-29 05:10:17 EST&quot;
+## [1] &quot;2016-11-29 05:10:17 CET&quot;
+## [1] &quot;2016-11-29 11:10:17 CET&quot;</code></pre>
+<hr />
+<p>The <code>lubridate</code> package also makes it easy to extract date and time segments from timestamps with functions such as <code>year</code>, <code>week</code>, <code>month</code>, etc. The same functions can also be used to change any of the timestamp components.</p>
+<hr />
+<p><strong>Exercise 10.11 - extracting timestamp elements </strong></p>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="dates.html#cb415-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">dmy_hms</span>(<span class="st">&quot;7/19/1996 4:15:27 PM&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: All formats failed to parse. No formats found.</code></pre>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="dates.html#cb417-1" tabindex="-1"></a><span class="co"># extract and print hours from the timestamp above, followed by minutes</span></span>
+<span id="cb417-2"><a href="dates.html#cb417-2" tabindex="-1"></a></span>
+<span id="cb417-3"><a href="dates.html#cb417-3" tabindex="-1"></a><span class="co"># set the year of the above timestamp to 2011, and the month to June</span></span>
+<span id="cb417-4"><a href="dates.html#cb417-4" tabindex="-1"></a></span>
+<span id="cb417-5"><a href="dates.html#cb417-5" tabindex="-1"></a><span class="co"># print timestamp `x` on the screen</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="dates.html#cb418-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">dmy_hms</span>(<span class="st">&quot;7/19/1996 4:15:27 PM&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: All formats failed to parse. No formats found.</code></pre>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="dates.html#cb420-1" tabindex="-1"></a><span class="co"># extract and print hours from the timestamp above, followed by minutes</span></span>
+<span id="cb420-2"><a href="dates.html#cb420-2" tabindex="-1"></a><span class="fu">hour</span>(x)</span>
+<span id="cb420-3"><a href="dates.html#cb420-3" tabindex="-1"></a><span class="fu">minute</span>(x)</span>
+<span id="cb420-4"><a href="dates.html#cb420-4" tabindex="-1"></a></span>
+<span id="cb420-5"><a href="dates.html#cb420-5" tabindex="-1"></a><span class="co"># set the year of the above timestamp to 2011, and the month to June</span></span>
+<span id="cb420-6"><a href="dates.html#cb420-6" tabindex="-1"></a><span class="fu">year</span>(x) <span class="ot">&lt;-</span> <span class="dv">2011</span></span>
+<span id="cb420-7"><a href="dates.html#cb420-7" tabindex="-1"></a><span class="fu">month</span>(x) <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb420-8"><a href="dates.html#cb420-8" tabindex="-1"></a></span>
+<span id="cb420-9"><a href="dates.html#cb420-9" tabindex="-1"></a><span class="co"># print timestamp `x` on the screen</span></span>
+<span id="cb420-10"><a href="dates.html#cb420-10" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>## [1] NA
+## [1] NA
+## [1] NA</code></pre>
+</div>
+<hr />
+<p>See the <code>lubridate</code> documentation for a complete list of features.</p>
+<p>For the current date and time, <code>lubridate</code> offers alternatives to the <code>Sys.Date()</code> and <code>Sys.time()</code> functions, which are simply called <code>today()</code> and <code>now()</code>.</p>
+<hr />
+<p><strong>Exercise 10.12 - functions <code>today</code> and <code>now</code></strong></p>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="dates.html#cb422-1" tabindex="-1"></a><span class="co"># print out tomorrow&#39;s date</span></span>
+<span id="cb422-2"><a href="dates.html#cb422-2" tabindex="-1"></a></span>
+<span id="cb422-3"><a href="dates.html#cb422-3" tabindex="-1"></a><span class="co"># print the timestamp which happened exactly an hour ago</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="dates.html#cb423-1" tabindex="-1"></a><span class="co"># print out tomorrow&#39;s date</span></span>
+<span id="cb423-2"><a href="dates.html#cb423-2" tabindex="-1"></a><span class="fu">today</span>() <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb423-3"><a href="dates.html#cb423-3" tabindex="-1"></a></span>
+<span id="cb423-4"><a href="dates.html#cb423-4" tabindex="-1"></a><span class="co"># print the timestamp which happened exactly an hour ago</span></span>
+<span id="cb423-5"><a href="dates.html#cb423-5" tabindex="-1"></a><span class="fu">now</span>() <span class="sc">-</span> <span class="dv">60</span> <span class="sc">*</span> <span class="dv">60</span></span></code></pre></div>
+<pre><code>## [1] &quot;2024-11-16&quot;
+## [1] &quot;2024-11-15 09:04:03 CET&quot;</code></pre>
+</div>
+<hr />
+<p>We already mentioned that managing time-related data can become very complex, especially considering that time intervals can be expressed generically (e.g., “2 years”) or specifically (the span of two dates), and that mathematical and calendar ways of expressing time intervals do not necessarily match (e.g., “period of one year” can mathematically mean “the exact number of seconds in 365 days” but also the contextually dependent “period until the same date next year”).</p>
+<p>The <code>lubridate</code> package defines four options for defining time-related objects:</p>
+<ul>
+<li><strong>instant</strong> - timestamp rounded to the second</li>
+<li><strong>duration</strong> - “generically” defined interval in seconds</li>
+<li><strong>period</strong> - similar to duration, but allows you to define durations that do not always last mathematically (e.g. “3 months”)</li>
+<li><strong>interval</strong> - the time interval between two specific moments</li>
+</ul>
+<p>We have already met the “istants”, these are the timestamps we have already shown. To create durations and periods, we have intuitively defined functions that are named by English names for time units, with durations having the letter <code>d</code> as a prefix (from <em>duration</em>). Hence, we have the functions called <code>minutes</code>/<code>dminutes</code>, <code>hours</code>/<code>dhours</code>, <code>weeks</code>/<code>dweeks</code> etc. (note that there is no <code>dmonths</code> function, since we cannot unambiguously convert one month into seconds).</p>
+<hr />
+<p><strong>Exercise 10.13 - durations and periods</strong></p>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="dates.html#cb425-1" tabindex="-1"></a><span class="co"># print out objects which represent the duration and period of 3 weeks</span></span>
+<span id="cb425-2"><a href="dates.html#cb425-2" tabindex="-1"></a></span>
+<span id="cb425-3"><a href="dates.html#cb425-3" tabindex="-1"></a><span class="co"># use the variable `v` to store a period of 5 years, 3 months and 2 days</span></span>
+<span id="cb425-4"><a href="dates.html#cb425-4" tabindex="-1"></a></span>
+<span id="cb425-5"><a href="dates.html#cb425-5" tabindex="-1"></a><span class="co"># add the above period to today&#39;s date</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="dates.html#cb426-1" tabindex="-1"></a><span class="co"># print out objects which represent the duration and period of 3 weeks</span></span>
+<span id="cb426-2"><a href="dates.html#cb426-2" tabindex="-1"></a><span class="fu">weeks</span>(<span class="dv">3</span>)</span>
+<span id="cb426-3"><a href="dates.html#cb426-3" tabindex="-1"></a><span class="fu">dweeks</span>(<span class="dv">3</span>)</span>
+<span id="cb426-4"><a href="dates.html#cb426-4" tabindex="-1"></a></span>
+<span id="cb426-5"><a href="dates.html#cb426-5" tabindex="-1"></a><span class="co"># use the variable `v` to store a period of 5 years, 3 months and 2 days</span></span>
+<span id="cb426-6"><a href="dates.html#cb426-6" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">years</span>(<span class="dv">5</span>) <span class="sc">+</span> <span class="fu">months</span>(<span class="dv">3</span>) <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">2</span>)</span>
+<span id="cb426-7"><a href="dates.html#cb426-7" tabindex="-1"></a></span>
+<span id="cb426-8"><a href="dates.html#cb426-8" tabindex="-1"></a><span class="co"># add the above period to today&#39;s date</span></span>
+<span id="cb426-9"><a href="dates.html#cb426-9" tabindex="-1"></a><span class="fu">today</span>() <span class="sc">+</span> v</span></code></pre></div>
+<pre><code>## [1] &quot;21d 0H 0M 0S&quot;
+## [1] &quot;1814400s (~3 weeks)&quot;
+## [1] &quot;2030-02-17&quot;</code></pre>
+</div>
+<hr />
+<p>Notice that the above expression would not be consistent if obtained “mathematically”.</p>
+<p>Finally, we can create an interval by using the <code>interval</code> function and providing the <strong>start</strong> and <strong>end</strong> timestamps, or by using the <code>as.interval</code> function and giving the <strong>duration/period</strong> and the <strong>start</strong> timestamp. We can also use the operator <code>%--%</code> with two timestamps as operands.</p>
+<hr />
+<p><strong>Exercise 10.14 - intervals</strong></p>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="dates.html#cb428-1" tabindex="-1"></a><span class="co"># create a variable `interval1` to store the interval</span></span>
+<span id="cb428-2"><a href="dates.html#cb428-2" tabindex="-1"></a><span class="co"># between 6 months before today and 6 months after today</span></span>
+<span id="cb428-3"><a href="dates.html#cb428-3" tabindex="-1"></a></span>
+<span id="cb428-4"><a href="dates.html#cb428-4" tabindex="-1"></a><span class="co"># create a variable `interval2` and store the interval from today</span></span>
+<span id="cb428-5"><a href="dates.html#cb428-5" tabindex="-1"></a><span class="co"># until the date that will happen in 4 months, 3 weeks and 2 days</span></span>
+<span id="cb428-6"><a href="dates.html#cb428-6" tabindex="-1"></a></span>
+<span id="cb428-7"><a href="dates.html#cb428-7" tabindex="-1"></a><span class="co"># create a variable `interval3` that will store the interval</span></span>
+<span id="cb428-8"><a href="dates.html#cb428-8" tabindex="-1"></a><span class="co"># between 1.5.2002. and 1.7.2002.</span></span>
+<span id="cb428-9"><a href="dates.html#cb428-9" tabindex="-1"></a></span>
+<span id="cb428-10"><a href="dates.html#cb428-10" tabindex="-1"></a><span class="co"># print out all three intervals</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="dates.html#cb429-1" tabindex="-1"></a><span class="co"># create a variable `interval1` to store the interval</span></span>
+<span id="cb429-2"><a href="dates.html#cb429-2" tabindex="-1"></a><span class="co"># between 6 months before today and 6 months after today</span></span>
+<span id="cb429-3"><a href="dates.html#cb429-3" tabindex="-1"></a>interval1 <span class="ot">&lt;-</span> <span class="fu">interval</span>(<span class="fu">today</span>() <span class="sc">-</span> <span class="fu">months</span>(<span class="dv">6</span>), <span class="fu">today</span>() <span class="sc">+</span> <span class="fu">months</span>(<span class="dv">6</span>))</span>
+<span id="cb429-4"><a href="dates.html#cb429-4" tabindex="-1"></a></span>
+<span id="cb429-5"><a href="dates.html#cb429-5" tabindex="-1"></a><span class="co"># create a variable `interval2` and store the interval from today</span></span>
+<span id="cb429-6"><a href="dates.html#cb429-6" tabindex="-1"></a><span class="co"># until the date that will happen in 4 months, 3 weeks and 2 days</span></span>
+<span id="cb429-7"><a href="dates.html#cb429-7" tabindex="-1"></a>interval2 <span class="ot">&lt;-</span> <span class="fu">as.interval</span>(<span class="fu">months</span>(<span class="dv">4</span>) <span class="sc">+</span> <span class="fu">weeks</span>(<span class="dv">3</span>) <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">2</span>), <span class="fu">today</span>())</span>
+<span id="cb429-8"><a href="dates.html#cb429-8" tabindex="-1"></a></span>
+<span id="cb429-9"><a href="dates.html#cb429-9" tabindex="-1"></a><span class="co"># create a variable `interval3` that will store the interval</span></span>
+<span id="cb429-10"><a href="dates.html#cb429-10" tabindex="-1"></a><span class="co"># between 1.5.2002. and 1.7.2002.</span></span>
+<span id="cb429-11"><a href="dates.html#cb429-11" tabindex="-1"></a>interval3 <span class="ot">&lt;-</span> <span class="fu">dmy</span>(<span class="st">&quot;1.5.2002&quot;</span>) <span class="sc">%--%</span> <span class="fu">dmy</span>(<span class="st">&quot;1.7.2002&quot;</span>)</span>
+<span id="cb429-12"><a href="dates.html#cb429-12" tabindex="-1"></a></span>
+<span id="cb429-13"><a href="dates.html#cb429-13" tabindex="-1"></a><span class="co"># print out all three intervals</span></span>
+<span id="cb429-14"><a href="dates.html#cb429-14" tabindex="-1"></a>interval1</span>
+<span id="cb429-15"><a href="dates.html#cb429-15" tabindex="-1"></a>interval2</span>
+<span id="cb429-16"><a href="dates.html#cb429-16" tabindex="-1"></a>interval3</span></code></pre></div>
+<pre><code>## [1] 2024-05-15 UTC--2025-05-15 UTC
+## [1] 2024-11-15 UTC--2025-04-07 UTC
+## [1] 2002-05-01 UTC--2002-07-01 UTC</code></pre>
+</div>
+<hr />
+<p>When we have intervals defined we can then:</p>
+<ul>
+<li>check if a timestamp is within an interval with the help of the operator <code>%within%</code></li>
+<li>check whether the intervals overlap by using the function <code>int_overlaps()</code></li>
+<li>easily retrieve the start and end of intervals using the functions <code>int_start()</code> and <code>int_end()</code></li>
+<li>“merge” two intervals with the help of the <code>union</code> function or find the intersection between them with the help of the <code>intersect</code> function</li>
+<li>other stuff we can learn by looking at the documentation</li>
+</ul>
+<hr />
+<p><strong>Exercise 10.15 - working with intervals</strong></p>
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="dates.html#cb431-1" tabindex="-1"></a><span class="co"># check whether today is within the interval defined by the variable `interval1`</span></span>
+<span id="cb431-2"><a href="dates.html#cb431-2" tabindex="-1"></a></span>
+<span id="cb431-3"><a href="dates.html#cb431-3" tabindex="-1"></a><span class="co"># if `interval1` and `interval2` overlap</span></span>
+<span id="cb431-4"><a href="dates.html#cb431-4" tabindex="-1"></a><span class="co"># print out their intersection</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="dates.html#cb432-1" tabindex="-1"></a><span class="co"># check whether today is within the interval defined by the variable `interval1`</span></span>
+<span id="cb432-2"><a href="dates.html#cb432-2" tabindex="-1"></a><span class="fu">today</span>() <span class="sc">%within%</span> interval1</span>
+<span id="cb432-3"><a href="dates.html#cb432-3" tabindex="-1"></a></span>
+<span id="cb432-4"><a href="dates.html#cb432-4" tabindex="-1"></a></span>
+<span id="cb432-5"><a href="dates.html#cb432-5" tabindex="-1"></a><span class="co"># if `interval1` and `interval2` overlap</span></span>
+<span id="cb432-6"><a href="dates.html#cb432-6" tabindex="-1"></a><span class="co"># print out their intersection</span></span>
+<span id="cb432-7"><a href="dates.html#cb432-7" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">int_overlaps</span>(interval1, interval1)) <span class="fu">intersect</span>(interval1, interval2)</span></code></pre></div>
+<pre><code>## [1] TRUE
+## [1] 2024-11-15 UTC--2025-04-07 UTC</code></pre>
+</div>
+<hr />
+<p>In this section, we are introduced to some of the functionality offered by the base R’s date and time classes as well as some of the functionalities offered by the <code>lubridate</code> package. For more information, see the official documentation of the R language and the <code>lubridate</code> package, or the article called “Dates and Times Made Easy with lubridate” written by the author of the package Hadley Wickham, available at <a href = "https://www.jstatsoft.org/article/view/v040i03/v40i03.pdf"> this link </a>.</p>
+</div>
+<div id="working-with-character-strings" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Working with character strings<a href="dates.html#working-with-character-strings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><em>R</em> has very good support for character strings. However, the functions offered by base R are a bit unintuitive and inconsistent when compared to similar functions offered by other programming languages commonly used for text analysis (such as <em>Perl</em> or <em>Python</em>).</p>
+<p>It is for these specific reasons that the <code>stringr</code> package emerged, offering a very popular alternative to existing character string functions. However, before getting acquainted with the features offered by this package, it is necessary to briefly address the general issues of managing character strings in data analysis as well as introduce a technology without which the implementation of character string analysis is almost unthinkable - “regular expressions”.</p>
+<div id="text-analysis-and-regular-expressions" class="section level3 hasAnchor" number="10.3.1">
+<h3><span class="header-section-number">10.3.1</span> Text analysis and regular expressions<a href="dates.html#text-analysis-and-regular-expressions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Text analysis is an inevitable element of data analysis. Whether it’s simple category identification, searching for specific patterns, or something performing more complex tasks commonly known as <em>text mining</em>, it’s hard to imagine any meaningful data analysis that doesn’t at some point require knowledge of at least the basic methods of managing sets of character strings.</p>
+<p>Regardless of the complexity of character string analysis we want to perform, one technology is ubiquitous and universally applicable - <strong>regular expressions</strong>. This is a special “language” that we use to define “patterns” which we use to search or process textual information in various ways.</p>
+<p>A thorough review of regular expression technology is beyond the scope of this coursebook. Below, we will provide only a brief overview. If you have never encountered this technology before, we strongly recommend that you make the effort and master at least the basic concepts, preferably using one of many excellent web resources. One very short yet effective regular expression mini-courses can be found <a href = "https://regexone.com/"> here </a>.</p>
+<p>A regular expression is simply a string of characters that represents the pattern we are looking for within a text. Eg. the regular expression <code>gram</code> is contained in the character string <code>Programming language R</code> but is not in the character string <code>Text analysis</code>. We say we found a “match” with the first string but not with the second.</p>
+<p>This kind of regular expression is not too flexible - the true power of regular expressions lies in using special symbols which enable describing patterns in a more “generic” way. Let’s demonsrate this on a simple example.</p>
+<p>One common scenarios of using regular expressions is checking whether the user has entered an address that corresponds to the “general” form of the email address. One possibility is to simply use the expression <code>@</code> as a regular expression we want to find a “match” with the email adress we are checking for validity. This can help with filtering out a certain number of invalid email adresses, but will also allow “addresses” such as <code>@@@</code> and <code>@23456</code>. With a little “work” on the expression, you could come up with a slightly better solution, which may look something like this:</p>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="dates.html#cb434-1" tabindex="-1"></a>\w<span class="sc">+</span><span class="er">@</span>\w<span class="sc">+</span>\.\w<span class="sc">+</span></span></code></pre></div>
+<p>Although it looks like a series of random characters, with basic knowledge of regular expressions (and, in this case, using the “Perl” standard) we can interpret the above expression relatively easily. The character <code>\w</code> stands for “letter, number or underscore”, the sign <code>+</code> means “1 or more”, etc. If you wanted to “transcribe” the above regular expression in a spoken language, it would be “one or more letters, digits or underscores’, followed by the sign <code>@</code>, then again one or more letters, digits or underscores, then a dot and then finally one or more letters, digits or underscores.” While this is not an overly sophisticated regular expression, it is still better than the first attempt. Further refinement is certainly possible, and although subsequent additions are increasingly making it harder to be easily interpreted by the human, we are also gaining more and more control over the formal definitions of what an email address should look like (for such specific uses, it is often worthwhile to check publicly available regular expression repositories where we can find complex but of high quality and carefully tested expressions that are easy enough to copy into our program code).</p>
+<p>We already stated that the above expression is written in so-called “Perl standard”. Unfortunately, today there isn’t a single standard for regular expressions. Most often used are so-called <em>“POSIX standard”</em> in two versions - <em>BRE</em> and <em>ERE</em> (<em>Basic Regular Expressions</em> and <em>Extended Regular Expressions</em>) which are pretty similar, except for the fact that <em>BRE</em> relies a bit on the <code>\</code> character and doesn’t recognize some of the “newer” symbols that ERE uses. Another popular standard is the already mentioned <em>“Perl standard”</em> which is a version of regular expressions implemented in the <em>Perl</em> programming language. Because <em>Perl</em> is one of the leading languages for text processing, this standard has become one of the most widely accepted methods of using regular expressions.</p>
+<p>In general, almost all popular programming languages have support for regular expressions, either embedded in the language or with the help of additional packages. <em>R</em> is one of the languages that already includes support for regular expressions in its base package. What’s more, <em>R</em> has built-in parallel support for the three most widely used standards mentioned above - <em>POSIX ERE</em>, <em>POSIX BRE</em> and <em>Perl</em>. <em>POSIX ERE</em> is the default setting, and with certain parameters we can easily “switch” to <em>BRE</em> (<code>extended = FALSE</code>) or <em>Perl</em> (<code>perl = TRUE</code>). In the following paragraphs, we will stick with the <em>ERE</em> standard, but it is also important to know that the above settings may be used if we already have previously constructed regular expressions that have been developed in another standard (and we do not want to be bothered by switching from one standard to another).</p>
+<p>The following table gives a brief overview of some of the more commonly used regular expression elements in the language <em>R</em>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Element</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>abcd</code></td>
+<td>literal string “abcd”</td>
+</tr>
+<tr class="even">
+<td><code>1234</code></td>
+<td>literal string “1234”</td>
+</tr>
+<tr class="odd">
+<td><code>\\d</code> or <code>[:digit:]</code> or <code>[0-9]</code></td>
+<td>any digit</td>
+</tr>
+<tr class="even">
+<td><code>\\D</code> or <code>[:alpha:]</code> or <code>[A-Za-z]</code></td>
+<td>any letter</td>
+</tr>
+<tr class="odd">
+<td><code>[:alnum:]</code></td>
+<td>any alphanumeric character</td>
+</tr>
+<tr class="even">
+<td><code>.</code></td>
+<td>any character</td>
+</tr>
+<tr class="odd">
+<td><code>\\.</code></td>
+<td>dot (full stop)</td>
+</tr>
+<tr class="even">
+<td><code>[abc]</code></td>
+<td>only the characters listed</td>
+</tr>
+<tr class="odd">
+<td><code>[^abc]</code></td>
+<td>all characters except those listed</td>
+</tr>
+<tr class="even">
+<td><code>*</code></td>
+<td>zero or more repetitions</td>
+</tr>
+<tr class="odd">
+<td><code>+</code></td>
+<td>one or more repetitions</td>
+</tr>
+<tr class="even">
+<td><code>{n}</code></td>
+<td>exactly n repetitions</td>
+</tr>
+<tr class="odd">
+<td><code>{m, n}</code></td>
+<td>at least m, at most n repetitions</td>
+</tr>
+<tr class="even">
+<td><code>?</code></td>
+<td>optional character</td>
+</tr>
+<tr class="odd">
+<td><code>[:space:]</code> or <code>\\ s</code></td>
+<td>any blank (space, tab, new line)</td>
+</tr>
+<tr class="even">
+<td><code>[:punct:]</code></td>
+<td>punctuation marks</td>
+</tr>
+<tr class="odd">
+<td><code>^ ... $</code></td>
+<td>a start and end markers</td>
+</tr>
+<tr class="even">
+<td><code>(ab|cd)</code></td>
+<td>string “ab” or string “cd”</td>
+</tr>
+</tbody>
+</table>
+<p>Note that when using the special character <code>\</code> as a part of a regular expression we actually have to use the double character <code>\\</code> (the first time to indicate to <em>R</em> that a special character follows, the second time to literally use it as part of the regular expression).</p>
+<p>The basic functions of the <em>R</em> language to work with character strings (and thus regular expressions) are, among other things, <code>grep</code>,<code>grepl</code>, <code>regexrp</code>,<code>gregexrp</code>, <code>regmatches</code>, <code>sub</code>, <code>gsub</code> etc. But since the <code>stringr</code> package offers a set of alternative functions with almost the same functionality but with far more intuitive names and more consistent signatures, we will focus on functions from that package, leaving the base functions to readers as an optional exercise to be learned from the official documentation.</p>
+</div>
+<div id="the-stringr-package" class="section level3 hasAnchor" number="10.3.2">
+<h3><span class="header-section-number">10.3.2</span> The <code>stringr</code> package<a href="dates.html#the-stringr-package" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We have already stated that the <code>stringr</code> package actually reimplements to some extent the already existing functions of the language <em>R</em>, but in a more intuitive and consistent way. To be more precise, the functions of the <code>stringr</code> package have slightly reduced functionality, which is actually by design - one of the imperatives when designing this package was to identify the most commonly used functionalities for text analysis and focus on that primarily. Functionality that is “thrown out” concerns specific cases for which the developer will need to look for alternative solutions (often in the form of basic functions), but the benefit is in simpler, more intuitive features that are easier to learn and use effectively in the long-term effectively.</p>
+<p>Additional benefits of using the <code>stringr</code> package are:</p>
+<ul>
+<li>consistent treatment of factors as character strings</li>
+<li>consistent ordering of parameters, which is especially useful when used in conjunction with the operator <code>%&gt;%</code></li>
+</ul>
+<p>We can start with some simpler functions for which we do not need regular expressions (we list simplified function signatures, for more precise definitions consult the package documentation):</p>
+<ul>
+<li><code>str_c(string1, string2, ...)</code> - merge character strings, alternative to <code>paste0</code></li>
+<li><code>str_length(string)</code> - returns the length of the character string</li>
+<li><code>str_sub(string, start, end)</code> - returns a substring using <code>start</code> and <code>end</code> as letter indexes (negative index means “counting from the back”)</li>
+<li><code>str_sub(string, start, end) &lt;- string2</code> - modifies <code>string</code> by exchanging the defined substring with <code>string2</code> (which does need not be the same length as the dropped substring!)</li>
+<li><code>str_trim(string)</code> - returns a string with removed blanks from the beginning and end of a string</li>
+</ul>
+<hr />
+<p><strong>Exercise 10.16 - basic functions for working with character strings </strong></p>
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="dates.html#cb435-1" tabindex="-1"></a>string1 <span class="ot">&lt;-</span> <span class="st">&quot;             This is an example&quot;</span></span>
+<span id="cb435-2"><a href="dates.html#cb435-2" tabindex="-1"></a>string2 <span class="ot">&lt;-</span> <span class="st">&quot;of string concatenation!         &quot;</span></span>
+<span id="cb435-3"><a href="dates.html#cb435-3" tabindex="-1"></a></span>
+<span id="cb435-4"><a href="dates.html#cb435-4" tabindex="-1"></a><span class="co"># using one line of instructions concatenate the above strings, </span></span>
+<span id="cb435-5"><a href="dates.html#cb435-5" tabindex="-1"></a><span class="co"># remove the blanks at the beginning and end of the string from the result,</span></span>
+<span id="cb435-6"><a href="dates.html#cb435-6" tabindex="-1"></a><span class="co"># then select the substring from 35th to 55th character</span></span>
+<span id="cb435-7"><a href="dates.html#cb435-7" tabindex="-1"></a><span class="co"># and print the final result on the screen</span></span>
+<span id="cb435-8"><a href="dates.html#cb435-8" tabindex="-1"></a></span>
+<span id="cb435-9"><a href="dates.html#cb435-9" tabindex="-1"></a>string <span class="ot">&lt;-</span> <span class="st">&quot;R is overly complicated and not an easy language!&quot;</span></span>
+<span id="cb435-10"><a href="dates.html#cb435-10" tabindex="-1"></a></span>
+<span id="cb435-11"><a href="dates.html#cb435-11" tabindex="-1"></a><span class="co"># in the upper character string, replace all the characters </span></span>
+<span id="cb435-12"><a href="dates.html#cb435-12" tabindex="-1"></a><span class="co"># from 6th place (counted from the start)</span></span>
+<span id="cb435-13"><a href="dates.html#cb435-13" tabindex="-1"></a><span class="co"># to 14th (counting from the end) </span></span>
+<span id="cb435-14"><a href="dates.html#cb435-14" tabindex="-1"></a><span class="co"># with an empty string</span></span>
+<span id="cb435-15"><a href="dates.html#cb435-15" tabindex="-1"></a></span>
+<span id="cb435-16"><a href="dates.html#cb435-16" tabindex="-1"></a><span class="co"># print the string</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="dates.html#cb436-1" tabindex="-1"></a>string1 <span class="ot">&lt;-</span> <span class="st">&quot;             This is an example&quot;</span></span>
+<span id="cb436-2"><a href="dates.html#cb436-2" tabindex="-1"></a>string2 <span class="ot">&lt;-</span> <span class="st">&quot; of string concatenation!         &quot;</span></span>
+<span id="cb436-3"><a href="dates.html#cb436-3" tabindex="-1"></a></span>
+<span id="cb436-4"><a href="dates.html#cb436-4" tabindex="-1"></a><span class="co"># using one line of instructions concatenate the above strings, </span></span>
+<span id="cb436-5"><a href="dates.html#cb436-5" tabindex="-1"></a><span class="co"># remove the blanks at the beginning and end of the string from the result,</span></span>
+<span id="cb436-6"><a href="dates.html#cb436-6" tabindex="-1"></a><span class="co"># then select the substring from 22nd to 41st character</span></span>
+<span id="cb436-7"><a href="dates.html#cb436-7" tabindex="-1"></a><span class="co"># and print the final result on the screen</span></span>
+<span id="cb436-8"><a href="dates.html#cb436-8" tabindex="-1"></a><span class="fu">str_c</span>(string1, string2)<span class="sc">%&gt;%</span> <span class="fu">str_trim</span>()<span class="sc">%&gt;%</span> <span class="fu">str_sub</span>(<span class="dv">22</span>, <span class="dv">41</span>)</span>
+<span id="cb436-9"><a href="dates.html#cb436-9" tabindex="-1"></a></span>
+<span id="cb436-10"><a href="dates.html#cb436-10" tabindex="-1"></a>string <span class="ot">&lt;-</span> <span class="st">&quot;R is overly complicated and not an easy language!&quot;</span></span>
+<span id="cb436-11"><a href="dates.html#cb436-11" tabindex="-1"></a></span>
+<span id="cb436-12"><a href="dates.html#cb436-12" tabindex="-1"></a><span class="co"># in the upper character string, replace all the characters </span></span>
+<span id="cb436-13"><a href="dates.html#cb436-13" tabindex="-1"></a><span class="co"># from 6th place (counted from the start)</span></span>
+<span id="cb436-14"><a href="dates.html#cb436-14" tabindex="-1"></a><span class="co"># to 14th (counting from the end) </span></span>
+<span id="cb436-15"><a href="dates.html#cb436-15" tabindex="-1"></a><span class="co"># with an empty string</span></span>
+<span id="cb436-16"><a href="dates.html#cb436-16" tabindex="-1"></a><span class="fu">str_sub</span>(string, <span class="dv">6</span>, <span class="sc">-</span><span class="dv">14</span>) <span class="ot">&lt;-</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb436-17"><a href="dates.html#cb436-17" tabindex="-1"></a></span>
+<span id="cb436-18"><a href="dates.html#cb436-18" tabindex="-1"></a><span class="co"># print the string</span></span>
+<span id="cb436-19"><a href="dates.html#cb436-19" tabindex="-1"></a>string</span></code></pre></div>
+<pre><code>## [1] &quot; string concatenatio&quot;
+## [1] &quot;R is asy language!&quot;</code></pre>
+</div>
+<hr />
+<p>The <code>str_c</code> function also has a <code>sep</code> parameter if we want to paste the strings with a specific separator, and the <code>collapse</code> parameter which is <code>NULL</code> by default, but which can be used to merge elements of a character vector into a single string (with the value of the parameter used as a separator).</p>
+<hr />
+<p><strong>Exercise 10.17 - merging character strings</strong></p>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="dates.html#cb438-1" tabindex="-1"></a>string1 <span class="ot">&lt;-</span> <span class="st">&quot;To merge&quot;</span></span>
+<span id="cb438-2"><a href="dates.html#cb438-2" tabindex="-1"></a>string2 <span class="ot">&lt;-</span> <span class="st">&quot;these strings&quot;</span></span>
+<span id="cb438-3"><a href="dates.html#cb438-3" tabindex="-1"></a>string3 <span class="ot">&lt;-</span> <span class="st">&quot;you need some space!&quot;</span></span>
+<span id="cb438-4"><a href="dates.html#cb438-4" tabindex="-1"></a></span>
+<span id="cb438-5"><a href="dates.html#cb438-5" tabindex="-1"></a><span class="co"># merge the above strings into a single string and print the result</span></span>
+<span id="cb438-6"><a href="dates.html#cb438-6" tabindex="-1"></a></span>
+<span id="cb438-7"><a href="dates.html#cb438-7" tabindex="-1"></a>arrays <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;These&quot;</span>, <span class="st">&quot;vector&quot;</span>, <span class="st">&quot;elements&quot;</span>, <span class="st">&quot;should&quot;</span>, <span class="st">&quot;be&quot;</span>, <span class="st">&quot;joined...&quot;</span>)</span>
+<span id="cb438-8"><a href="dates.html#cb438-8" tabindex="-1"></a></span>
+<span id="cb438-9"><a href="dates.html#cb438-9" tabindex="-1"></a><span class="co"># merge the elements of the above vector into one string and print the result</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="dates.html#cb439-1" tabindex="-1"></a>string1 <span class="ot">&lt;-</span> <span class="st">&quot;To merge&quot;</span></span>
+<span id="cb439-2"><a href="dates.html#cb439-2" tabindex="-1"></a>string2 <span class="ot">&lt;-</span> <span class="st">&quot;these strings&quot;</span></span>
+<span id="cb439-3"><a href="dates.html#cb439-3" tabindex="-1"></a>string3 <span class="ot">&lt;-</span> <span class="st">&quot;you need some space!&quot;</span></span>
+<span id="cb439-4"><a href="dates.html#cb439-4" tabindex="-1"></a></span>
+<span id="cb439-5"><a href="dates.html#cb439-5" tabindex="-1"></a><span class="co"># merge the above strings into a single string and print the result</span></span>
+<span id="cb439-6"><a href="dates.html#cb439-6" tabindex="-1"></a><span class="fu">str_c</span>(string1, string2, string3, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb439-7"><a href="dates.html#cb439-7" tabindex="-1"></a></span>
+<span id="cb439-8"><a href="dates.html#cb439-8" tabindex="-1"></a>strings <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;These&quot;</span>, <span class="st">&quot;vector&quot;</span>, <span class="st">&quot;elements&quot;</span>, <span class="st">&quot;should&quot;</span>, <span class="st">&quot;be&quot;</span>, <span class="st">&quot;joined...&quot;</span>)</span>
+<span id="cb439-9"><a href="dates.html#cb439-9" tabindex="-1"></a></span>
+<span id="cb439-10"><a href="dates.html#cb439-10" tabindex="-1"></a><span class="co"># merge the elements of the above vector into one string and print the result</span></span>
+<span id="cb439-11"><a href="dates.html#cb439-11" tabindex="-1"></a><span class="fu">str_c</span>(strings, <span class="at">collapse =</span> <span class="st">&quot; &quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;To merge these strings you need some space!&quot;
+## [1] &quot;These vector elements should be joined...&quot;</code></pre>
+</div>
+<hr />
+<p>Let’s look at some <code>stringr</code> functions that work with regular expressions:</p>
+<ul>
+<li><code>str_detect(string, pattern)</code> - returns <code>TRUE</code> if <code>string</code> contains <code>pattern</code>, otherwise<code>FALSE</code></li>
+<li><code>str_extract(string, pattern)</code> - returns a string of characters corresponding to the first occurrence of a pattern</li>
+<li><code>str_extract_all(string, pattern)</code> - returns a list with all occurrences that match the pattern</li>
+<li><code>str_replace(string, pattern, replacement)</code> - changes the first occurrence of a pattern with the replacement</li>
+<li><code>str_replace_all(string, pattern, replacement)</code> - changes all occurrences of a pattern with the replacement</li>
+</ul>
+<p>All of these functions are vectorized, which means that they behave logically (ie, “parallelized”) when we use a character vector with multiple elements in place of a specific parameter. For example, if we give a vector of strings and a vector of replacements to the <code>str_replace</code> function, elements of the first vector and replacements will “pair up” in place of a given pattern. We can have other combinations, such as a vector of original elements and a vector of patterns, all three parameters as vectors with multiple elements etc. but every time the behavior of the function is consistent with the already learned principle of vectorization.</p>
+<hr />
+<p><strong>Exercise 10.18 - functions and regular expressions</strong></p>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="dates.html#cb441-1" tabindex="-1"></a>addresses <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pero.peric@fer.hr&quot;</span>, <span class="st">&quot;iva.ivic@etfos.hr&quot;</span>, <span class="st">&quot;ppetrovic@gmail.com&quot;</span>,</span>
+<span id="cb441-2"><a href="dates.html#cb441-2" tabindex="-1"></a>            <span class="st">&quot;branko1987@yahoo.com&quot;</span>, <span class="st">&quot;jaRULZ4EVR@gmail.nz&quot;</span>, <span class="st">&quot;dperkovic@efzg.hr&quot;</span>,</span>
+<span id="cb441-3"><a href="dates.html#cb441-3" tabindex="-1"></a>            <span class="st">&quot;lalaic1998@gmail.co.uk&quot;</span>, <span class="st">&quot;perica.markic@fer.hr&quot;</span>)</span>
+<span id="cb441-4"><a href="dates.html#cb441-4" tabindex="-1"></a></span>
+<span id="cb441-5"><a href="dates.html#cb441-5" tabindex="-1"></a><span class="co"># print the total number of mail addresses which belong to the `fer.hr` subdomain </span></span>
+<span id="cb441-6"><a href="dates.html#cb441-6" tabindex="-1"></a></span>
+<span id="cb441-7"><a href="dates.html#cb441-7" tabindex="-1"></a><span class="co"># print all addresses that contain at least one digit</span></span>
+<span id="cb441-8"><a href="dates.html#cb441-8" tabindex="-1"></a></span>
+<span id="cb441-9"><a href="dates.html#cb441-9" tabindex="-1"></a><span class="co"># list all addresses that have a vowel as the second character</span></span>
+<span id="cb441-10"><a href="dates.html#cb441-10" tabindex="-1"></a></span>
+<span id="cb441-11"><a href="dates.html#cb441-11" tabindex="-1"></a><span class="co"># print all unique email address subdomains </span></span>
+<span id="cb441-12"><a href="dates.html#cb441-12" tabindex="-1"></a><span class="co"># (subdomain part of the address is everything after behind the `@` character)</span></span>
+<span id="cb441-13"><a href="dates.html#cb441-13" tabindex="-1"></a></span>
+<span id="cb441-14"><a href="dates.html#cb441-14" tabindex="-1"></a><span class="co"># anonymize the addresses above: all character strings in front of &#39;@&#39;</span></span>
+<span id="cb441-15"><a href="dates.html#cb441-15" tabindex="-1"></a><span class="co"># should be replaced with random 6-digit numbers</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="dates.html#cb442-1" tabindex="-1"></a><span class="co"># print the total number of mail addresses which belong to the `fer.hr` subdomain </span></span>
+<span id="cb442-2"><a href="dates.html#cb442-2" tabindex="-1"></a><span class="fu">str_detect</span>(addresses, <span class="st">&quot;fer</span><span class="sc">\\</span><span class="st">.hr&quot;</span>)<span class="sc">%&gt;%</span> sum</span>
+<span id="cb442-3"><a href="dates.html#cb442-3" tabindex="-1"></a></span>
+<span id="cb442-4"><a href="dates.html#cb442-4" tabindex="-1"></a><span class="co"># print all addresses that contain at least one digit</span></span>
+<span id="cb442-5"><a href="dates.html#cb442-5" tabindex="-1"></a>addresses[<span class="fu">str_detect</span>(addresses, <span class="st">&#39;[:digit:]&#39;</span>)]</span>
+<span id="cb442-6"><a href="dates.html#cb442-6" tabindex="-1"></a></span>
+<span id="cb442-7"><a href="dates.html#cb442-7" tabindex="-1"></a><span class="co"># list all addresses that have a vowel as the second character</span></span>
+<span id="cb442-8"><a href="dates.html#cb442-8" tabindex="-1"></a><span class="fu">str_detect</span>(addresses, <span class="st">&quot;^.[aeiouAEIOU]&quot;</span>) <span class="sc">%&gt;%</span> addresses[.]</span>
+<span id="cb442-9"><a href="dates.html#cb442-9" tabindex="-1"></a></span>
+<span id="cb442-10"><a href="dates.html#cb442-10" tabindex="-1"></a><span class="co"># print all unique email address subdomains </span></span>
+<span id="cb442-11"><a href="dates.html#cb442-11" tabindex="-1"></a><span class="co"># (subdomain part of the address is everything after behind the `@` character)</span></span>
+<span id="cb442-12"><a href="dates.html#cb442-12" tabindex="-1"></a><span class="fu">str_extract</span>(addresses, <span class="st">&#39;@(.*)&#39;</span>) <span class="sc">%&gt;%</span> <span class="fu">str_sub</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span> unique</span>
+<span id="cb442-13"><a href="dates.html#cb442-13" tabindex="-1"></a></span>
+<span id="cb442-14"><a href="dates.html#cb442-14" tabindex="-1"></a><span class="co"># anonymize the addresses above: all character strings in front of &#39;@&#39;</span></span>
+<span id="cb442-15"><a href="dates.html#cb442-15" tabindex="-1"></a><span class="co"># should be replaced with random 6-digit numbers</span></span>
+<span id="cb442-16"><a href="dates.html#cb442-16" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">100000</span><span class="sc">:</span> <span class="dv">999999</span>, <span class="fu">length</span>(addresses)) <span class="sc">%&gt;%</span> as.character <span class="sc">%&gt;%</span> </span>
+<span id="cb442-17"><a href="dates.html#cb442-17" tabindex="-1"></a>    <span class="fu">str_replace</span>(addresses, <span class="st">&#39;^[^@]*&#39;</span>, .)</span></code></pre></div>
+<pre><code>## [1] 2
+## [1] &quot;branko1987@yahoo.com&quot;   &quot;jaRULZ4EVR@gmail.nz&quot;    &quot;lalaic1998@gmail.co.uk&quot;
+## [1] &quot;pero.peric@fer.hr&quot;      &quot;jaRULZ4EVR@gmail.nz&quot;    &quot;lalaic1998@gmail.co.uk&quot;
+## [4] &quot;perica.markic@fer.hr&quot;  
+## [1] &quot;fer.hr&quot;      &quot;etfos.hr&quot;    &quot;gmail.com&quot;   &quot;yahoo.com&quot;   &quot;gmail.nz&quot;   
+## [6] &quot;efzg.hr&quot;     &quot;gmail.co.uk&quot;
+## [1] &quot;715037@fer.hr&quot;      &quot;206896@etfos.hr&quot;    &quot;861759@gmail.com&quot;  
+## [4] &quot;278787@yahoo.com&quot;   &quot;581691@gmail.nz&quot;    &quot;258345@efzg.hr&quot;    
+## [7] &quot;618764@gmail.co.uk&quot; &quot;112453@fer.hr&quot;</code></pre>
+</div>
+<hr />
+<p>Finally, we learn one relatively useful function called <code>str_split</code>. This function splits the character string into a vector of character strings, depending on the given separator (which may be a space, some other chosen character(s), or even a regular expression), and is often used as a “more primitive” alternative to the <code>read.csv</code> and<code>read.table</code> functions when we want to parse the input “manually”, or - more commonly - to break a column of text into individual words for the purposes of text analysis. This function accepts a character string (or a collection of strings) as input, disassembles it according to the chosen separator and then returns the <strong>list</strong> of pieces as a result; if we disassemble only one string, we can easily translate the result into a vector using the <code>unlist</code> function.</p>
+<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="dates.html#cb444-1" tabindex="-1"></a><span class="fu">str_split</span>(<span class="st">&quot;Example of str_split function&quot;</span>, <span class="at">pattern =</span> <span class="st">&quot;[:space:]&quot;</span>) <span class="sc">%&gt;%</span> unlist</span></code></pre></div>
+<pre><code>## [1] &quot;Example&quot;   &quot;of&quot;        &quot;str_split&quot; &quot;function&quot;</code></pre>
+<p>We will now try to perform a very simple example of text analysis - figuring out which words happen most frequently in a chosen text. To do this we first need to read a text file into an R object. One of the simplest ways to achieve this is using the <code>file</code> function (which opens up the connection towards the textual file) and then the <code>readLines</code> function which will read a chosen number of lines and store them in a character vector. For smaller files we can also immediately read the entire file simply by omitting the number of lines we want to read. An example of using these two functions may look like this:</p>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="dates.html#cb446-1" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">file</span>(<span class="st">&quot;textFile.txt&quot;</span>, <span class="st">&quot;r&quot;</span>)    <span class="co"># r = &quot;read&quot;</span></span>
+<span id="cb446-2"><a href="dates.html#cb446-2" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">readLines</span>(con)   <span class="co"># or readLines(con, n = 100) </span></span>
+<span id="cb446-3"><a href="dates.html#cb446-3" tabindex="-1"></a><span class="fu">close</span>(con)   <span class="co"># closing the connection</span></span></code></pre></div>
+<p>The next assignment will use two files</p>
+<ul>
+<li><code>HobbitChapterOne.txt</code> - the text we want to analyse and</li>
+<li><code>stopwords.txt</code> - file with frequent words which are “uninteresting” from the analysis point of view</li>
+</ul>
+<hr />
+<p><strong>Exercise 10.19 - simple text analysis</strong></p>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="dates.html#cb447-1" tabindex="-1"></a><span class="co"># store the text from `HobbitChapterOne.txt` into a variable called `hobbit`</span></span>
+<span id="cb447-2"><a href="dates.html#cb447-2" tabindex="-1"></a><span class="co"># and text from `stopwords.txt` into a variable called `stopwords`</span></span>
+<span id="cb447-3"><a href="dates.html#cb447-3" tabindex="-1"></a></span>
+<span id="cb447-4"><a href="dates.html#cb447-4" tabindex="-1"></a><span class="co"># perform the next steps:</span></span>
+<span id="cb447-5"><a href="dates.html#cb447-5" tabindex="-1"></a><span class="co"># - merge all text segments from `hobbit` into one long character strings</span></span>
+<span id="cb447-6"><a href="dates.html#cb447-6" tabindex="-1"></a><span class="co"># - remove all punctuation marks from the text</span></span>
+<span id="cb447-7"><a href="dates.html#cb447-7" tabindex="-1"></a><span class="co"># - change all text to &quot;lowercase&quot; (use `tolower`)</span></span>
+<span id="cb447-8"><a href="dates.html#cb447-8" tabindex="-1"></a><span class="co"># - split the text using spaces as a separator</span></span>
+<span id="cb447-9"><a href="dates.html#cb447-9" tabindex="-1"></a><span class="co"># - remove &quot;empty words&quot; (words of length 0) if such exist</span></span>
+<span id="cb447-10"><a href="dates.html#cb447-10" tabindex="-1"></a><span class="co"># - remove all words which are present in the `stopwords` variable too</span></span>
+<span id="cb447-11"><a href="dates.html#cb447-11" tabindex="-1"></a><span class="co"># - count the frequencies of the words</span></span>
+<span id="cb447-12"><a href="dates.html#cb447-12" tabindex="-1"></a><span class="co"># - print on screen 20 most frequent words</span></span></code></pre></div>
+<div class="fold s o">
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="dates.html#cb448-1" tabindex="-1"></a><span class="co"># store the text from `HobbitChapterOne.txt` into a variable called `hobbit`</span></span>
+<span id="cb448-2"><a href="dates.html#cb448-2" tabindex="-1"></a><span class="co"># and text from `stopwords.txt` into a variable called `stopwords`</span></span>
+<span id="cb448-3"><a href="dates.html#cb448-3" tabindex="-1"></a></span>
+<span id="cb448-4"><a href="dates.html#cb448-4" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">file</span>(<span class="st">&quot;HobbitChapterOne.txt&quot;</span>)</span>
+<span id="cb448-5"><a href="dates.html#cb448-5" tabindex="-1"></a>hobbit <span class="ot">&lt;-</span> <span class="fu">readLines</span>(con)</span>
+<span id="cb448-6"><a href="dates.html#cb448-6" tabindex="-1"></a><span class="fu">close</span>(con)</span>
+<span id="cb448-7"><a href="dates.html#cb448-7" tabindex="-1"></a></span>
+<span id="cb448-8"><a href="dates.html#cb448-8" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">file</span>(<span class="st">&quot;stopwords.txt&quot;</span>)</span>
+<span id="cb448-9"><a href="dates.html#cb448-9" tabindex="-1"></a>stopwords <span class="ot">&lt;-</span> <span class="fu">readLines</span>(con)</span>
+<span id="cb448-10"><a href="dates.html#cb448-10" tabindex="-1"></a><span class="fu">close</span>(con)</span></code></pre></div>
+</div>
+<div class="fold s o">
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="dates.html#cb449-1" tabindex="-1"></a><span class="co"># perform the next steps:</span></span>
+<span id="cb449-2"><a href="dates.html#cb449-2" tabindex="-1"></a><span class="co"># - merge all text segments from `hobbit` into one long character strings</span></span>
+<span id="cb449-3"><a href="dates.html#cb449-3" tabindex="-1"></a><span class="co"># - remove all punctuation marks from the text</span></span>
+<span id="cb449-4"><a href="dates.html#cb449-4" tabindex="-1"></a><span class="co"># - change all text to &quot;lowercase&quot; (use `tolower`)</span></span>
+<span id="cb449-5"><a href="dates.html#cb449-5" tabindex="-1"></a><span class="co"># - split the text using spaces as a separator</span></span>
+<span id="cb449-6"><a href="dates.html#cb449-6" tabindex="-1"></a><span class="co"># - remove &quot;empty words&quot; (words of length 0) if such exist</span></span>
+<span id="cb449-7"><a href="dates.html#cb449-7" tabindex="-1"></a><span class="co"># - remove all words which are present in the `stopwords` variable too</span></span>
+<span id="cb449-8"><a href="dates.html#cb449-8" tabindex="-1"></a><span class="co"># - count the frequencies of the words</span></span>
+<span id="cb449-9"><a href="dates.html#cb449-9" tabindex="-1"></a><span class="co"># - print on screen 20 most frequent words</span></span>
+<span id="cb449-10"><a href="dates.html#cb449-10" tabindex="-1"></a></span>
+<span id="cb449-11"><a href="dates.html#cb449-11" tabindex="-1"></a>hobbit  <span class="sc">%&gt;%</span> <span class="fu">str_c</span>(<span class="at">collapse =</span> <span class="st">&quot; &quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb449-12"><a href="dates.html#cb449-12" tabindex="-1"></a><span class="fu">str_replace_all</span>(<span class="st">&#39;[:punct:]&#39;</span>, <span class="st">&#39;&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb449-13"><a href="dates.html#cb449-13" tabindex="-1"></a>  tolower <span class="sc">%&gt;%</span> <span class="fu">str_split</span>(<span class="st">&#39;[:space:]&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb449-14"><a href="dates.html#cb449-14" tabindex="-1"></a>  unlist <span class="ot">-&gt;</span> hobbit2</span>
+<span id="cb449-15"><a href="dates.html#cb449-15" tabindex="-1"></a></span>
+<span id="cb449-16"><a href="dates.html#cb449-16" tabindex="-1"></a>hobbit3 <span class="ot">&lt;-</span> hobbit2[<span class="sc">!</span>(hobbit2 <span class="sc">%in%</span> stopwords <span class="sc">|</span> <span class="fu">nchar</span>(hobbit2) <span class="sc">==</span> <span class="dv">0</span>)]</span>
+<span id="cb449-17"><a href="dates.html#cb449-17" tabindex="-1"></a></span>
+<span id="cb449-18"><a href="dates.html#cb449-18" tabindex="-1"></a>freq <span class="ot">&lt;-</span> <span class="fu">table</span>(hobbit3) <span class="sc">%&gt;%</span> <span class="fu">sort</span>(<span class="at">decreasing =</span> T)</span>
+<span id="cb449-19"><a href="dates.html#cb449-19" tabindex="-1"></a></span>
+<span id="cb449-20"><a href="dates.html#cb449-20" tabindex="-1"></a>freq[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]</span></code></pre></div>
+<pre><code>## hobbit3
+##   bilbo gandalf     one  thorin dwarves    door baggins    good  hobbit  little 
+##      39      36      36      34      31      27      25      25      25      24 
+##    long    went    know    time    away      go     old  things    come morning 
+##      24      23      20      19      17      17      17      17      16      16</code></pre>
+</div>
+<hr />
+</div>
+</div>
+<div id="homework-exercises-8" class="section level2 unnumbered hasAnchor">
+<h2>Homework exercises<a href="dates.html#homework-exercises-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The following tasks relate to the data set stored in the CSV file <code>crimeSample.csv</code>, which is a sample from the record of criminal incidents in the City of Philadelphia (the original data set can be found at <a href =" https://www.opendataphilly.org/ dataset / crime-incidents "> this link </a>). The original set of columns was reduced and 1000 incidents were randomly sampled from the set of all observations.</p>
+<p>Before solving problems, load the data into the crimes data box and familiarize yourself with the data set (<code>str</code>,<code>head</code>, etc.)</p>
+<ol style="list-style-type: decimal">
+<li><p>Convert the timestamp column from character type to <code>POSIXct</code> type.</p></li>
+<li><p>Add the following columns to the data frame: <code>Year</code>,<code>Month</code>, <code>Hour</code>. Fill in the columns with the appropriate information from the timestamp. Answer the question: in what month does the most crime occur? Which hour of the day is “most dangerous” according to the data?</p></li>
+<li><p>Answer the question: What is the percentage of incidents where the incident description contains the word <code>burglary '' or</code> robbery ’’? (tip: convert the entire crime description column to lowercase using the <code>tolower()</code> function.</p></li>
+<li><p>Print any unique four-digit numbers you can find on street names where a criminal incident is recorded.</p></li>
+</ol>
+<hr />
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"> <img alt = "Creative Commons License" style = "border-width: 0" src = "https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /> </a> <br /> <span xmlns:="" dct="http://purl.org/ dc / terms / " property=" dct: title "> Let’s Program in Ru </span> by <a xmlns: cc =" http://creativecommons.org/ns# "href =" https: //www.fer. unizg.hr/en/damir.pintar "property =" cc: attributionName "rel =" cc: attributionURL "> Damir Pintar </a> is licensed under a <a rel =" license "href =" http: // creativecommons .org / licenses / by-nc-nd / 4.0 / "> Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License </a>. <br /> Based on work at <a xmlns: dct =" http: // purl.org/dc/terms/ "href =" https://ratnip.github.io/FER_OPJR/ "rel =" dct: source "> https://ratnip.github.io/FER_OPJR/ </a></p>
+
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div class="csl-entry">
+Bache, Stefan Milton, and Hadley Wickham. 2014. <em>Magrittr: A Forward-Pipe Operator for r</em>. <a href="https://CRAN.R-project.org/package=magrittr">https://CRAN.R-project.org/package=magrittr</a>.
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="pipe.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+"google": false,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed",
+"edit": null,
+"download": null,
+"search": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
