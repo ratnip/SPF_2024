@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1 Introduction | Let’s program in R</title>
   <meta name="description" content="R Coursebook" />
-  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1 Introduction | Let’s program in R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Damir Pintar" />
 
 
-<meta name="date" content="2026-03-12" />
+<meta name="date" content="2026-03-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -121,9 +121,8 @@ pre.plot {
 
 
 <style type="text/css">
-html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -133,7 +132,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -189,6 +188,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <style type="text/css">
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -258,6 +280,95 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="4.1" data-path="okviri.html"><a href="okviri.html#data-frames"><i class="fa fa-check"></i><b>4.1</b> Data frames</a></li>
 <li class="chapter" data-level="4.2" data-path="okviri.html"><a href="okviri.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>4.2</b> Selecting rows and columns</a></li>
+<li class="chapter" data-level="4.3" data-path="okviri.html"><a href="okviri.html#adding-and-deleting-rows-and-columns"><i class="fa fa-check"></i><b>4.3</b> Adding and deleting rows and columns</a></li>
+<li class="chapter" data-level="4.4" data-path="okviri.html"><a href="okviri.html#factors"><i class="fa fa-check"></i><b>4.4</b> Factors</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="okviri.html"><a href="okviri.html#example-4.1---mishandling-factorization"><i class="fa fa-check"></i><b>4.4.1</b> Example 4.1 - mishandling factorization</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="okviri.html"><a href="okviri.html#homework-exercises-2"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="control.html"><a href="control.html"><i class="fa fa-check"></i><b>5</b> Conditional statements and programming loops</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="control.html"><a href="control.html#flow-control-commands"><i class="fa fa-check"></i><b>5.1</b> Flow control commands</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="control.html"><a href="control.html#conditional-execution"><i class="fa fa-check"></i><b>5.1.1</b> Conditional execution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="control.html"><a href="control.html#loops"><i class="fa fa-check"></i><b>5.2</b> Loops</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="control.html"><a href="control.html#therepeat-loop"><i class="fa fa-check"></i><b>5.2.1</b> The<code>repeat</code> loop</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="control.html"><a href="control.html#example-5.1---the-repeat-loop"><i class="fa fa-check"></i><b>5.3</b> Example 5.1 - the <code>repeat</code> loop</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="control.html"><a href="control.html#the-while-loop"><i class="fa fa-check"></i><b>5.3.1</b> The <code>while</code> loop</a></li>
+<li class="chapter" data-level="5.3.2" data-path="control.html"><a href="control.html#the-for-loop"><i class="fa fa-check"></i><b>5.3.2</b> The <code>for</code> loop</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="control.html"><a href="control.html#homework-exercises-3"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="packages.html"><a href="packages.html"><i class="fa fa-check"></i><b>6</b> Packages, built-in functions and environments</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="packages.html"><a href="packages.html#working-with-packages"><i class="fa fa-check"></i><b>6.1</b> Working with packages</a></li>
+<li class="chapter" data-level="6.2" data-path="packages.html"><a href="packages.html#built-in-functions"><i class="fa fa-check"></i><b>6.2</b> Built-in functions</a></li>
+<li class="chapter" data-level="6.3" data-path="packages.html"><a href="packages.html#environments"><i class="fa fa-check"></i><b>6.3</b> Environments</a></li>
+<li class="chapter" data-level="" data-path="packages.html"><a href="packages.html#homework-exercises-4"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="user.html"><a href="user.html"><i class="fa fa-check"></i><b>7</b> User Defined Functions</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="user.html"><a href="user.html#user-defined-functions"><i class="fa fa-check"></i><b>7.1</b> User defined functions</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="user.html"><a href="user.html#defining-a-new-function"><i class="fa fa-check"></i><b>7.1.1</b> Defining a new function</a></li>
+<li class="chapter" data-level="7.1.2" data-path="user.html"><a href="user.html#the-copy-on-modify-principle"><i class="fa fa-check"></i><b>7.1.2</b> The “copy-on-modify” principle</a></li>
+<li class="chapter" data-level="7.1.3" data-path="user.html"><a href="user.html#example-7.1---copy-on-modify"><i class="fa fa-check"></i><b>7.1.3</b> Example 7.1 - “copy-on-modify”</a></li>
+<li class="chapter" data-level="7.1.4" data-path="user.html"><a href="user.html#example-7.2---copy-on-modify-2"><i class="fa fa-check"></i><b>7.1.4</b> Example 7.2 - “copy-on-modify (2)”</a></li>
+<li class="chapter" data-level="7.1.5" data-path="user.html"><a href="user.html#example-7.3---copy-on-modify-and-environments"><i class="fa fa-check"></i><b>7.1.5</b> Example 7.3 - “copy-on-modify” and environments</a></li>
+<li class="chapter" data-level="7.1.6" data-path="user.html"><a href="user.html#example-7.4---the---operator"><i class="fa fa-check"></i><b>7.1.6</b> Example 7.4 - the <code>&lt;&lt;-</code> operator</a></li>
+<li class="chapter" data-level="7.1.7" data-path="user.html"><a href="user.html#example-7.5---changing-a-data-frame-column-with-the---operator"><i class="fa fa-check"></i><b>7.1.7</b> Example 7.5 - changing a data frame column with the <code>&lt;&lt;-</code> operator</a></li>
+<li class="chapter" data-level="7.1.8" data-path="user.html"><a href="user.html#function-as-an-object"><i class="fa fa-check"></i><b>7.1.8</b> Function as an object</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="user.html"><a href="user.html#the-apply-family"><i class="fa fa-check"></i><b>7.2</b> The <code>apply</code> family</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="user.html"><a href="user.html#the-apply-function"><i class="fa fa-check"></i><b>7.2.1</b> The <code>apply</code> function</a></li>
+<li class="chapter" data-level="7.2.2" data-path="user.html"><a href="user.html#the-lapply-sapply-and-vapply-functions"><i class="fa fa-check"></i><b>7.2.2</b> The <code>lapply</code>, <code>sapply</code> and <code>vapply</code> functions</a></li>
+<li class="chapter" data-level="7.2.3" data-path="user.html"><a href="user.html#other-functions-from-the-apply-family-and-the-available-alternatives"><i class="fa fa-check"></i><b>7.2.3</b> Other functions from the <code>apply</code> family and the available alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="user.html"><a href="user.html#homework-exercises-5"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="objects.html"><a href="objects.html"><i class="fa fa-check"></i><b>8</b> Object oriented systems in R</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="objects.html"><a href="objects.html#object-oriented-systems-in-r"><i class="fa fa-check"></i><b>8.1</b> Object-oriented systems in R</a></li>
+<li class="chapter" data-level="8.2" data-path="objects.html"><a href="objects.html#overview-of-the-s3-object-model"><i class="fa fa-check"></i><b>8.2</b> Overview of the S3 object model</a></li>
+<li class="chapter" data-level="8.3" data-path="objects.html"><a href="objects.html#generic-functions"><i class="fa fa-check"></i><b>8.3</b> Generic functions</a></li>
+<li class="chapter" data-level="8.4" data-path="objects.html"><a href="objects.html#adding-generic-functions-to-an-object"><i class="fa fa-check"></i><b>8.4</b> Adding generic functions to an object</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="objects.html"><a href="objects.html#conclusion-on-s3-objects"><i class="fa fa-check"></i><b>8.4.1</b> Conclusion on S3 objects</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="objects.html"><a href="objects.html#short-overview-of-s4-objects"><i class="fa fa-check"></i><b>8.5</b> Short overview of S4 objects</a></li>
+<li class="chapter" data-level="" data-path="objects.html"><a href="objects.html#homework-exercises-6"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Data management and visualizations</b></span></li>
+<li class="chapter" data-level="9" data-path="pipe.html"><a href="pipe.html"><i class="fa fa-check"></i><b>9</b> Pipeline operator and tidy data</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="pipe.html"><a href="pipe.html#pipeline-operator"><i class="fa fa-check"></i><b>9.1</b> Pipeline operator</a></li>
+<li class="chapter" data-level="9.2" data-path="pipe.html"><a href="pipe.html#tidy-data"><i class="fa fa-check"></i><b>9.2</b> Tidy data</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="pipe.html"><a href="pipe.html#the-pivot_longer-andpivot_wider-functions"><i class="fa fa-check"></i><b>9.2.1</b> The <code>pivot_longer</code> and<code>pivot_wider</code> functions</a></li>
+<li class="chapter" data-level="9.2.2" data-path="pipe.html"><a href="pipe.html#the-separate-and-unite-functions"><i class="fa fa-check"></i><b>9.2.2</b> The <code>separate</code> and <code>unite</code> functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="pipe.html"><a href="pipe.html#homework-exercises-7"><i class="fa fa-check"></i>Homework exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="dates.html"><a href="dates.html"><i class="fa fa-check"></i><b>10</b> Working with dates and character strings</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="dates.html"><a href="dates.html#working-with-dates"><i class="fa fa-check"></i><b>10.1</b> Working with dates</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="dates.html"><a href="dates.html#the-date-class"><i class="fa fa-check"></i><b>10.1.1</b> The <code>Date</code> class</a></li>
+<li class="chapter" data-level="10.1.2" data-path="dates.html"><a href="dates.html#theposixct-andposixlt-classes"><i class="fa fa-check"></i><b>10.1.2</b> The<code>POSIXct</code> and<code>POSIXlt</code> classes</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="dates.html"><a href="dates.html#the-lubridate-package"><i class="fa fa-check"></i><b>10.2</b> The <code>lubridate</code> package</a></li>
+<li class="chapter" data-level="10.3" data-path="dates.html"><a href="dates.html#working-with-character-strings"><i class="fa fa-check"></i><b>10.3</b> Working with character strings</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="dates.html"><a href="dates.html#text-analysis-and-regular-expressions"><i class="fa fa-check"></i><b>10.3.1</b> Text analysis and regular expressions</a></li>
+<li class="chapter" data-level="10.3.2" data-path="dates.html"><a href="dates.html#the-stringr-package"><i class="fa fa-check"></i><b>10.3.2</b> The <code>stringr</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="dates.html"><a href="dates.html#homework-exercises-8"><i class="fa fa-check"></i>Homework exercises</a></li>
 </ul></li>
 </ul>
 
@@ -331,7 +442,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>After installing <em>RStudio</em> it is <strong>highly recommended</strong> you create a separate subfolder where you will be doing most of your R related work (for example, folder “<em>C:\R\projects</em>”).</p>
 <p>After launching <em>RStudio</em>, the application should look similar to the following image:</p>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-3"></span>
-<img src="figures/RStudio1.png" alt=" RStudio interface layout "  />
+<img src="figures/RStudio1.png" alt=" RStudio interface layout " width="583" />
 <p class="caption">
 Figure 1.1:  RStudio interface layout
 </p>
@@ -351,7 +462,7 @@ Figure 1.1:  RStudio interface layout
 <p>Let’s see how the interactive console works. With the help of a keyboard, you can type a simple math expression - eg <code>3 + 2</code> - and press the <em>ENTER</em> key. We will see that R will immediately deliver the result - if we want, we can easily use it as a calculator!</p>
 <p>For mathematical expressions that do not have predefined operator symbols we need to use functions. For example, a square root can be calculated using the <code>sqrt ()</code> function. Let’s try typing <code>sqrt(10)</code> in the console and pressing <em>ENTER</em>. R again shows the result immediately. At this point, the screen should look like the next picture.</p>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-4"></span>
-<img src="figures/RStudio2.png" alt="R as a calculator"  />
+<img src="figures/RStudio2.png" alt="R as a calculator" width="587" />
 <p class="caption">
 Figure 1.2: R as a calculator
 </p>
@@ -365,7 +476,7 @@ Figure 1.2: R as a calculator
 <p>We see that the “working area” on the left becomes divided into two parts. The upper part represents the space for our “script” - actually the series of commands we want to execute - while the interactive console now occupies the lower part of the work surface. If we want, we can tweak the size of these (and other windows) by moving the bordering bars between them. Also, there’s an easy way of switching the focus between the two, through the usage of <code>CTRL + 1</code> and <code>CTRL + 2</code> key combinations.</p>
 <p>Try to write two simple commands in the scripting window - the first one should be <code>print("hello!")</code> And underneath it a simple mathematical expression <code>3 + 4</code>. Return the cursor to the first line and press the <code>CTRL + ENTER</code> key combination. If we have correctly followed these steps, the command at the cursor site will automatically be copied to the interactive console and executed. The cursor will now be the next command that you can do with <code>CTRL + ENTER</code>. The screen should now look similar to the next image.</p>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-5"></span>
-<img src="figures/RStudio3.png" alt=" R script "  />
+<img src="figures/RStudio3.png" alt=" R script " width="582" />
 <p class="caption">
 Figure 1.3:  R script
 </p>
@@ -387,7 +498,7 @@ Figure 1.3:  R script
 <p>The code chunk behaves the same as the standard R script - we can enter commands and execute them. The difference is just that the results can be seen immediately in the <em>R Markdown</em> document itself (in addition to them showing up in the console). If this is not something that we want, we can turn this functionality off (click on the gear in the toolbar and select <code>Chunk output in console</code>), however we usually prefer to have the results right below the code that created them, notebook-style.</p>
 <p>If we follow the instructions, the screen may look similar to the following image:</p>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-6"></span>
-<img src="figures/RStudio4.png" alt=" R Markdown document "  />
+<img src="figures/RStudio4.png" alt=" R Markdown document " width="584" />
 <p class="caption">
 Figure 1.4:  R Markdown document
 </p>
@@ -523,6 +634,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
